@@ -216,12 +216,37 @@ nav.desknav a:hover::after{ width:100%; }
 /* ==========================================================================
    VALUE STRIP
    ========================================================================== */
-.value-strip{ background:var(--ink-0); border-top:1px solid var(--line-dark); padding:30px 6vw 70px; }
+.value-strip{ background:var(--ink-0); border-top:1px solid var(--line-dark); padding:30px 0 70px; overflow:hidden; }
+.value-strip .wrap{ padding-left:6vw; padding-right:6vw; }
 .value-strip .vs-inner{ text-align:center; margin-bottom:34px; }
 .value-strip h2{ color:#fff; font-size:1.4rem; font-weight:600; }
-.value-row{ display:-webkit-flex; display:flex; justify-content:space-between; flex-wrap:wrap; gap:18px; border-top:1px solid var(--line-dark); padding-top:30px; }
-.value-item{ flex:1; min-width:150px; text-align:center; color:rgba(255,255,255,0.55); font-size:0.86rem; font-weight:600; padding:10px 6px; position:relative; }
-.value-item:not(:last-child)::after{ content:''; position:absolute; right:0; top:10%; height:80%; width:1px; background:var(--line-dark); }
+
+.marquee-wrap{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track{
+  display:-webkit-flex; display:flex; gap:16px; width:-webkit-max-content; width:max-content;
+  animation:marquee-scroll 26s linear infinite;
+}
+.marquee-track:hover{ animation-play-state:paused; }
+@keyframes marquee-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.marquee-card{
+  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:10px; flex-shrink:0;
+  padding:14px 26px 14px 18px; border-radius:100px; border:1px solid var(--line-dark);
+  background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.75); font-size:0.88rem; font-weight:600;
+  white-space:nowrap; transition:border-color .3s ease, background .3s ease;
+}
+.marquee-card:hover{ border-color:rgba(76,130,255,0.45); background:rgba(47,107,255,0.08); }
+.marquee-card-num{
+  font-family:'JetBrains Mono',monospace; font-size:0.68rem; font-weight:600; color:var(--blue-bright);
+  width:22px; height:22px; border-radius:50%; background:rgba(76,130,255,0.12);
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{ animation:none; flex-wrap:wrap; width:auto; }
+}
 
 /* ==========================================================================
    PROBLEM -> SOLUTION
@@ -451,8 +476,7 @@ footer ul a:hover{ color:#fff; }
   .burger{ display:-webkit-flex; display:flex; }
   .hero{ grid-template-columns:1fr; padding-top:130px; }
   .hero-visual{ height:340px; }
-  .value-row{ justify-content:flex-start; }
-  .value-item:not(:last-child)::after{ display:none; }
+  .marquee-card{ padding:11px 20px 11px 14px; font-size:0.82rem; }
   .problem-grid{ grid-template-columns:1fr; }
   .why-grid{ grid-template-columns:1fr 1fr; }
   .process-track{ grid-template-columns:1fr 1fr; }

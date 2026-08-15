@@ -222,11 +222,23 @@
    * ------------------------------------------------------------------- */
   const ValueStripComponent = {
     render() {
+      const buildPill = (s) =>
+        h("div", { class: "marquee-card" }, [
+          h("span", { class: "marquee-card-num" }, [s.num]),
+          h("span", {}, [s.title]),
+        ]);
+      // Rendered twice back-to-back so the CSS animation (translateX 0 -> -50%)
+      // loops seamlessly with no visible jump.
+      const track = h("div", { class: "marquee-track" }, [
+        ...C.services.items.map(buildPill),
+        ...C.services.items.map(buildPill),
+      ]);
+
       const node = h("div", { class: "value-strip" }, [
         h("div", { class: "wrap" }, [
           h("div", { class: "vs-inner" }, [h("h2", {}, [C.valueStrip.heading])]),
-          h("div", { class: "value-row" }, C.services.items.map((s) => h("div", { class: "value-item" }, [s.title]))),
         ]),
+        h("div", { class: "marquee-wrap" }, [track]),
       ]);
       mount("value-strip-mount", node);
     },
