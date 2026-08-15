@@ -136,8 +136,14 @@ window.SITE_CONTENT = {
     },
     // When real projects exist, add objects here: { title, description, tags: [], link }
     // and set work.hasProjects = true. Rendering logic already supports both states.
-    hasProjects: false,
-    projects: [],
+    hasProjects: true,
+    projects: [
+      {
+        title: "Ecoconnex",
+        description: "A business website built to give Ecoconnex a stronger, more professional online presence.",
+        link: "https://ecoconnex.in",
+      },
+    ],
   },
 
   transform: {

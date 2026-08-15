@@ -339,7 +339,13 @@
     render() {
       const body = C.work.hasProjects && C.work.projects.length
         ? h("div", { class: "work-grid reveal" }, C.work.projects.map((p) =>
-            h("div", { class: "work-card" }, [h("h3", {}, [p.title]), h("p", {}, [p.description])])
+            p.link
+              ? h("a", { class: "work-card", href: p.link, target: "_blank", rel: "noopener" }, [
+                  h("h3", {}, [p.title]),
+                  h("p", {}, [p.description]),
+                  h("span", { class: "work-card-link" }, ["Visit site →"]),
+                ])
+              : h("div", { class: "work-card" }, [h("h3", {}, [p.title]), h("p", {}, [p.description])])
           ))
         : h("div", { class: "work-empty reveal" }, [
             h("div", { class: "wmark" }, [

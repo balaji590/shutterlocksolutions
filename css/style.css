@@ -307,7 +307,14 @@ nav.desknav a:hover::after{ width:100%; }
 .work-empty h3{ font-size:1.3rem; font-weight:700; color:var(--text-dark); margin-bottom:12px; }
 .work-empty p{ font-size:0.95rem; color:var(--text-soft); line-height:1.6; max-width:440px; margin:0 auto 26px; }
 .work-grid{ display:-webkit-grid; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; text-align:left; }
-.work-card{ background:var(--paper); border:1px solid var(--paper-line); border-radius:var(--radius); padding:28px; }
+.work-card{
+  background:var(--paper); border:1px solid var(--paper-line); border-radius:var(--radius); padding:28px;
+  display:block; transition:transform .3s cubic-bezier(.16,.8,.24,1), box-shadow .3s cubic-bezier(.16,.8,.24,1), border-color .3s ease;
+}
+a.work-card:hover{ transform:translateY(-5px); box-shadow:0 22px 36px -20px rgba(10,15,28,0.15); border-color:rgba(47,107,255,0.3); }
+.work-card h3{ font-size:1.15rem; font-weight:700; color:var(--text-dark); margin-bottom:10px; }
+.work-card p{ font-size:0.92rem; color:var(--text-soft); line-height:1.55; }
+.work-card-link{ display:inline-block; margin-top:16px; font-size:0.85rem; font-weight:700; color:var(--blue); }
 
 /* ==========================================================================
    TRANSFORMATION
