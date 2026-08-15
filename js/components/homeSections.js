@@ -142,7 +142,7 @@
 
       const copy = h("div", { class: "hero-copy reveal in" }, [
         h("span", { class: "eyebrow" }, [C.hero.eyebrow]),
-        h("h1", {}, [plain + " ", h("span", { class: "accent" }, [accent])]),
+        h("h1", {}, [plain + " ", h("span", { class: "accent", id: "hero-accent-word" }, [accent])]),
         h("p", { class: "lead" }, [C.hero.lead]),
         h("div", { class: "hero-actions" }, [
           h("a", { href: C.hero.ctaPrimary.href, class: "btn-primary" }, [C.hero.ctaPrimary.label + " →"]),
@@ -151,7 +151,7 @@
         h("div", { class: "hero-services-inline" }, C.services.items.map((s) => h("span", {}, [s.title]))),
       ]);
 
-      const visual = h("div", { class: "hero-visual reveal in" }, [
+      const visual = h("div", { class: "hero-visual reveal in", id: "hero-visual" }, [
         h("div", { class: "stack-card card-site" }, [
           h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
           h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
@@ -172,6 +172,48 @@
         h("div", { class: "hero-grid-lines" }), copy, visual,
       ]);
       mount("hero-mount", section);
+    },
+    bind() {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Accent word rotator — cycles through the real service list from
+      // content.config.js. No invented copy: first frame is always the
+      // configured headline accent text, then each configured service title.
+      const accentEl = document.getElementById("hero-accent-word");
+      if (accentEl && !reduceMotion) {
+        const words = words_for_rotation();
+        let i = 0;
+        setInterval(() => {
+          i = (i + 1) % words.length;
+          accentEl.classList.add("swap-out");
+          setTimeout(() => {
+            accentEl.textContent = words[i];
+            accentEl.classList.remove("swap-out");
+          }, 260);
+        }, 2400);
+      }
+
+      function words_for_rotation() {
+        const words = C.hero.headline.split(" ");
+        const splitAt = words.length - C.hero.headlineAccentWords;
+        const original = words.slice(splitAt).join(" ");
+        return [original].concat(C.services.items.map((s) => s.title));
+      }
+
+      // Subtle mouse-parallax tilt on the hero visual — desktop pointer only.
+      const heroSection = document.querySelector(".hero");
+      const visualEl = document.getElementById("hero-visual");
+      if (heroSection && visualEl && !reduceMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        heroSection.addEventListener("mousemove", (e) => {
+          const rect = heroSection.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          visualEl.style.transform = "rotateY(" + (x * 5) + "deg) rotateX(" + (y * -5) + "deg)";
+        });
+        heroSection.addEventListener("mouseleave", () => {
+          visualEl.style.transform = "rotateY(0deg) rotateX(0deg)";
+        });
+      }
     },
   };
 

@@ -139,6 +139,7 @@ nav.desknav a:hover::after{ width:100%; }
   padding:170px 6vw 120px; overflow:hidden;
   display:-webkit-grid; display:grid;
   grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center;
+  perspective:1200px;
 }
 .hero::before{
   content:''; position:absolute; inset:0;
@@ -163,7 +164,8 @@ nav.desknav a:hover::after{ width:100%; }
 }
 .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; }
 .hero h1{ font-size:clamp(2.3rem, 4.4vw, 3.8rem); font-weight:700; line-height:1.08; margin-bottom:26px; }
-.hero h1 .accent{ color:var(--blue-bright); }
+.hero h1 .accent{ color:var(--blue-bright); display:inline-block; transition:opacity .26s ease, transform .26s ease; }
+.hero h1 .accent.swap-out{ opacity:0; transform:translateY(6px); }
 .hero p.lead{ font-size:1.08rem; color:rgba(255,255,255,0.68); max-width:520px; line-height:1.65; margin-bottom:38px; }
 .hero-actions{ display:-webkit-flex; display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px; }
 .btn-primary{
@@ -185,27 +187,28 @@ nav.desknav a:hover::after{ width:100%; }
 .hero-services-inline span{ font-size:0.8rem; color:rgba(255,255,255,0.45); display:-webkit-flex; display:flex; align-items:center; gap:8px; }
 .hero-services-inline span::before{ content:''; width:4px; height:4px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; }
 
-.hero-visual{ position:relative; z-index:2; height:460px; }
+.hero-visual{ position:relative; z-index:2; height:460px; transform-style:preserve-3d; transition:transform .3s ease-out; will-change:transform; }
 .stack-card{
   position:absolute; border-radius:14px; background:var(--ink-2); border:1px solid var(--line-dark);
   box-shadow:0 30px 60px -20px rgba(0,0,0,0.55);
 }
-.card-site{ width:78%; height:280px; top:0; right:0; padding:18px; animation:float1 7s ease-in-out infinite; }
+.card-site{ width:78%; height:280px; top:0; right:0; padding:18px; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) both, float1 7s ease-in-out infinite; }
 .card-site .browser-dots{ display:-webkit-flex; display:flex; gap:6px; margin-bottom:14px; }
 .card-site .browser-dots span{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.15); }
 .card-site .bl{ height:10px; border-radius:4px; background:rgba(255,255,255,0.09); margin-bottom:10px; }
 .card-site .bl.w60{ width:60%; } .card-site .bl.w80{ width:80%; } .card-site .bl.w40{ width:40%; }
 .card-site .hero-block{ height:110px; border-radius:10px; background:linear-gradient(135deg, rgba(47,107,255,0.35), rgba(47,107,255,0.06)); margin-top:16px; border:1px solid rgba(76,130,255,0.25); }
-.card-analytics{ width:56%; height:150px; left:-4%; bottom:20px; padding:16px; animation:float2 8s ease-in-out infinite; }
+.card-analytics{ width:56%; height:150px; left:-4%; bottom:20px; padding:16px; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
 .card-analytics .lbl{ font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:rgba(255,255,255,0.4); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.08em; }
 .bars{ display:-webkit-flex; display:flex; align-items:flex-end; gap:6px; height:70px; }
 .bars i{ flex:1; background:linear-gradient(to top, var(--blue), var(--blue-bright)); border-radius:3px 3px 0 0; opacity:0.85; }
-.card-billing{ width:42%; height:130px; right:4%; bottom:-6%; padding:16px; animation:float3 6.5s ease-in-out infinite; }
+.card-billing{ width:42%; height:130px; right:4%; bottom:-6%; padding:16px; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .3s both, float3 6.5s ease-in-out infinite; }
 .card-billing .row{ display:-webkit-flex; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
 .card-billing .row .a{ height:8px; width:50%; border-radius:3px; background:rgba(255,255,255,0.12); }
 .card-billing .row .b{ height:8px; width:20%; border-radius:3px; background:var(--blue-bright); }
 .card-billing .total{ margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:0.95rem; color:#fff; font-weight:500; }
 .card-billing .total span{ color:rgba(255,255,255,0.4); font-size:0.65rem; display:block; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+@keyframes card-fade-in{ from{ opacity:0; } to{ opacity:1; } }
 @keyframes float1{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 @keyframes float2{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
 @keyframes float3{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);} }
