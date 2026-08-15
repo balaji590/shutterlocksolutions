@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Title/description are set at runtime per-service by servicePage.js from
+     content.config.js (servicesDetail[slug].seo). Fallback below only covers
+     the brief instant before JS runs / for non-JS agents. -->
+<title>Our Services | ShutterLockSolutions</title>
+<meta name="description" content="Website development, e-commerce, billing software, digital marketing and SEO — digital solutions from ShutterLockSolutions.">
+<meta name="theme-color" content="#060B16">
+<meta name="robots" content="noindex" id="seo-robots-fallback">
+<!-- Removed by servicePage.js once a valid ?service= slug resolves, so the
+     page is indexable at its canonical per-service URL and not as a bare shell. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="service">
+
+<noscript>
+  <div style="padding:40px;font-family:sans-serif;max-width:640px;margin:0 auto;text-align:center;">
+    <h1>ShutterLockSolutions — Services</h1>
+    <p>Please enable JavaScript to view this page, or contact us directly:</p>
+    <p>Phone / WhatsApp: +91 95664 08789<br>Email: shutterlocksolutions@gmail.com</p>
+  </div>
+</noscript>
+
+<!-- ==========================================================================
+     ONE reusable service page shell for ALL five services.
+     The slug is resolved at runtime from the URL (?service=<slug>) by
+     js/pages/service.js, which calls the single window.ServicePage
+     renderer (js/components/servicePage.js) with the matching object from
+     js/config/content.config.js -> servicesDetail[slug].
+     No per-service markup exists anywhere in this file.
+     ========================================================================== -->
+<div id="breadcrumb-mount"></div>
+<div id="service-hero-mount"></div>
+<div id="service-problem-mount"></div>
+<div id="service-solution-mount"></div>
+<div id="service-features-mount"></div>
+<div id="service-benefits-mount"></div>
+<div id="process-mount"></div>
+<div id="faq-mount"></div>
+<div id="cta-mount"></div>
+<div id="footer-mount"></div>
+
+<!-- Scripts: config -> shared components -> service page renderer -> boot wrapper -> main -->
+<script src="../js/config/content.config.js"></script>
+<script src="../js/components/homeSections.js"></script>
+<script src="../js/components/servicePage.js"></script>
+<script src="../js/pages/service.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>
