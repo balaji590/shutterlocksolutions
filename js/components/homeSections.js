@@ -23,11 +23,19 @@
   /* ---------------------------------------------------------------------
    * Small DOM helpers (framework-free, works in every modern browser)
    * ------------------------------------------------------------------- */
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const SVG_TAGS = ["svg", "path", "circle", "rect", "line", "polyline", "polygon", "g", "defs", "clipPath", "linearGradient", "stop", "ellipse", "text", "tspan"];
+
   function h(tag, attrs, children) {
-    const node = document.createElement(tag);
+    const node = SVG_TAGS.indexOf(tag) !== -1
+      ? document.createElementNS(SVG_NS, tag)
+      : document.createElement(tag);
     attrs = attrs || {};
     Object.keys(attrs).forEach((key) => {
-      if (key === "class") node.className = attrs[key];
+      if (key === "class") {
+        // className is read-only on SVG elements in some browsers; setAttribute works for both.
+        node.setAttribute("class", attrs[key]);
+      }
       else if (key === "html") node.innerHTML = attrs[key];
       else if (key.indexOf("on") === 0 && typeof attrs[key] === "function") {
         node.addEventListener(key.slice(2).toLowerCase(), attrs[key]);

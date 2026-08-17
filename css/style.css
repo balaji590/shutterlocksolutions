@@ -465,8 +465,9 @@ footer ul a:hover{ color:#fff; }
   position:fixed; top:60%; right:0; transform:translateY(-50%);
   writing-mode:vertical-rl; text-orientation:mixed;
   background:var(--navy); color:#fff; border:none; z-index:140;
-  padding:16px 10px; border-radius:10px 0 0 10px; font-weight:700; font-size:0.8rem; letter-spacing:0.03em;
-  box-shadow:-8px 0 20px -10px rgba(0,0,0,0.25); transition:background .25s ease, padding-right .25s ease;
+  padding:18px 12px; border-radius:10px 0 0 10px; font-weight:700; font-size:0.82rem; letter-spacing:0.04em;
+  box-shadow:-10px 0 24px -8px rgba(0,0,0,0.35); transition:background .25s ease, padding-right .25s ease;
+  min-height:120px;
 }
 .qe-tab:hover{ background:var(--blue); padding-right:14px; }
 .qe-overlay{
