@@ -200,8 +200,14 @@ window.SITE_CONTENT = {
     tag: "Get In Touch",
     heading: "Start the conversation.",
     form: {
+      // Get this from https://formspree.io after creating a form — looks
+      // like "https://formspree.io/f/xxxxxabcd". Leave empty to disable
+      // real submission (form will show a local-only confirmation instead).
+      endpoint: "",
       submitLabel: "Start the Conversation",
-      submitLabelSuccess: "Message received ✓",
+      submitLabelSending: "Sending…",
+      submitLabelSuccess: "Message sent ✓",
+      submitLabelError: "Something went wrong — try again",
       services: ["Website Development", "E-commerce", "Billing Software", "Digital Marketing", "SEO", "Not sure yet"],
     },
   },

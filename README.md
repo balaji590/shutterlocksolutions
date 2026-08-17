@@ -34,6 +34,7 @@ the folder as-is to any static host.
 | Change                          | File to edit                                   |
 |----------------------------------|------------------------------------------------|
 | Phone / WhatsApp number, email   | `js/config/content.config.js` → `contact`       |
+| Contact form email delivery      | `js/config/content.config.js` → `contactSection.form.endpoint` (get from [formspree.io](https://formspree.io)) |
 | Add/edit a service               | `js/config/content.config.js` → `servicesDetail`|
 | Homepage copy (hero, FAQ, etc.)  | `js/config/content.config.js`                   |
 | Visual design / spacing / colors | `css/style.css`                                 |

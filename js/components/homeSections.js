@@ -517,7 +517,7 @@
         ]),
       ]);
 
-      const form = h("form", { class: "enquiry reveal", novalidate: "novalidate" }, [
+      const form = h("form", { class: "enquiry reveal" }, [
         h("div", { class: "f-row2" }, [
           h("input", { type: "text", name: "name", placeholder: "Your name", required: "required", autocomplete: "name" }),
           h("input", { type: "text", name: "business", placeholder: "Business name", required: "required", autocomplete: "organization" }),
@@ -532,10 +532,50 @@
         ]),
         h("textarea", { rows: "4", name: "message", placeholder: "Tell us about your business", required: "required" }),
         h("button", { type: "submit" }, [C.contactSection.form.submitLabel]),
+        h("p", { class: "form-status", "aria-live": "polite" }),
       ]);
+
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        form.querySelector("button").textContent = C.contactSection.form.submitLabelSuccess;
+        const f = C.contactSection.form;
+        const button = form.querySelector("button");
+        const status = form.querySelector(".form-status");
+        const endpoint = f.endpoint;
+
+        if (!endpoint) {
+          // No form service configured yet — keep the site usable without
+          // pretending the message was sent anywhere. See README for setup.
+          status.textContent = "Contact form isn't fully set up yet — please reach out via WhatsApp, phone, or email above.";
+          status.classList.add("form-status-error");
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = f.submitLabelSending;
+        status.textContent = "";
+        status.classList.remove("form-status-error", "form-status-success");
+
+        fetch(endpoint, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        })
+          .then((res) => {
+            if (res.ok) {
+              button.textContent = f.submitLabelSuccess;
+              status.textContent = "Thanks — we'll get back to you soon.";
+              status.classList.add("form-status-success");
+              form.reset();
+            } else {
+              throw new Error("Form submission failed");
+            }
+          })
+          .catch(() => {
+            button.disabled = false;
+            button.textContent = f.submitLabel;
+            status.textContent = f.submitLabelError + " — or reach us directly via WhatsApp/phone above.";
+            status.classList.add("form-status-error");
+          });
       });
 
       const section = h("section", { class: "contact", id: "contact" }, [
