@@ -470,12 +470,12 @@ footer ul a:hover{ color:#fff; }
 }
 .qe-tab:hover{ background:var(--blue); padding-right:14px; }
 .qe-overlay{
-  position:fixed; inset:0; background:rgba(6,11,22,0.45); z-index:155;
+  position:fixed; top:var(--header-h); left:0; right:0; bottom:0; background:rgba(6,11,22,0.45); z-index:155;
   opacity:0; pointer-events:none; transition:opacity .3s ease;
 }
 .qe-overlay.open{ opacity:1; pointer-events:auto; }
 .qe-panel{
-  position:fixed; top:0; right:0; height:100vh; width:min(380px, 92vw); z-index:160;
+  position:fixed; top:var(--header-h); right:0; height:calc(100vh - var(--header-h)); width:min(380px, 92vw); z-index:160;
   background:#fff; box-shadow:-20px 0 50px -20px rgba(0,0,0,0.35);
   padding:32px 28px; overflow-y:auto;
   transform:translateX(100%); transition:transform .35s cubic-bezier(.16,.8,.24,1);
