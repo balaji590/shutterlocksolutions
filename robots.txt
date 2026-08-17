@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://balaji590.github.io/shutterlocksolutions/sitemap.xml
+Sitemap: https://shutterlocksolutions.com/sitemap.xml
