@@ -197,7 +197,17 @@ nav.desknav a:hover::after{ width:100%; }
 .card-site .browser-dots span{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.15); }
 .card-site .bl{ height:10px; border-radius:4px; background:rgba(255,255,255,0.09); margin-bottom:10px; }
 .card-site .bl.w60{ width:60%; } .card-site .bl.w80{ width:80%; } .card-site .bl.w40{ width:40%; }
-.card-site .hero-block{ height:110px; border-radius:10px; background:linear-gradient(135deg, rgba(47,107,255,0.35), rgba(47,107,255,0.06)); margin-top:16px; border:1px solid rgba(76,130,255,0.25); }
+.card-site .hero-block{
+  height:110px; border-radius:10px; background:linear-gradient(135deg, rgba(47,107,255,0.35), rgba(47,107,255,0.06));
+  margin-top:16px; border:1px solid rgba(76,130,255,0.25); position:relative; overflow:hidden;
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+}
+.card-site .hero-block::before{
+  content:'';
+  width:80%; height:44px;
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cpolyline points='0,45 30,38 55,42 80,22 105,28 130,10 160,16 200,4' fill='none' stroke='%234C82FF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='200' cy='4' r='5' fill='%234C82FF'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-size:contain; background-position:center; opacity:0.85;
+}
 .card-analytics{ width:56%; height:150px; left:-4%; bottom:20px; padding:16px; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
 .card-analytics .lbl{ font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:rgba(255,255,255,0.4); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.08em; }
 .bars{ display:-webkit-flex; display:flex; align-items:flex-end; gap:6px; height:70px; }
