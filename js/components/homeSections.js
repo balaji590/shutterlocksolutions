@@ -53,6 +53,24 @@
     return h("img", { src, alt: C.brand.name + " logo", class: "logo-mark" + (extraClass ? " " + extraClass : "") });
   }
 
+  /* ---------------------------------------------------------------------
+   * SERVICE ICON REGISTRY — one small line-icon per service key. Services
+   * reference an icon by name (content.config.js -> services.items[].icon)
+   * so the actual SVG markup lives in exactly one place.
+   * ------------------------------------------------------------------- */
+  const SERVICE_ICONS = {
+    website: '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9z" stroke="currentColor" stroke-width="1.6" fill="none"/>',
+    cart: '<circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="17" cy="20" r="1.4" fill="currentColor"/><path d="M2.5 3h2.4l2 12.2a2 2 0 002 1.7h8.4a2 2 0 002-1.6l1.5-7.8H6.2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    invoice: '<rect x="5" y="2.5" width="14" height="19" rx="1.6" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    megaphone: '<path d="M3 10v4a1.5 1.5 0 001.5 1.5H6l1 5h2l-1-5h1l9 4V6l-9 4H4.5A1.5 1.5 0 003 10z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M19 9.5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    search: '<circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M19.5 19.5l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    video: '<rect x="2.5" y="5.5" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M16.5 10l5-3v10l-5-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/>',
+  };
+  function serviceIcon(key, cls) {
+    const paths = SERVICE_ICONS[key] || SERVICE_ICONS.website;
+    return h("svg", { class: cls || "", viewBox: "0 0 22 22", width: "16", height: "16", fill: "none", html: paths });
+  }
+
   function mount(id, node) {
     const target = document.getElementById(id);
     if (!target) return;
@@ -224,7 +242,7 @@
     render() {
       const buildPill = (s) =>
         h("div", { class: "marquee-card" }, [
-          h("span", { class: "marquee-card-num" }, [s.num]),
+          h("span", { class: "marquee-card-num" }, [serviceIcon(s.icon)]),
           h("span", {}, [s.title]),
         ]);
       // Rendered twice back-to-back so the CSS animation (translateX 0 -> -50%)
@@ -287,7 +305,7 @@
         ]),
         h("div", { class: "service-list" }, C.services.items.map((s) =>
           h("a", { class: "service-row reveal", href: "services/index.html?service=" + s.slug }, [
-            h("span", { class: "snum" }, [s.num]),
+            h("span", { class: "snum" }, [serviceIcon(s.icon)]),
             h("h3", {}, [s.title]),
             h("p", {}, [s.description]),
             arrowIcon(),
