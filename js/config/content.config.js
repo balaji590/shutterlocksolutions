@@ -266,8 +266,8 @@ window.SITE_CONTENT = {
       slug: "website-development",
       navLabel: "Website Development",
       seo: {
-        title: "Website Development | ShutterLockSolutions",
-        description: "Modern, responsive business websites designed around your business, your customers and your goals — built by ShutterLockSolutions.",
+        title: "Website Development Company | ShutterLockSolutions",
+        description: "Need a new website for your business? We design and create modern, responsive websites built around your business, your customers and your goals.",
       },
       hero: {
         eyebrow: "Website Development",
@@ -330,8 +330,8 @@ window.SITE_CONTENT = {
       slug: "ecommerce",
       navLabel: "E-commerce",
       seo: {
-        title: "E-commerce Development | ShutterLockSolutions",
-        description: "Online stores designed for browsing, trust and conversion — product discovery, cart and checkout built by ShutterLockSolutions.",
+        title: "E-commerce Website Development | ShutterLockSolutions",
+        description: "Want to sell online? We build e-commerce websites and online stores designed around products, customers, payments and business requirements.",
       },
       hero: {
         eyebrow: "E-commerce Development",
@@ -394,8 +394,8 @@ window.SITE_CONTENT = {
       slug: "billing-software",
       navLabel: "Billing Software",
       seo: {
-        title: "Billing Software | ShutterLockSolutions",
-        description: "Practical billing software solutions for invoices, customer records and business operations, built by ShutterLockSolutions.",
+        title: "Billing Software Development | ShutterLockSolutions",
+        description: "Simplify invoicing, customer records and business operations with practical billing software built around your workflow.",
       },
       hero: {
         eyebrow: "Billing Software",
@@ -458,8 +458,8 @@ window.SITE_CONTENT = {
       slug: "digital-marketing",
       navLabel: "Digital Marketing",
       seo: {
-        title: "Digital Marketing | ShutterLockSolutions",
-        description: "Reach the right audience and build a stronger digital presence with digital marketing from ShutterLockSolutions.",
+        title: "Digital Marketing Services | ShutterLockSolutions",
+        description: "Reach the right audience and build a stronger digital presence with digital marketing services shaped around your business goals.",
       },
       hero: {
         eyebrow: "Digital Marketing",
@@ -522,8 +522,8 @@ window.SITE_CONTENT = {
       slug: "seo",
       navLabel: "SEO",
       seo: {
-        title: "SEO Services | ShutterLockSolutions",
-        description: "Improve search visibility with technical and on-page SEO built for long-term organic growth, from ShutterLockSolutions.",
+        title: "SEO Services | Rank Higher on Google | ShutterLockSolutions",
+        description: "Improve your search visibility on Google with technical and on-page SEO built for long-term organic growth.",
       },
       hero: {
         eyebrow: "SEO",
@@ -586,8 +586,8 @@ window.SITE_CONTENT = {
       slug: "ai-promotional-videos",
       navLabel: "AI Promotional Videos",
       seo: {
-        title: "AI Promotional Videos | ShutterLockSolutions",
-        description: "Scroll-stopping promotional videos created and edited with AI, built for your business — fast turnaround, no studio required.",
+        title: "AI Promotional Video Creation | ShutterLockSolutions",
+        description: "Get scroll-stopping promotional videos created and edited with AI for your business — fast turnaround, no studio required.",
       },
       hero: {
         eyebrow: "AI Promotional Videos",
