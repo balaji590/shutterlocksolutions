@@ -327,6 +327,73 @@
   /* ---------------------------------------------------------------------
    * WHY US
    * ------------------------------------------------------------------- */
+  /* ---------------------------------------------------------------------
+   * QUIZ — "Which service do I need?" lightweight 2-step decision tree.
+   * Reads entirely from C.quiz + C.servicesDetail (for result content),
+   * so adding/editing options is a config-only change.
+   * ------------------------------------------------------------------- */
+  const QuizComponent = {
+    render() {
+      const q = C.quiz;
+      const card = h("div", { class: "quiz-card reveal", id: "quizCard" });
+
+      const section = h("section", { class: "quiz" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [q.tag]),
+          h("h2", {}, [q.heading]),
+          h("p", {}, [q.lead]),
+        ]),
+        card,
+      ]);
+      mount("quiz-mount", section);
+      this.renderStep("step1");
+    },
+    renderStep(stepKey) {
+      const q = C.quiz;
+      const card = document.getElementById("quizCard");
+      if (!card) return;
+      const step = q[stepKey];
+      card.innerHTML = "";
+      card.appendChild(
+        h("div", { class: "quiz-progress" }, [
+          h("span", { class: stepKey === "step1" ? "dot active" : "dot" }),
+          h("span", { class: stepKey === "step2" ? "dot active" : "dot" }),
+        ])
+      );
+      card.appendChild(h("h3", { class: "quiz-question" }, [step.question]));
+      const optionsWrap = h("div", { class: "quiz-options" });
+      step.options.forEach((opt) => {
+        const btn = h("button", { type: "button", class: "quiz-option" }, [opt.label]);
+        btn.addEventListener("click", () => {
+          if (opt.next) this.renderStep(opt.next);
+          else this.renderResult(opt.result);
+        });
+        optionsWrap.appendChild(btn);
+      });
+      card.appendChild(optionsWrap);
+    },
+    renderResult(slug) {
+      const q = C.quiz;
+      const service = C.servicesDetail[slug];
+      const card = document.getElementById("quizCard");
+      if (!card || !service) return;
+      card.innerHTML = "";
+      card.appendChild(
+        h("div", { class: "quiz-result" }, [
+          h("span", { class: "tag mono", style: "color:var(--blue);display:block;margin-bottom:10px;" }, ["Recommended For You"]),
+          h("h3", {}, [service.navLabel]),
+          h("p", {}, [service.hero.description]),
+          h("div", { class: "quiz-result-actions" }, [
+            h("a", { href: "services/index.html?service=" + slug, class: "btn-primary" }, [q.resultCtaPrimary + " →"]),
+            h("a", { href: whatsappLink(), target: "_blank", rel: "noopener", class: "btn-outline-dark" }, [q.resultCtaSecondary]),
+          ]),
+          h("button", { type: "button", class: "quiz-retake" }, [q.retakeLabel]),
+        ])
+      );
+      card.querySelector(".quiz-retake").addEventListener("click", () => this.renderStep("step1"));
+    },
+  };
+
   const WhyComponent = {
     render() {
       const section = h("section", { class: "why", id: "why" }, [
@@ -803,7 +870,7 @@
   window.SLSPage = {
     components: [
       HeaderComponent, HeroComponent, ValueStripComponent, ProblemComponent,
-      ServicesComponent, WhyComponent, ProcessComponent, WorkComponent,
+      ServicesComponent, QuizComponent, WhyComponent, ProcessComponent, WorkComponent,
       TransformComponent, FaqComponent, CtaComponent, ContactComponent, FooterComponent,
       QuickEnquiryComponent,
     ],

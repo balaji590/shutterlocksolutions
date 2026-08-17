@@ -118,6 +118,32 @@ window.SITE_CONTENT = {
     ],
   },
 
+  quiz: {
+    tag: "Not Sure Where to Start?",
+    heading: "Find the right service in 2 quick questions.",
+    lead: "Answer a couple of questions and we'll point you to what fits your business.",
+    retakeLabel: "Start Over",
+    resultCtaPrimary: "View This Service",
+    resultCtaSecondary: "Talk on WhatsApp",
+    step1: {
+      question: "What best describes your situation right now?",
+      options: [
+        { label: "I don't have a website yet", result: "website-development" },
+        { label: "I want to sell products online", result: "ecommerce" },
+        { label: "I need to simplify billing or operations", result: "billing-software" },
+        { label: "I want to promote my business with video", result: "ai-promotional-videos" },
+        { label: "I have a website but not enough customers", next: "step2" },
+      ],
+    },
+    step2: {
+      question: "What matters more right now?",
+      options: [
+        { label: "Getting found on Google search", result: "seo" },
+        { label: "Reaching people through ads and social media", result: "digital-marketing" },
+      ],
+    },
+  },
+
   why: {
     tag: "Why ShutterLockSolutions",
     heading: "Not just what looks good — what your business actually needs.",
