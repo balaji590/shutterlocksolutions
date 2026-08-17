@@ -175,10 +175,19 @@
       }
       tag.setAttribute("content", content);
     };
+    const pageUrl = C.siteUrl + "services/index.html?service=" + service.slug;
+    const imageUrl = C.siteUrl + C.brand.logoSrc;
+
     setMeta("description", service.seo.description);
     setMeta("og:title", service.seo.title, true);
     setMeta("og:description", service.seo.description, true);
     setMeta("og:type", "website", true);
+    setMeta("og:url", pageUrl, true);
+    setMeta("og:image", imageUrl, true);
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", service.seo.title);
+    setMeta("twitter:description", service.seo.description);
+    setMeta("twitter:image", imageUrl);
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -186,7 +195,7 @@
       canonical.setAttribute("rel", "canonical");
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute("href", "https://www.shutterlocksolutions.com/services/index.html?service=" + service.slug);
+    canonical.setAttribute("href", pageUrl);
 
     // The static shell ships noindex (it has no service context until JS
     // resolves ?service=). Once a valid service renders, the page is a

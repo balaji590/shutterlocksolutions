@@ -50,6 +50,30 @@
     });
   }
 
+  function initStructuredData() {
+    const C = window.SITE_CONTENT;
+    const data = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": C.brand.name,
+      "url": C.siteUrl,
+      "logo": C.siteUrl + C.brand.logoSrc,
+      "description": C.brand.tagline,
+      "email": C.contact.email,
+      "telephone": C.contact.phoneE164,
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": C.contact.phoneE164,
+        "email": C.contact.email,
+        "contactType": "customer service",
+      },
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(data);
+    document.head.appendChild(script);
+  }
+
   function boot() {
     if (!window.SITE_CONTENT) {
       console.error("ShutterLockSolutions: content configuration failed to load.");
@@ -71,6 +95,7 @@
       window.HomePage.boot();
     }
 
+    initStructuredData();
     initScrollReveal();
     initSmoothAnchors();
   }

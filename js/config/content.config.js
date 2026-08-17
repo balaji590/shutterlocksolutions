@@ -14,6 +14,8 @@
  */
 window.SITE_CONTENT = {
 
+  siteUrl: "https://balaji590.github.io/shutterlocksolutions/", // update here only when a custom domain is live
+
   brand: {
     name: "ShutterLockSolutions",
     tagline: "Digital solutions designed to help businesses grow.",
