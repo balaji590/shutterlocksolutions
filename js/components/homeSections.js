@@ -660,6 +660,21 @@
         h("span", { class: "wa-text" }, ["Let's Talk"]),
       ]);
       document.body.appendChild(waFloat);
+
+      // Sticky mobile Call + WhatsApp bar — mobile-only (see CSS), hidden on
+      // desktop. The existing wa-float button is hidden on mobile via CSS
+      // once this bar is present, so there's no duplicate WhatsApp CTA.
+      const mobileBar = h("div", { class: "mobile-cta-bar" }, [
+        h("a", { href: "tel:" + C.contact.phoneE164, class: "mcb-btn mcb-call" }, [
+          h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", html: '<path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 1" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>' }),
+          "Call Now",
+        ]),
+        h("a", { href: whatsappLink(), target: "_blank", rel: "noopener", class: "mcb-btn mcb-wa" }, [
+          h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", html: '<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="currentColor" stroke-width="1.8"/>' }),
+          "WhatsApp",
+        ]),
+      ]);
+      document.body.appendChild(mobileBar);
     },
   };
 

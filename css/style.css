@@ -459,6 +459,32 @@ footer ul a:hover{ color:#fff; }
 @keyframes wa-in{ from{ opacity:0; transform:translateY(14px) scale(.92); } to{ opacity:1; transform:translateY(0) scale(1); } }
 
 /* ==========================================================================
+   STICKY MOBILE CALL + WHATSAPP BAR (mobile only)
+   ========================================================================== */
+.mobile-cta-bar{ display:none; }
+@media (max-width:768px){
+  .mobile-cta-bar{
+    display:-webkit-flex; display:flex; position:fixed; left:0; right:0; bottom:0; z-index:170;
+    background:#fff; border-top:1px solid var(--paper-line); box-shadow:0 -8px 24px -12px rgba(0,0,0,0.15);
+    padding:10px 10px calc(10px + env(safe-area-inset-bottom, 0px));
+    gap:10px;
+  }
+  .mcb-btn{
+    flex:1; display:-webkit-flex; display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 10px; border-radius:10px; font-weight:700; font-size:0.88rem;
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .mcb-btn:active{ transform:scale(.97); opacity:0.9; }
+  .mcb-call{ background:var(--paper); color:var(--text-dark); border:1px solid var(--paper-line); }
+  .mcb-wa{ background:#1FAA57; color:#fff; }
+  /* Keep the floating round WhatsApp button for desktop/tablet only —
+     on mobile the sticky bar already covers WhatsApp, avoiding a duplicate. */
+  .wa-float{ display:none; }
+  /* Prevent the bar from covering the last bit of page content (footer). */
+  body{ padding-bottom:64px; }
+}
+
+/* ==========================================================================
    QUICK ENQUIRY — user-initiated slide-in tab (not an automatic popup)
    ========================================================================== */
 .qe-tab{
