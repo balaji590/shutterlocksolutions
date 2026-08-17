@@ -103,6 +103,12 @@ window.SITE_CONTENT = {
         description: "Improve discoverability so customers find your business online.",
         slug: "seo",
       },
+      {
+        num: "06",
+        title: "AI Promotional Videos",
+        description: "Scroll-stopping promotional videos created and edited with AI, built for your business.",
+        slug: "ai-promotional-videos",
+      },
     ],
   },
 
@@ -557,6 +563,71 @@ window.SITE_CONTENT = {
       cta: {
         heading: "Ready to become easier to find?",
         lead: "Let's talk about your current visibility.",
+      },
+    },
+
+    "ai-promotional-videos": {
+      slug: "ai-promotional-videos",
+      navLabel: "AI Promotional Videos",
+      seo: {
+        title: "AI Promotional Videos | ShutterLockSolutions",
+        description: "Scroll-stopping promotional videos created and edited with AI, built for your business — fast turnaround, no studio required.",
+      },
+      hero: {
+        eyebrow: "AI Promotional Videos",
+        headline: "Promotional videos, without the studio and the wait.",
+        headlineAccentWords: 4,
+        description: "Scroll-stopping promotional videos created and edited with AI, built around your business and your products.",
+        ctaPrimary: { label: "Start Your Project" },
+        ctaSecondary: { label: "Talk on WhatsApp" },
+      },
+      problem: {
+        tag: "The Problem",
+        heading: "Good video content is powerful — and usually out of reach.",
+        points: [
+          "Studio shoots are expensive and slow",
+          "No in-house editing skill or time",
+          "Social platforms reward video, not photos",
+          "Generic templates don't reflect the business",
+          "Hard to produce content consistently",
+          "Competitors are already posting video",
+        ],
+      },
+      solution: {
+        tag: "Our Approach",
+        heading: "AI-assisted video, shaped around your business.",
+        body: "We use AI video generation and editing tools to produce promotional videos for your products, services or brand — built around your actual business rather than a generic template, with a fast turnaround that doesn't need a studio or film crew.",
+      },
+      features: {
+        tag: "What's Included",
+        heading: "Capabilities built into every video engagement.",
+        items: [
+          { num: "01", title: "AI-Generated Footage", description: "Promotional visuals created with AI tools, shaped around your products or services." },
+          { num: "02", title: "Editing & Pacing", description: "Footage cut, paced and structured for attention on social and ads." },
+          { num: "03", title: "Platform-Ready Formats", description: "Exported for the placements you need — reels, stories, ads, or web." },
+          { num: "04", title: "Fast Turnaround", description: "No studio booking or film crew — video production moves much faster." },
+        ],
+      },
+      benefits: {
+        tag: "Business Outcome",
+        heading: "What promotional video means for your business.",
+        points: [
+          "Show up where your customers already scroll",
+          "Promote products without a studio shoot",
+          "Post more consistently on social platforms",
+          "Give ads and landing pages a stronger visual hook",
+          "Stand out from competitors still using only photos",
+        ],
+      },
+      faqs: [
+        { q: "Is the video fully AI-generated, or edited from my own footage?", a: "Both are possible — we can generate promotional footage with AI, edit footage you already have, or combine the two depending on what fits your business." },
+        { q: "What is the video used for?", a: "Typically social media (reels/stories), paid ads, or a website — we shape the format and length around where it will be used." },
+        { q: "How long does a video take to produce?", a: "Turnaround is significantly faster than a traditional studio shoot; exact timing depends on length and complexity, which we can confirm after understanding your requirements." },
+        { q: "Do I need to provide footage or a script?", a: "Not necessarily — we can work from a script or brief you provide, or help shape the concept together." },
+      ],
+      cta: {
+        heading: "Ready to put your business in motion?",
+        lead: "Let's talk about what you want to promote.",
       },
     },
   },

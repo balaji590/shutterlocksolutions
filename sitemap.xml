@@ -24,4 +24,8 @@
     <loc>https://balaji590.github.io/shutterlocksolutions/services/index.html?service=seo</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://balaji590.github.io/shutterlocksolutions/services/index.html?service=ai-promotional-videos</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>
