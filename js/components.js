@@ -1,0 +1,533 @@
+/**
+ * ==========================================================================
+ * COMPONENT BUILDERS (Page Object Model)
+ * ==========================================================================
+ * Each function below is a "page object" for one homepage section:
+ * it knows how to render itself from SITE_CONTENT and knows how to
+ * wire up its own interactions. index.html only contains empty
+ * <section id="..."> mount points — nothing is hardcoded in markup.
+ *
+ * Pattern per component:
+ *   ComponentName.render(container)  -> builds and inserts DOM
+ *   ComponentName.bind()             -> attaches events (if any)
+ *
+ * This keeps content, structure and behaviour separated so that future
+ * changes only ever touch content.config.js, not this file.
+ * ==========================================================================
+ */
+(function (window, document) {
+  "use strict";
+
+  const C = window.SITE_CONTENT;
+
+  /* ---------------------------------------------------------------------
+   * Small DOM helpers (framework-free, works in every modern browser)
+   * ------------------------------------------------------------------- */
+  function h(tag, attrs, children) {
+    const node = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach((key) => {
+      if (key === "class") node.className = attrs[key];
+      else if (key === "html") node.innerHTML = attrs[key];
+      else if (key.indexOf("on") === 0 && typeof attrs[key] === "function") {
+        node.addEventListener(key.slice(2).toLowerCase(), attrs[key]);
+      } else {
+        node.setAttribute(key, attrs[key]);
+      }
+    });
+    (children || []).forEach((child) => {
+      if (child == null) return;
+      if (typeof child === "string") node.appendChild(document.createTextNode(child));
+      else node.appendChild(child);
+    });
+    return node;
+  }
+
+  function whatsappLink(prefillMessage) {
+    const msg = encodeURIComponent(prefillMessage || C.contact.whatsappMessage);
+    return "https://wa.me/" + C.contact.whatsappNumber + "?text=" + msg;
+  }
+
+  function mount(id, node) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.appendChild(node);
+  }
+
+  /* ---------------------------------------------------------------------
+   * HEADER + MOBILE MENU
+   * ------------------------------------------------------------------- */
+  const HeaderComponent = {
+    render() {
+      const logo = () =>
+        h("div", { class: "logo" }, [
+          h("svg", { class: "logo-mark", viewBox: "0 0 30 30", fill: "none", html:
+            '<rect x="6" y="13" width="18" height="13" rx="3" stroke="#4C82FF" stroke-width="2"/><path d="M10 13V9a5 5 0 0110 0v4" stroke="#4C82FF" stroke-width="2"/>' }),
+          document.createTextNode(C.brand.name),
+        ]);
+
+      const deskNav = h("nav", { class: "desknav" }, [
+        h("ul", {}, C.nav.map((item) => h("li", {}, [h("a", { href: item.href }, [item.label])]))),
+      ]);
+
+      const navRight = h("div", { class: "nav-right" }, [
+        h("a", { href: C.hero.ctaPrimary.href, class: "nav-cta" }, [C.hero.ctaPrimary.label]),
+        h("button", { class: "burger", id: "burgerBtn", "aria-label": "Open menu", "aria-expanded": "false", "aria-controls": "mobileMenu" }, [
+          h("span", {}), h("span", {}), h("span", {}),
+        ]),
+      ]);
+
+      const header = h("header", { id: "siteHeader" }, [logo(), deskNav, navRight]);
+
+      const mobileMenu = h("div", { class: "mobile-menu", id: "mobileMenu" }, [
+        h("div", { class: "mtop" }, [
+          h("div", { class: "logo" }, [C.brand.name]),
+          h("button", { class: "close-x", id: "closeMenu", "aria-label": "Close menu" }, ["✕"]),
+        ]),
+        h("ul", {}, C.nav.map((item) => h("li", {}, [h("a", { href: item.href }, [item.label])]))),
+        h("a", { href: C.hero.ctaPrimary.href, class: "btn-primary mcta" }, [C.hero.ctaPrimary.label]),
+      ]);
+
+      document.body.insertBefore(mobileMenu, document.body.firstChild);
+      document.body.insertBefore(header, document.body.firstChild);
+    },
+    bind() {
+      const header = document.getElementById("siteHeader");
+      const burger = document.getElementById("burgerBtn");
+      const menu = document.getElementById("mobileMenu");
+      const closeBtn = document.getElementById("closeMenu");
+
+      const onScroll = () => header.classList.toggle("solid", window.scrollY > 30);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      function openMenu() {
+        menu.classList.add("open");
+        burger.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
+      function closeMenu() {
+        menu.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      }
+      burger.addEventListener("click", openMenu);
+      closeBtn.addEventListener("click", closeMenu);
+      menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && menu.classList.contains("open")) closeMenu();
+      });
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * HERO
+   * ------------------------------------------------------------------- */
+  const HeroComponent = {
+    render() {
+      const words = C.hero.headline.split(" ");
+      const splitAt = words.length - C.hero.headlineAccentWords;
+      const plain = words.slice(0, splitAt).join(" ");
+      const accent = words.slice(splitAt).join(" ");
+
+      const copy = h("div", { class: "hero-copy reveal in" }, [
+        h("span", { class: "eyebrow" }, [C.hero.eyebrow]),
+        h("h1", {}, [plain + " ", h("span", { class: "accent" }, [accent])]),
+        h("p", { class: "lead" }, [C.hero.lead]),
+        h("div", { class: "hero-actions" }, [
+          h("a", { href: C.hero.ctaPrimary.href, class: "btn-primary" }, [C.hero.ctaPrimary.label + " →"]),
+          h("a", { href: C.hero.ctaSecondary.href, class: "btn-outline" }, [C.hero.ctaSecondary.label]),
+        ]),
+        h("div", { class: "hero-services-inline" }, C.services.items.map((s) => h("span", {}, [s.title]))),
+      ]);
+
+      const visual = h("div", { class: "hero-visual reveal in" }, [
+        h("div", { class: "stack-card card-site" }, [
+          h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
+          h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
+          h("div", { class: "hero-block" }),
+        ]),
+        h("div", { class: "stack-card card-analytics" }, [
+          h("div", { class: "lbl" }, ["Traffic Growth"]),
+          h("div", { class: "bars" }, [35, 52, 40, 68, 58, 82, 74].map((v) => h("i", { style: "height:" + v + "%" }))),
+        ]),
+        h("div", { class: "stack-card card-billing" }, [
+          h("div", { class: "row" }, [h("div", { class: "a" }), h("div", { class: "b" })]),
+          h("div", { class: "row" }, [h("div", { class: "a", style: "width:35%" }), h("div", { class: "b", style: "width:15%" })]),
+          h("div", { class: "total" }, [h("span", {}, ["Invoice Total"]), "₹ 24,500.00"]),
+        ]),
+      ]);
+
+      const section = h("section", { class: "hero", id: "top" }, [
+        h("div", { class: "hero-grid-lines" }), copy, visual,
+      ]);
+      mount("hero-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * VALUE STRIP
+   * ------------------------------------------------------------------- */
+  const ValueStripComponent = {
+    render() {
+      const node = h("div", { class: "value-strip" }, [
+        h("div", { class: "wrap" }, [
+          h("div", { class: "vs-inner" }, [h("h2", {}, [C.valueStrip.heading])]),
+          h("div", { class: "value-row" }, C.services.items.map((s) => h("div", { class: "value-item" }, [s.title]))),
+        ]),
+      ]);
+      mount("value-strip-mount", node);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * PROBLEM -> SOLUTION
+   * ------------------------------------------------------------------- */
+  const ProblemComponent = {
+    render() {
+      const section = h("section", { class: "problem", id: "about-problem" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.problem.tag]),
+          h("h2", {}, [C.problem.heading]),
+        ]),
+        h("div", { class: "problem-grid reveal" }, C.problem.points.map((p) =>
+          h("div", { class: "problem-item" }, [h("span", { class: "x" }, ["✕"]), h("p", {}, [p])])
+        )),
+        h("div", { class: "solution-banner reveal" }, [
+          h("h3", {}, [
+            C.problem.solutionHeadingPrefix + " ",
+            h("span", {}, [C.problem.solutionHeadingAccent]),
+            " " + C.problem.solutionHeadingSuffix,
+          ]),
+          h("a", { href: C.problem.solutionCta.href, class: "btn-outline" }, [C.problem.solutionCta.label + " →"]),
+        ]),
+      ]);
+      mount("problem-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * SERVICES
+   * ------------------------------------------------------------------- */
+  const ServicesComponent = {
+    render() {
+      const arrowIcon = () => h("span", { class: "arrow" }, [
+        h("svg", { width: "14", height: "14", viewBox: "0 0 14 14", html:
+          '<path d="M3 11L11 3M11 3H4M11 3V10" stroke="#0A0F1C" stroke-width="1.6" fill="none"/>' }),
+      ]);
+
+      const section = h("section", { class: "services", id: "services" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.services.tag]),
+          h("h2", {}, [C.services.heading]),
+        ]),
+        h("div", { class: "service-list reveal" }, C.services.items.map((s) =>
+          h("div", { class: "service-row" }, [
+            h("span", { class: "snum" }, [s.num]),
+            h("h3", {}, [s.title]),
+            h("p", {}, [s.description]),
+            arrowIcon(),
+          ])
+        )),
+      ]);
+      mount("services-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * WHY US
+   * ------------------------------------------------------------------- */
+  const WhyComponent = {
+    render() {
+      const section = h("section", { class: "why", id: "why" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.why.tag]),
+          h("h2", {}, [C.why.heading]),
+        ]),
+        h("div", { class: "why-grid reveal" }, C.why.items.map((w) =>
+          h("div", { class: "why-card" }, [
+            h("div", { class: "wn" }, [w.num]),
+            h("h4", {}, [w.title]),
+            h("p", {}, [w.description]),
+          ])
+        )),
+      ]);
+      mount("why-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * PROCESS
+   * ------------------------------------------------------------------- */
+  const ProcessComponent = {
+    render() {
+      const section = h("section", { class: "process", id: "process" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.process.tag]),
+          h("h2", {}, [C.process.heading]),
+        ]),
+        h("div", { class: "process-track reveal" }, C.process.steps.map((s) =>
+          h("div", { class: "process-node" }, [
+            h("div", { class: "pdot" }, [s.num]),
+            h("h4", {}, [s.title]),
+            h("p", {}, [s.description]),
+          ])
+        )),
+      ]);
+      mount("process-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * WORK
+   * ------------------------------------------------------------------- */
+  const WorkComponent = {
+    render() {
+      const body = C.work.hasProjects && C.work.projects.length
+        ? h("div", { class: "work-grid reveal" }, C.work.projects.map((p) =>
+            h("div", { class: "work-card" }, [h("h3", {}, [p.title]), h("p", {}, [p.description])])
+          ))
+        : h("div", { class: "work-empty reveal" }, [
+            h("div", { class: "wmark" }, [
+              h("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", html:
+                '<path d="M12 2v20M2 12h20" stroke="#2F6BFF" stroke-width="1.6"/>' }),
+            ]),
+            h("h3", {}, [C.work.emptyState.title]),
+            h("p", {}, [C.work.emptyState.description]),
+            h("a", { href: C.work.emptyState.cta.href, class: "btn-outline", style: "color:var(--text-dark);border-color:var(--paper-line);" }, [C.work.emptyState.cta.label]),
+          ]);
+
+      const section = h("section", { class: "work", id: "work" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.work.tag]),
+          h("h2", {}, [C.work.heading]),
+        ]),
+        body,
+      ]);
+      mount("work-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * TRANSFORMATION
+   * ------------------------------------------------------------------- */
+  const TransformComponent = {
+    render() {
+      const list = (points) => h("ul", {}, points.map((p) => h("li", {}, [p])));
+
+      const section = h("section", { class: "transform" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.transform.tag]),
+          h("h2", {}, [C.transform.heading]),
+        ]),
+        h("div", { class: "tf-row reveal" }, [
+          h("div", { class: "tf-panel tf-before" }, [
+            h("span", { class: "lbl mono" }, [C.transform.before.label]),
+            h("h4", {}, [C.transform.before.title]),
+            list(C.transform.before.points),
+          ]),
+          h("div", { class: "tf-arrow" }, [
+            h("svg", { width: "18", height: "18", viewBox: "0 0 18 18", html:
+              '<path d="M3 9h12M11 5l4 4-4 4" stroke="#fff" stroke-width="1.8" fill="none"/>' }),
+          ]),
+          h("div", { class: "tf-panel tf-after" }, [
+            h("span", { class: "lbl mono" }, [C.transform.after.label]),
+            h("h4", {}, [C.transform.after.title]),
+            list(C.transform.after.points),
+          ]),
+        ]),
+      ]);
+      mount("transform-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * FAQ (accordion — one open at a time, keyboard + ARIA accessible)
+   * ------------------------------------------------------------------- */
+  const FaqComponent = {
+    render() {
+      const items = C.faq.items.map((item, i) => {
+        const qId = "faq-h-" + i;
+        const aId = "faq-a-" + i;
+        return h("div", { class: "faq-item", "data-open": "false" }, [
+          h("h3", {}, [
+            h("button", { class: "faq-q", "aria-expanded": "false", "aria-controls": aId, id: qId }, [
+              item.q,
+              h("span", { class: "plus", "aria-hidden": "true" }),
+            ]),
+          ]),
+          h("div", { class: "faq-a-wrap", id: aId, role: "region", "aria-labelledby": qId }, [
+            h("div", { class: "faq-a-inner" }, [h("p", { class: "faq-a" }, [item.a])]),
+          ]),
+        ]);
+      });
+
+      const section = h("section", { class: "faq", id: "faq" }, [
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [C.faq.tag]),
+          h("h2", {}, [C.faq.heading]),
+          h("p", {}, [C.faq.lead]),
+        ]),
+        h("div", { class: "faq-list reveal" }, items),
+      ]);
+      mount("faq-mount", section);
+    },
+    bind() {
+      const items = Array.from(document.querySelectorAll(".faq-item"));
+      items.forEach((item) => {
+        const btn = item.querySelector(".faq-q");
+        btn.addEventListener("click", () => {
+          const isOpen = item.getAttribute("data-open") === "true";
+          items.forEach((other) => {
+            other.setAttribute("data-open", "false");
+            other.querySelector(".faq-q").setAttribute("aria-expanded", "false");
+          });
+          if (!isOpen) {
+            item.setAttribute("data-open", "true");
+            btn.setAttribute("aria-expanded", "true");
+          }
+        });
+        btn.addEventListener("keydown", (e) => {
+          const idx = items.indexOf(item);
+          if (e.key === "ArrowDown") { e.preventDefault(); (items[idx + 1] || items[0]).querySelector(".faq-q").focus(); }
+          if (e.key === "ArrowUp") { e.preventDefault(); (items[idx - 1] || items[items.length - 1]).querySelector(".faq-q").focus(); }
+        });
+      });
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * CTA
+   * ------------------------------------------------------------------- */
+  const CtaComponent = {
+    render() {
+      const section = h("section", { class: "cta-section" }, [
+        h("div", { class: "inner reveal" }, [
+          h("h2", {}, [C.cta.heading]),
+          h("p", {}, [C.cta.lead]),
+          h("div", { class: "cta-actions" }, [
+            h("a", { href: C.cta.ctaPrimary.href, class: "btn-primary" }, [C.cta.ctaPrimary.label + " →"]),
+            h("a", { href: whatsappLink(), target: "_blank", rel: "noopener", class: "btn-outline" }, [C.cta.ctaSecondary.label]),
+          ]),
+        ]),
+      ]);
+      mount("cta-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * CONTACT
+   * ------------------------------------------------------------------- */
+  const ContactComponent = {
+    render() {
+      const icon = (pathHtml) => h("div", { class: "ic" }, [h("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", html: pathHtml })]);
+
+      const details = h("div", { class: "contact-details reveal" }, [
+        h("div", { class: "cdrow" }, [
+          icon('<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="#2F6BFF" stroke-width="1.6"/>'),
+          h("div", {}, [h("small", {}, ["WhatsApp"]), h("a", { href: whatsappLink(), target: "_blank", rel: "noopener" }, [C.contact.phoneDisplay])]),
+        ]),
+        h("div", { class: "cdrow" }, [
+          icon('<path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 1" stroke="#2F6BFF" stroke-width="1.6" stroke-linejoin="round"/>'),
+          h("div", {}, [h("small", {}, ["Phone"]), h("a", { href: "tel:" + C.contact.phoneE164 }, [C.contact.phoneDisplay])]),
+        ]),
+        h("div", { class: "cdrow" }, [
+          icon('<rect x="3" y="5" width="18" height="14" rx="2" stroke="#2F6BFF" stroke-width="1.6"/><path d="M3 7l9 6 9-6" stroke="#2F6BFF" stroke-width="1.6"/>'),
+          h("div", {}, [h("small", {}, ["Email"]), h("a", { href: "mailto:" + C.contact.email }, [C.contact.email])]),
+        ]),
+      ]);
+
+      const form = h("form", { class: "enquiry reveal", novalidate: "novalidate" }, [
+        h("div", { class: "f-row2" }, [
+          h("input", { type: "text", name: "name", placeholder: "Your name", required: "required", autocomplete: "name" }),
+          h("input", { type: "text", name: "business", placeholder: "Business name", required: "required", autocomplete: "organization" }),
+        ]),
+        h("div", { class: "f-row2" }, [
+          h("input", { type: "tel", name: "phone", placeholder: "Phone number", required: "required", autocomplete: "tel" }),
+          h("input", { type: "email", name: "email", placeholder: "Email address", required: "required", autocomplete: "email" }),
+        ]),
+        h("select", { name: "service", required: "required", "aria-label": "Service required" }, [
+          h("option", { value: "", disabled: "disabled", selected: "selected" }, ["Service required"]),
+          ...C.contactSection.form.services.map((s) => h("option", {}, [s])),
+        ]),
+        h("textarea", { rows: "4", name: "message", placeholder: "Tell us about your business", required: "required" }),
+        h("button", { type: "submit" }, [C.contactSection.form.submitLabel]),
+      ]);
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        form.querySelector("button").textContent = C.contactSection.form.submitLabelSuccess;
+      });
+
+      const section = h("section", { class: "contact", id: "contact" }, [
+        h("div", {}, [
+          h("div", { class: "p-head reveal", style: "margin-bottom:36px;" }, [
+            h("span", { class: "tag mono" }, [C.contactSection.tag]),
+            h("h2", {}, [C.contactSection.heading]),
+          ]),
+          details,
+        ]),
+        form,
+      ]);
+      mount("contact-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * FOOTER + WHATSAPP FLOAT
+   * ------------------------------------------------------------------- */
+  const FooterComponent = {
+    render() {
+      const footer = h("footer", {}, [
+        h("div", { class: "foot-grid" }, [
+          h("div", { class: "foot-brand" }, [
+            h("div", { class: "logo", style: "color:#fff;" }, [C.brand.name]),
+            h("p", {}, [C.brand.tagline]),
+          ]),
+          h("div", {}, [
+            h("h5", {}, ["Services"]),
+            h("ul", {}, C.services.items.map((s) => h("li", {}, [h("a", { href: "#services" }, [s.title])]))),
+          ]),
+          h("div", {}, [
+            h("h5", {}, ["Quick Links"]),
+            h("ul", {}, C.footer.quickLinks.map((l) => h("li", {}, [h("a", { href: l.href }, [l.label])]))),
+          ]),
+          h("div", {}, [
+            h("h5", {}, ["Contact"]),
+            h("ul", {}, [
+              h("li", {}, [h("a", { href: "tel:" + C.contact.phoneE164 }, [C.contact.phoneDisplay])]),
+              h("li", {}, [h("a", { href: "mailto:" + C.contact.email }, [C.contact.email])]),
+            ]),
+          ]),
+        ]),
+        h("div", { class: "foot-bottom" }, [
+          h("span", {}, ["© " + C.footer.year + " " + C.brand.name + ". All rights reserved."]),
+          h("span", {}, [C.footer.bottomNote]),
+        ]),
+      ]);
+      mount("footer-mount", footer);
+
+      const waFloat = h("a", { class: "wa-float", href: whatsappLink(), target: "_blank", rel: "noopener", "aria-label": "Chat on WhatsApp" }, [
+        h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", html: '<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="#fff" stroke-width="1.8"/>' }),
+        h("span", { class: "wa-text" }, ["Let's Talk"]),
+      ]);
+      document.body.appendChild(waFloat);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
+   * PAGE OBJECT — orchestrates every component (single entry point)
+   * ------------------------------------------------------------------- */
+  window.SLSPage = {
+    components: [
+      HeaderComponent, HeroComponent, ValueStripComponent, ProblemComponent,
+      ServicesComponent, WhyComponent, ProcessComponent, WorkComponent,
+      TransformComponent, FaqComponent, CtaComponent, ContactComponent, FooterComponent,
+    ],
+    renderAll() {
+      this.components.forEach((c) => c.render && c.render());
+    },
+    bindAll() {
+      this.components.forEach((c) => c.bind && c.bind());
+    },
+  };
+})(window, document);
