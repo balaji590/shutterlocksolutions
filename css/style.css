@@ -459,6 +459,55 @@ footer ul a:hover{ color:#fff; }
 @keyframes wa-in{ from{ opacity:0; transform:translateY(14px) scale(.92); } to{ opacity:1; transform:translateY(0) scale(1); } }
 
 /* ==========================================================================
+   QUICK ENQUIRY — user-initiated slide-in tab (not an automatic popup)
+   ========================================================================== */
+.qe-tab{
+  position:fixed; top:60%; right:0; transform:translateY(-50%);
+  writing-mode:vertical-rl; text-orientation:mixed;
+  background:var(--navy); color:#fff; border:none; z-index:140;
+  padding:16px 10px; border-radius:10px 0 0 10px; font-weight:700; font-size:0.8rem; letter-spacing:0.03em;
+  box-shadow:-8px 0 20px -10px rgba(0,0,0,0.25); transition:background .25s ease, padding-right .25s ease;
+}
+.qe-tab:hover{ background:var(--blue); padding-right:14px; }
+.qe-overlay{
+  position:fixed; inset:0; background:rgba(6,11,22,0.45); z-index:155;
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
+}
+.qe-overlay.open{ opacity:1; pointer-events:auto; }
+.qe-panel{
+  position:fixed; top:0; right:0; height:100vh; width:min(380px, 92vw); z-index:160;
+  background:#fff; box-shadow:-20px 0 50px -20px rgba(0,0,0,0.35);
+  padding:32px 28px; overflow-y:auto;
+  transform:translateX(100%); transition:transform .35s cubic-bezier(.16,.8,.24,1);
+  display:-webkit-flex; display:flex; flex-direction:column;
+}
+.qe-panel.open{ transform:translateX(0); }
+.qe-panel h3{ font-size:1.25rem; font-weight:700; color:var(--text-dark); margin:8px 0 10px; padding-right:30px; }
+.qe-lead{ font-size:0.9rem; color:var(--text-soft); line-height:1.55; margin-bottom:24px; }
+.qe-close{
+  position:absolute; top:24px; right:24px; width:32px; height:32px; border-radius:50%;
+  border:1px solid var(--paper-line); background:#fff; color:var(--text-soft); font-size:0.9rem;
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center; transition:border-color .25s, color .25s;
+}
+.qe-close:hover{ border-color:var(--blue); color:var(--blue); }
+.qe-form{ display:-webkit-flex; display:flex; flex-direction:column; gap:14px; }
+.qe-form input{
+  width:100%; padding:14px 16px; border:1px solid var(--paper-line); border-radius:10px; background:var(--paper);
+  font-family:'Manrope',sans-serif; font-size:0.92rem; color:var(--text-dark); transition:border-color .25s;
+}
+.qe-form input:focus{ outline:none; border-color:var(--blue); background:#fff; }
+.qe-form button{
+  background:var(--blue); color:#fff; border:none; padding:15px; border-radius:10px;
+  font-weight:700; font-size:0.92rem; transition:background .3s;
+}
+.qe-form button:hover{ background:var(--blue-bright); }
+.qe-form button:disabled{ opacity:0.7; cursor:not-allowed; }
+@media (max-width:560px){
+  .qe-tab{ padding:13px 8px; font-size:0.74rem; }
+  .qe-panel{ padding:26px 22px; }
+}
+
+/* ==========================================================================
    SCROLL REVEAL
    ========================================================================== */
 .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s cubic-bezier(.16,.8,.24,1), transform .6s cubic-bezier(.16,.8,.24,1); }

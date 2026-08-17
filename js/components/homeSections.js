@@ -642,9 +642,118 @@
    * so there is exactly ONE Header, Footer, FAQ, CTA and Process
    * implementation across the whole site, never a duplicate.
    * ------------------------------------------------------------------- */
+  /* ---------------------------------------------------------------------
+   * QUICK ENQUIRY — user-initiated slide-in tab (not an automatic popup).
+   * Sits alongside the WhatsApp float, appended once to <body> on every
+   * page (home + all service pages). Reuses the same Formspree endpoint
+   * as the main contact form — single source of truth for delivery.
+   * ------------------------------------------------------------------- */
+  const QuickEnquiryComponent = {
+    render() {
+      const q = C.quickEnquiry;
+
+      const overlay = h("div", { class: "qe-overlay", id: "qeOverlay" });
+
+      const tab = h("button", { class: "qe-tab", id: "qeTab", "aria-expanded": "false", "aria-controls": "qePanel" }, [q.tabLabel]);
+
+      const form = h("form", { class: "qe-form" }, [
+        h("input", { type: "hidden", name: "_subject", value: "Quick Enquiry — ShutterLockSolutions" }),
+        h("input", { type: "text", name: "name", placeholder: "Your name", required: "required", autocomplete: "name" }),
+        h("input", { type: "tel", name: "phone", placeholder: "Phone number", required: "required", autocomplete: "tel" }),
+        h("input", { type: "email", name: "email", placeholder: "Email address", required: "required", autocomplete: "email" }),
+        h("button", { type: "submit" }, [q.submitLabel]),
+        h("p", { class: "form-status", "aria-live": "polite" }),
+      ]);
+
+      const panel = h("div", { class: "qe-panel", id: "qePanel", role: "dialog", "aria-modal": "true", "aria-labelledby": "qeHeading" }, [
+        h("button", { class: "qe-close", id: "qeClose", "aria-label": "Close quick enquiry" }, ["✕"]),
+        h("h3", { id: "qeHeading" }, [q.heading]),
+        h("p", { class: "qe-lead" }, [q.lead]),
+        form,
+      ]);
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(tab);
+      document.body.appendChild(panel);
+    },
+    bind() {
+      const tab = document.getElementById("qeTab");
+      const panel = document.getElementById("qePanel");
+      const overlay = document.getElementById("qeOverlay");
+      const closeBtn = document.getElementById("qeClose");
+      if (!tab || !panel) return;
+
+      function open() {
+        panel.classList.add("open");
+        overlay.classList.add("open");
+        tab.setAttribute("aria-expanded", "true");
+        const firstInput = panel.querySelector("input");
+        if (firstInput) firstInput.focus();
+      }
+      function close() {
+        panel.classList.remove("open");
+        overlay.classList.remove("open");
+        tab.setAttribute("aria-expanded", "false");
+        tab.focus();
+      }
+
+      tab.addEventListener("click", () => {
+        panel.classList.contains("open") ? close() : open();
+      });
+      closeBtn.addEventListener("click", close);
+      overlay.addEventListener("click", close);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && panel.classList.contains("open")) close();
+      });
+
+      const form = panel.querySelector(".qe-form");
+      const status = form.querySelector(".form-status");
+      const q = C.quickEnquiry;
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const endpoint = C.contactSection.form.endpoint;
+        const button = form.querySelector("button[type=submit]");
+
+        if (!endpoint) {
+          status.textContent = "Quick enquiry isn't fully set up yet — please use WhatsApp instead.";
+          status.classList.add("form-status-error");
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = q.submitLabelSending;
+        status.textContent = "";
+        status.classList.remove("form-status-error", "form-status-success");
+
+        fetch(endpoint, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        })
+          .then((res) => {
+            if (res.ok) {
+              status.textContent = q.submitLabelSuccess;
+              status.classList.add("form-status-success");
+              button.textContent = q.submitLabel;
+              button.disabled = false;
+              form.reset();
+            } else {
+              throw new Error("Quick enquiry submission failed");
+            }
+          })
+          .catch(() => {
+            button.disabled = false;
+            button.textContent = q.submitLabel;
+            status.textContent = q.submitLabelError;
+            status.classList.add("form-status-error");
+          });
+      });
+    },
+  };
+
   window.SLSShared = {
     h, mount, whatsappLink,
-    HeaderComponent, FooterComponent, FaqComponent, CtaComponent, ProcessComponent,
+    HeaderComponent, FooterComponent, FaqComponent, CtaComponent, ProcessComponent, QuickEnquiryComponent,
   };
 
   /* ---------------------------------------------------------------------
@@ -655,6 +764,7 @@
       HeaderComponent, HeroComponent, ValueStripComponent, ProblemComponent,
       ServicesComponent, WhyComponent, ProcessComponent, WorkComponent,
       TransformComponent, FaqComponent, CtaComponent, ContactComponent, FooterComponent,
+      QuickEnquiryComponent,
     ],
     renderAll() {
       this.components.forEach((c) => c.render && c.render());

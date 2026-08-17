@@ -202,6 +202,16 @@ window.SITE_CONTENT = {
     ctaSecondary: { label: "WhatsApp Us" }, // href built from contact.whatsappNumber
   },
 
+  quickEnquiry: {
+    tabLabel: "Quick Enquiry",
+    heading: "Get a fast callback",
+    lead: "Leave your details and we'll call you back — no long form to fill.",
+    submitLabel: "Request Callback",
+    submitLabelSending: "Sending…",
+    submitLabelSuccess: "Thanks — we'll call you back soon.",
+    submitLabelError: "Something went wrong — try WhatsApp instead.",
+  },
+
   contactSection: {
     tag: "Get In Touch",
     heading: "Start the conversation.",

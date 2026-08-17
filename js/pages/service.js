@@ -43,6 +43,8 @@
       // Header/Footer always render so the page never looks broken, even
       // for an unknown/missing slug.
       window.SLSShared.HeaderComponent.render("../index.html");
+      window.SLSShared.QuickEnquiryComponent.render();
+      window.SLSShared.QuickEnquiryComponent.bind();
 
       if (!service) {
         console.error("Service page: no matching service for slug '" + slug + "'.");
