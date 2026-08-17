@@ -203,7 +203,7 @@ window.SITE_CONTENT = {
       // Get this from https://formspree.io after creating a form — looks
       // like "https://formspree.io/f/xxxxxabcd". Leave empty to disable
       // real submission (form will show a local-only confirmation instead).
-      endpoint: "",
+      endpoint: "https://formspree.io/f/maewpenj",
       submitLabel: "Start the Conversation",
       submitLabelSending: "Sending…",
       submitLabelSuccess: "Message sent ✓",
