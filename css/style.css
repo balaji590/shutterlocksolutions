@@ -504,9 +504,85 @@ nav.desknav a:hover::after{ width:100%; }
 /* ==========================================================================
    WORK
    ========================================================================== */
-.work{ background:#fff; text-align:center; border-bottom:1px solid var(--paper-line); }
-.work .p-head{ margin:0 auto 40px; text-align:center; }
-.work-empty{ max-width:620px; margin:0 auto; padding:60px 40px; border:1px dashed var(--paper-line); border-radius:var(--radius); background:linear-gradient(160deg, #fff, var(--paper)); }
+.work{ background:#fff; border-bottom:1px solid var(--paper-line); }
+.work .p-head{ margin:0 auto clamp(40px, 5vw, 64px); text-align:center; }
+
+/* ---- Featured case study ---- */
+.case-study{
+  display:-webkit-grid; display:grid; grid-template-columns:1.15fr 0.85fr;
+  gap:clamp(32px, 4.5vw, 64px); align-items:center; text-align:left;
+}
+.cs-visual{ position:relative; }
+/* Layered framing: a soft offset panel behind the browser frame. */
+.cs-visual::before{
+  content:''; position:absolute; inset:18px -14px -18px 14px; border-radius:var(--r-lg);
+  background:var(--gradient-soft); border:1px solid var(--paper-line); z-index:0;
+}
+.cs-frame{
+  position:relative; z-index:1; border-radius:var(--r-lg); overflow:hidden;
+  background:var(--ink-1); border:1px solid rgba(255,255,255,0.10); box-shadow:var(--shadow-lg);
+  transition:transform .4s cubic-bezier(.16,.8,.24,1);
+}
+.case-study:hover .cs-frame{ transform:translateY(-6px); }
+/* Stylised catalogue screen — an abstract representation, not a screenshot. */
+.cs-screen{ padding:18px; background:var(--ink-0); }
+.cs-shop-head{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.cs-pillbar{ width:74px; height:16px; border-radius:var(--r-pill); background:var(--gradient-main); opacity:.85; }
+.cs-line{ display:block; height:8px; border-radius:4px; background:rgba(255,255,255,0.11); }
+.cs-line.w80{ width:80%; } .cs-line.w40{ width:40%; } .cs-line.w30{ width:30%; }
+.cs-products{ display:-webkit-grid; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.cs-product{
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--r-sm); padding:10px; display:-webkit-flex; display:flex; flex-direction:column; gap:7px;
+}
+.cs-thumb{
+  display:block; height:44px; border-radius:6px;
+  background:linear-gradient(135deg, rgba(168,85,247,0.30), rgba(236,72,153,0.12));
+}
+.cs-cartbar{
+  margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08);
+  display:-webkit-flex; display:flex; align-items:center; justify-content:space-between;
+}
+.cs-cta{ width:88px; height:22px; border-radius:var(--r-pill); background:var(--gradient-main); }
+
+/* ---- Case study info ---- */
+.cs-info .cs-tag{
+  color:var(--blue); font-size:var(--fs-xs); font-weight:700; margin-bottom:16px;
+  display:-webkit-inline-flex; display:inline-flex; align-items:center;
+  padding:7px 15px; border-radius:var(--r-pill);
+  background:var(--gradient-soft); border:1px solid rgba(168,85,247,0.18);
+}
+.cs-info h3{ font-size:var(--fs-h2); font-weight:700; color:var(--text-dark); letter-spacing:-0.02em; line-height:1.15; }
+.cs-category{ font-size:var(--fs-sm); font-weight:700; color:var(--blue); margin-top:8px; }
+.cs-desc{ font-size:var(--fs-body); color:var(--text-soft); line-height:1.7; margin-top:16px; }
+.cs-caps{ display:-webkit-flex; display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; list-style:none; }
+.cs-caps li{
+  font-size:var(--fs-xs); font-weight:600; color:var(--text-dark);
+  padding:7px 13px; border-radius:var(--r-pill);
+  background:var(--paper); border:1px solid var(--paper-line);
+}
+.cs-meta{
+  display:-webkit-grid; display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+  margin-top:26px; padding-top:22px; border-top:1px solid var(--paper-line);
+}
+.cs-meta dt{ font-size:var(--fs-xs); color:var(--text-faint); font-weight:600; text-transform:uppercase; letter-spacing:.05em; margin-bottom:5px; }
+/* dd carries a UA default margin-inline-start:40px that the global reset
+   doesn't cover (no dl/dt/dd in it) — zero it here to keep scope tight. */
+.cs-meta dd{ font-size:var(--fs-sm); color:var(--text-dark); font-weight:700; margin:0; }
+.cs-cta-btn{ margin-top:28px; }
+
+@media (max-width:980px){
+  /* Mobile order: heading (section) -> visual -> info -> CTA */
+  .case-study{ grid-template-columns:1fr; gap:32px; }
+  .cs-visual::before{ inset:14px -10px -14px 10px; }
+  .cs-meta{ gap:14px; }
+}
+@media (max-width:560px){
+  .cs-products{ grid-template-columns:repeat(2,1fr); }
+  .cs-meta{ grid-template-columns:1fr; text-align:left; }
+  .cs-cta-btn{ width:100%; justify-content:center; }
+}
+.work-empty{ max-width:620px; margin:0 auto; padding:60px 40px; text-align:center; border:1px dashed var(--paper-line); border-radius:var(--r-lg); background:linear-gradient(160deg, #fff, var(--paper)); }
 .work-empty .wmark{ width:52px; height:52px; margin:0 auto 24px; border-radius:14px; background:rgba(168,85,247,0.08); display:-webkit-flex; display:flex; align-items:center; justify-content:center; }
 .work-empty h3{ font-size:1.3rem; font-weight:700; color:var(--text-dark); margin-bottom:12px; }
 .work-empty p{ font-size:0.95rem; color:var(--text-soft); line-height:1.6; max-width:440px; margin:0 auto 26px; }

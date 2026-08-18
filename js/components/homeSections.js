@@ -470,25 +470,102 @@
    * ------------------------------------------------------------------- */
   const WorkComponent = {
     render() {
-      const body = C.work.hasProjects && C.work.projects.length
-        ? h("div", { class: "work-grid reveal" }, C.work.projects.map((p) =>
-            p.link
-              ? h("a", { class: "work-card", href: p.link, target: "_blank", rel: "noopener" }, [
-                  h("h3", {}, [p.title]),
-                  h("p", {}, [p.description]),
-                  h("span", { class: "work-card-link" }, ["Visit site →"]),
-                ])
-              : h("div", { class: "work-card" }, [h("h3", {}, [p.title]), h("p", {}, [p.description])])
-          ))
-        : h("div", { class: "work-empty reveal" }, [
-            h("div", { class: "wmark" }, [
-              h("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", html:
-                '<path d="M12 2v20M2 12h20" stroke="#A855F7" stroke-width="1.6"/>' }),
+      const projects = (C.work.hasProjects && C.work.projects) || [];
+      const featured = projects.filter((p) => p.featured);
+      const others = projects.filter((p) => !p.featured);
+
+      // Stylised browser preview. This is deliberately an abstract
+      // representation of the project's layout, not a screenshot — the repo
+      // has no project imagery and none is invented here.
+      const buildPreview = (p) =>
+        h("div", { class: "cs-visual reveal" }, [
+          h("div", { class: "cs-frame" }, [
+            h("div", { class: "browser-bar" }, [
+              h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
+              h("div", { class: "browser-url" }, [p.previewUrl || ""]),
             ]),
-            h("h3", {}, [C.work.emptyState.title]),
-            h("p", {}, [C.work.emptyState.description]),
-            h("a", { href: C.work.emptyState.cta.href, class: "btn-outline", style: "color:var(--text-dark);border-color:var(--paper-line);" }, [C.work.emptyState.cta.label]),
-          ]);
+            h("div", { class: "cs-screen", "aria-hidden": "true" }, [
+              h("div", { class: "cs-shop-head" }, [
+                h("span", { class: "cs-line w30" }),
+                h("span", { class: "cs-pillbar" }),
+              ]),
+              h("div", { class: "cs-products" }, [1, 2, 3, 4, 5, 6].map((i) =>
+                h("div", { class: "cs-product" }, [
+                  h("span", { class: "cs-thumb" }),
+                  h("span", { class: "cs-line w80" }),
+                  h("span", { class: "cs-line w40" }),
+                ])
+              )),
+              h("div", { class: "cs-cartbar" }, [
+                h("span", { class: "cs-line w30" }),
+                h("span", { class: "cs-cta" }),
+              ]),
+            ]),
+          ]),
+        ]);
+
+      const buildCaseStudy = (p) =>
+        h("article", { class: "case-study" }, [
+          buildPreview(p),
+          h("div", { class: "cs-info reveal" }, [
+            h("span", { class: "tag mono cs-tag" }, ["Featured Project"]),
+            h("h3", {}, [p.title]),
+            p.category ? h("p", { class: "cs-category" }, [p.category]) : null,
+            h("p", { class: "cs-desc" }, [p.description]),
+            p.capabilities && p.capabilities.length
+              ? h("ul", { class: "cs-caps" }, p.capabilities.map((c) => h("li", {}, [c])))
+              : null,
+            p.meta && p.meta.length
+              ? h("dl", { class: "cs-meta" }, p.meta.reduce((acc, m) => {
+                  acc.push(h("div", {}, [h("dt", {}, [m.label]), h("dd", {}, [m.value])]));
+                  return acc;
+                }, []))
+              : null,
+            p.link
+              ? h("a", { class: "btn-primary cs-cta-btn", href: p.link, target: "_blank", rel: "noopener" }, [
+                  (p.ctaLabel || "View Project") + " →",
+                ])
+              : null,
+          ]),
+        ]);
+
+      let body;
+      if (featured.length) {
+        body = h("div", { class: "cs-wrap" }, [
+          ...featured.map(buildCaseStudy),
+          // Additional (non-featured) projects fall back to the compact card
+          // grid, so future entries need no component changes.
+          others.length
+            ? h("div", { class: "work-grid reveal" }, others.map((p) =>
+                p.link
+                  ? h("a", { class: "work-card", href: p.link, target: "_blank", rel: "noopener" }, [
+                      h("h3", {}, [p.title]), h("p", {}, [p.description]),
+                      h("span", { class: "work-card-link" }, ["Visit site →"]),
+                    ])
+                  : h("div", { class: "work-card" }, [h("h3", {}, [p.title]), h("p", {}, [p.description])])
+              ))
+            : null,
+        ]);
+      } else if (others.length) {
+        body = h("div", { class: "work-grid reveal" }, others.map((p) =>
+          p.link
+            ? h("a", { class: "work-card", href: p.link, target: "_blank", rel: "noopener" }, [
+                h("h3", {}, [p.title]), h("p", {}, [p.description]),
+                h("span", { class: "work-card-link" }, ["Visit site →"]),
+              ])
+            : h("div", { class: "work-card" }, [h("h3", {}, [p.title]), h("p", {}, [p.description])])
+        ));
+      } else {
+        body = h("div", { class: "work-empty reveal" }, [
+          h("div", { class: "wmark" }, [
+            h("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", html:
+              '<path d="M12 2v20M2 12h20" stroke="#A855F7" stroke-width="1.6"/>' }),
+          ]),
+          h("h3", {}, [C.work.emptyState.title]),
+          h("p", {}, [C.work.emptyState.description]),
+          h("a", { href: C.work.emptyState.cta.href, class: "btn-outline", style: "color:var(--text-dark);border-color:var(--paper-line);" }, [C.work.emptyState.cta.label]),
+        ]);
+      }
 
       const section = h("section", { class: "work", id: "work" }, [
         h("div", { class: "p-head reveal" }, [

@@ -174,14 +174,36 @@ window.SITE_CONTENT = {
       description: "We're currently building out our portfolio alongside new client projects. If you'd like to be one of our early showcase businesses, let's talk.",
       cta: { label: "Start a project with us", href: "#contact" },
     },
-    // When real projects exist, add objects here: { title, description, tags: [], link }
-    // and set work.hasProjects = true. Rendering logic already supports both states.
+    // Reusable case-study schema. The first project with featured:true renders
+    // as the large case study; any additional projects can be added to this
+    // array later without changing the component.
     hasProjects: true,
     projects: [
       {
-        title: "Ecoconnex",
-        description: "A business website built to give Ecoconnex a stronger, more professional online presence.",
+        featured: true,
+        title: "Eco Connex",
+        category: "EV Spare Parts E-commerce",
+        // Every claim below was verified against the live site before being
+        // listed here. Do not add capabilities that aren't actually shipped.
+        description:
+          "An e-commerce site for an EV spare parts supplier in Tiruvannamalai — built so riders, workshops and dealers can browse genuine parts and place an order without friction.",
+        capabilities: [
+          "Product catalogue",
+          "Category navigation",
+          "Shopping cart",
+          "WhatsApp checkout",
+          "Dealer / bulk enquiry",
+          "Responsive design",
+          "On-page SEO",
+        ],
+        meta: [
+          { label: "Industry", value: "EV / Automotive" },
+          { label: "Project", value: "E-commerce Website" },
+          { label: "Focus", value: "Web Development + SEO" },
+        ],
+        previewUrl: "ecoconnex.in",
         link: "https://ecoconnex.in",
+        ctaLabel: "View Project",
       },
     ],
   },
