@@ -201,8 +201,8 @@
       const visual = h("div", { class: "hero-visual reveal in", id: "hero-visual" }, [
         h("div", { class: "hero-glow" }),
 
-        // Main focal point: a website mockup, framed like a real browser
-        // window showing the studio's own live domain (real, not invented).
+        // Single primary focal point: a website mockup, framed like a real
+        // browser window showing the studio's own live domain.
         h("div", { class: "stack-card card-site" }, [
           h("div", { class: "browser-bar" }, [
             h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
@@ -214,18 +214,13 @@
           ]),
         ]),
 
-        // Supporting floating card 1: growth metric
-        h("div", { class: "stack-card card-analytics" }, [
-          h("div", { class: "lbl" }, ["Traffic Growth"]),
-          h("div", { class: "bars" }, [35, 52, 40, 68, 58, 82, 74].map((v) => h("i", { style: "height:" + v + "%" }))),
-        ]),
-
-        // Supporting floating card 2: billing software preview
-        h("div", { class: "stack-card card-billing" }, [
-          h("div", { class: "row" }, [h("div", { class: "a" }), h("div", { class: "b" })]),
-          h("div", { class: "row" }, [h("div", { class: "a", style: "width:35%" }), h("div", { class: "b", style: "width:15%" })]),
-          h("div", { class: "total" }, [h("span", {}, ["Invoice Total"]), "₹ 24,500.00"]),
-        ]),
+        // Small supporting capability labels — not metric/dashboard boxes.
+        // Decorative: the same three categories already appear as real
+        // content in the Services section, so these are hidden from
+        // assistive tech to avoid duplicate announcements.
+        h("div", { class: "hero-capsule cap-1", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["01"]), "Web Development"]),
+        h("div", { class: "hero-capsule cap-2", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["02"]), "E-Commerce"]),
+        h("div", { class: "hero-capsule cap-3", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["03"]), "Digital Growth"]),
       ]);
 
       const section = h("section", { class: "hero", id: "top" }, [

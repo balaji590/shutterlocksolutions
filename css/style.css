@@ -203,9 +203,19 @@ nav.desknav a:hover::after{ width:100%; }
 }
 .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; }
 .hero h1{ font-size:var(--fs-display); font-weight:700; line-height:1.06; letter-spacing:-0.025em; margin-bottom:24px; }
+/* The rotating service name behaves as its own stable block rather than an
+   inline continuation of "...stronger" — it always starts a fresh line
+   (display:flex is block-level) and reserves height for two lines using
+   the same font-size token and line-height as the headline itself, so
+   1-line names (e.g. "SEO") and 2-3 word names (e.g. "AI Promotional
+   Videos") both sit centered in the same stable box instead of causing
+   the lead paragraph and CTAs below to jump vertically on rotation. */
 .hero h1 .accent{
   background:var(--gradient-main); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--blue-bright);
-  display:inline-block; transition:opacity .26s ease, transform .26s ease;
+  display:-webkit-flex; display:flex; align-items:center;
+  line-height:1.06; min-height:calc(var(--fs-display) * 1.06 * 2);
+  text-wrap:balance;
+  transition:opacity .26s ease, transform .26s ease;
 }
 .hero h1 .accent.swap-out{ opacity:0; transform:translateY(6px); }
 .hero p.lead{ font-size:var(--fs-body-lg); color:rgba(255,255,255,0.70); max-width:500px; line-height:1.7; margin-bottom:34px; }
@@ -275,16 +285,26 @@ nav.desknav a:hover::after{ width:100%; }
   background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cpolyline points='0,45 30,38 55,42 80,22 105,28 130,10 160,16 200,4' fill='none' stroke='%23EC4899' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='200' cy='4' r='5' fill='%23EC4899'/%3E%3C/svg%3E");
   background-repeat:no-repeat; background-size:contain; background-position:center; opacity:0.9;
 }
-.card-analytics{ width:54%; height:158px; left:-2%; bottom:14px; padding:18px; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
-.card-analytics .lbl{ font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:rgba(255,255,255,0.45); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.08em; }
-.bars{ display:-webkit-flex; display:flex; align-items:flex-end; gap:6px; height:74px; }
-.bars i{ flex:1; background:linear-gradient(to top, var(--blue), var(--blue-bright)); border-radius:4px 4px 0 0; opacity:0.9; }
-.card-billing{ width:42%; height:136px; right:2%; bottom:-2%; padding:18px; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .3s both, float3 6.5s ease-in-out infinite; }
-.card-billing .row{ display:-webkit-flex; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.card-billing .row .a{ height:8px; width:50%; border-radius:4px; background:rgba(255,255,255,0.12); }
-.card-billing .row .b{ height:8px; width:20%; border-radius:4px; background:var(--blue-bright); }
-.card-billing .total{ margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:0.95rem; color:#fff; font-weight:500; }
-.card-billing .total span{ color:rgba(255,255,255,0.45); font-size:0.62rem; display:block; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+/* Three small supporting capability labels — deliberately lightweight
+   (not dashboard-style boxes) so the browser mockup stays the one clear
+   focal point. Positioned around it without overlapping the copy column. */
+.hero-capsule{
+  position:absolute;
+  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:9px;
+  padding:10px 16px 10px 10px; border-radius:var(--r-pill);
+  background:rgba(20,15,17,0.65); border:1px solid rgba(255,255,255,0.14);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  box-shadow:var(--shadow-md);
+  font-size:var(--fs-xs); font-weight:700; color:rgba(255,255,255,0.85); white-space:nowrap;
+}
+.cap-num{
+  width:22px; height:22px; border-radius:50%; background:var(--gradient-main); color:#fff;
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:0.62rem; flex-shrink:0;
+}
+.cap-1{ top:6%; left:-3%; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
+.cap-2{ left:-2%; bottom:20%; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .3s both, float3 6.5s ease-in-out infinite; }
+.cap-3{ right:5%; bottom:-3%; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .45s both, float1 7s ease-in-out infinite; }
 @keyframes card-fade-in{ from{ opacity:0; } to{ opacity:1; } }
 @keyframes float1{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 @keyframes float2{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
@@ -937,7 +957,10 @@ footer ul a:hover{ color:#fff; }
   .hero-glow{ display:none; }
   .stack-card{ position:relative; inset:auto; width:100% !important; animation:card-fade-in .6s ease both; }
   .card-site{ height:auto; }
-  .card-analytics, .card-billing{ height:auto; }
+  /* Capsules are decorative/optional supporting elements — hidden on
+     mobile rather than repositioned, so there is zero risk of an
+     absolute-positioned element causing overflow on small screens. */
+  .hero-capsule{ display:none; }
   .marquee-card{ padding:11px 20px 11px 14px; font-size:0.82rem; }
   .problem-grid{ grid-template-columns:1fr; }
   .why-grid{ grid-template-columns:1fr 1fr; }
