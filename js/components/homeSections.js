@@ -176,15 +176,28 @@
       ]);
 
       const visual = h("div", { class: "hero-visual reveal in", id: "hero-visual" }, [
+        h("div", { class: "hero-glow" }),
+
+        // Main focal point: a website mockup, framed like a real browser
+        // window showing the studio's own live domain (real, not invented).
         h("div", { class: "stack-card card-site" }, [
-          h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
-          h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
-          h("div", { class: "hero-block" }),
+          h("div", { class: "browser-bar" }, [
+            h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
+            h("div", { class: "browser-url" }, ["shutterlocksolutions.com"]),
+          ]),
+          h("div", { class: "site-body" }, [
+            h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
+            h("div", { class: "hero-block" }),
+          ]),
         ]),
+
+        // Supporting floating card 1: growth metric
         h("div", { class: "stack-card card-analytics" }, [
           h("div", { class: "lbl" }, ["Traffic Growth"]),
           h("div", { class: "bars" }, [35, 52, 40, 68, 58, 82, 74].map((v) => h("i", { style: "height:" + v + "%" }))),
         ]),
+
+        // Supporting floating card 2: billing software preview
         h("div", { class: "stack-card card-billing" }, [
           h("div", { class: "row" }, [h("div", { class: "a" }), h("div", { class: "b" })]),
           h("div", { class: "row" }, [h("div", { class: "a", style: "width:35%" }), h("div", { class: "b", style: "width:15%" })]),
