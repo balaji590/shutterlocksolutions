@@ -353,35 +353,71 @@ nav.desknav a:hover::after{ width:100%; }
    ========================================================================== */
 .services{ background:#fff; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); }
 .services .p-head{ margin-left:auto; margin-right:auto; text-align:center; }
-.service-list{
-  display:-webkit-flex; display:flex; flex-wrap:wrap; justify-content:center; gap:14px;
+
+.service-grid{
+  display:-webkit-grid; display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:22px;
 }
-.service-row{
-  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:12px;
-  padding:14px 24px 14px 18px; border:1px solid var(--paper-line); border-radius:100px;
-  background:#fff; transition:border-color .3s ease, background .3s ease, transform .3s ease, box-shadow .3s ease;
+.service-card{
+  position:relative; overflow:hidden;
+  display:-webkit-flex; display:flex; flex-direction:column;
+  padding:34px 30px 30px;
+  background:#fff; border:1px solid var(--paper-line); border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);
+  transition:transform .35s cubic-bezier(.16,.8,.24,1), box-shadow .35s cubic-bezier(.16,.8,.24,1), border-color .35s ease;
 }
-.service-row:hover{
-  border-color:var(--blue); background:rgba(168,85,247,0.05);
-  transform:translateY(-3px); box-shadow:0 14px 26px -16px rgba(168,85,247,0.4);
+/* Decorative corner accent — appears on hover, shared by all six cards so
+   none of them reads as a different colour or style. */
+.service-card::after{
+  content:''; position:absolute; top:0; right:0; width:120px; height:120px;
+  background:radial-gradient(circle at 100% 0%, rgba(168,85,247,0.14), transparent 70%);
+  opacity:0; transition:opacity .35s ease; pointer-events:none;
 }
-.service-row .snum{
-  font-family:'JetBrains Mono',monospace; color:var(--blue); font-size:0.72rem; font-weight:600;
-  width:26px; height:26px; border-radius:50%; background:rgba(168,85,247,0.08);
+.service-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); border-color:rgba(168,85,247,0.28); }
+.service-card:hover::after{ opacity:1; }
+
+.svc-top{
+  display:-webkit-flex; display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:22px;
+}
+.svc-badge{
+  width:46px; height:46px; border-radius:14px; background:var(--gradient-main); color:#fff;
   display:-webkit-flex; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  box-shadow:var(--shadow-accent);
+  transition:transform .35s cubic-bezier(.16,.8,.24,1);
 }
-.service-row h3{ font-size:1rem; font-weight:700; color:var(--text-dark); white-space:nowrap; }
-.service-row p{
-  /* Description stays in the DOM for accessibility/SEO but is visually
-     replaced by the native title tooltip in this compact pill layout. */
-  position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap;
+.service-card:hover .svc-badge{ transform:scale(1.06) rotate(-4deg); }
+.svc-num{ font-family:'JetBrains Mono',monospace; font-size:var(--fs-xs); color:var(--text-faint); font-weight:600; }
+
+.service-card h3{ font-size:var(--fs-h4); font-weight:700; color:var(--text-dark); margin-bottom:10px; letter-spacing:-0.01em; }
+.service-card p{ font-size:var(--fs-body); color:var(--text-soft); line-height:1.6; margin-bottom:22px; }
+
+.svc-link{
+  margin-top:auto;
+  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:8px;
+  font-size:var(--fs-sm); font-weight:700; color:var(--blue);
+  transition:gap .3s ease;
 }
-.service-row .arrow{
-  width:22px; height:22px; border-radius:50%; display:-webkit-flex; display:flex; align-items:center; justify-content:center;
-  transition:transform .3s ease; flex-shrink:0;
+.service-card:hover .svc-link{ gap:12px; }
+.svc-arrow{ display:-webkit-flex; display:flex; align-items:center; }
+
+/* Featured card: the most-requested service gets a tinted surface and a
+   gradient top edge. Emphasis only — same structure, spacing and type as
+   the rest, so the other five never look secondary. */
+.service-card.is-featured{ background:linear-gradient(180deg, rgba(168,85,247,0.05), #fff 55%); border-color:rgba(168,85,247,0.22); }
+.service-card.is-featured::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--gradient-main);
 }
-.service-row:hover .arrow{ transform:translateX(3px); }
-.service-row:hover .arrow svg path{ stroke:var(--blue); }
+
+@media (max-width:980px){
+  .service-grid{ grid-template-columns:repeat(2, 1fr); gap:18px; }
+}
+@media (max-width:640px){
+  .service-grid{ grid-template-columns:1fr; }
+  .service-card{ padding:28px 24px 26px; }
+}
 
 /* ==========================================================================
    WHY US
@@ -685,12 +721,12 @@ footer ul a:hover{ color:#fff; }
 .reveal.in{ opacity:1; transform:translateY(0); }
 
 /* Staggered entrance for repeated grid/list items — subtle, not flashy */
-.problem-grid .reveal:nth-child(1),.why-grid .reveal:nth-child(1),.process-track .reveal:nth-child(1),.service-list .reveal:nth-child(1){ transition-delay:0s; }
-.problem-grid .reveal:nth-child(2),.why-grid .reveal:nth-child(2),.process-track .reveal:nth-child(2),.service-list .reveal:nth-child(2){ transition-delay:.06s; }
-.problem-grid .reveal:nth-child(3),.why-grid .reveal:nth-child(3),.process-track .reveal:nth-child(3),.service-list .reveal:nth-child(3){ transition-delay:.12s; }
-.problem-grid .reveal:nth-child(4),.why-grid .reveal:nth-child(4),.process-track .reveal:nth-child(4),.service-list .reveal:nth-child(4){ transition-delay:.18s; }
-.problem-grid .reveal:nth-child(5),.service-list .reveal:nth-child(5){ transition-delay:.24s; }
-.problem-grid .reveal:nth-child(6){ transition-delay:.3s; }
+.problem-grid .reveal:nth-child(1),.why-grid .reveal:nth-child(1),.process-track .reveal:nth-child(1),.service-grid .reveal:nth-child(1){ transition-delay:0s; }
+.problem-grid .reveal:nth-child(2),.why-grid .reveal:nth-child(2),.process-track .reveal:nth-child(2),.service-grid .reveal:nth-child(2){ transition-delay:.06s; }
+.problem-grid .reveal:nth-child(3),.why-grid .reveal:nth-child(3),.process-track .reveal:nth-child(3),.service-grid .reveal:nth-child(3){ transition-delay:.12s; }
+.problem-grid .reveal:nth-child(4),.why-grid .reveal:nth-child(4),.process-track .reveal:nth-child(4),.service-grid .reveal:nth-child(4){ transition-delay:.18s; }
+.problem-grid .reveal:nth-child(5),.service-grid .reveal:nth-child(5){ transition-delay:.24s; }
+.problem-grid .reveal:nth-child(6),.service-grid .reveal:nth-child(6){ transition-delay:.3s; }
 
 /* ==========================================================================
    RESPONSIVE BREAKPOINTS
@@ -730,9 +766,6 @@ footer ul a:hover{ color:#fff; }
   .f-row2{ grid-template-columns:1fr; }
   .wa-float span.wa-text{ display:none; }
   .faq-a{ padding-right:6px; }
-  .service-list{ justify-content:flex-start; gap:10px; }
-  .service-row{ padding:11px 16px 11px 12px; }
-  .service-row h3{ font-size:0.9rem; }
 }
 
 /* ==========================================================================

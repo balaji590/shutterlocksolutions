@@ -76,7 +76,12 @@
   };
   function serviceIcon(key, cls) {
     const paths = SERVICE_ICONS[key] || SERVICE_ICONS.website;
-    return h("svg", { class: cls || "", viewBox: "0 0 22 22", width: "16", height: "16", fill: "none", html: paths });
+    // Decorative only — every icon sits next to a visible text label, so it
+    // is hidden from assistive tech and removed from the tab order.
+    return h("svg", {
+      class: cls || "", viewBox: "0 0 22 22", width: "16", height: "16", fill: "none",
+      "aria-hidden": "true", focusable: "false", html: paths,
+    });
   }
 
   function mount(id, node) {
@@ -312,9 +317,9 @@
    * ------------------------------------------------------------------- */
   const ServicesComponent = {
     render() {
-      const arrowIcon = () => h("span", { class: "arrow" }, [
-        h("svg", { width: "14", height: "14", viewBox: "0 0 14 14", html:
-          '<path d="M3 11L11 3M11 3H4M11 3V10" stroke="#0A0F1C" stroke-width="1.6" fill="none"/>' }),
+      const arrowIcon = () => h("span", { class: "svc-arrow", "aria-hidden": "true" }, [
+        h("svg", { width: "15", height: "15", viewBox: "0 0 14 14", focusable: "false", html:
+          '<path d="M3 11L11 3M11 3H4M11 3V10" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' }),
       ]);
 
       const section = h("section", { class: "services", id: "services" }, [
@@ -322,12 +327,24 @@
           h("span", { class: "tag mono" }, [C.services.tag]),
           h("h2", {}, [C.services.heading]),
         ]),
-        h("div", { class: "service-list" }, C.services.items.map((s) =>
-          h("a", { class: "service-row reveal", href: "services/index.html?service=" + s.slug }, [
-            h("span", { class: "snum" }, [serviceIcon(s.icon)]),
+        h("div", { class: "service-grid" }, C.services.items.map((s) =>
+          // Website Development carries a "featured" flag — it's the most
+          // common reason a business owner gets in touch — but the emphasis
+          // is a subtle accent, so no card reads as secondary/unfinished.
+          h("a", {
+            class: "service-card reveal" + (s.slug === "website-development" ? " is-featured" : ""),
+            href: "services/index.html?service=" + s.slug,
+          }, [
+            h("div", { class: "svc-top" }, [
+              h("span", { class: "svc-badge", "aria-hidden": "true" }, [serviceIcon(s.icon)]),
+              h("span", { class: "svc-num" }, [s.num]),
+            ]),
             h("h3", {}, [s.title]),
             h("p", {}, [s.description]),
-            arrowIcon(),
+            h("span", { class: "svc-link" }, [
+              h("span", {}, ["Learn more"]),
+              arrowIcon(),
+            ]),
           ])
         )),
       ]);
