@@ -722,7 +722,8 @@
    * ------------------------------------------------------------------- */
   const ContactComponent = {
     render() {
-      const icon = (pathHtml) => h("div", { class: "ic" }, [h("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", html: pathHtml })]);
+      const f = C.contactSection.form;
+      const icon = (pathHtml) => h("div", { class: "ic" }, [h("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false", html: pathHtml })]);
 
       const details = h("div", { class: "contact-details reveal" }, [
         h("div", { class: "cdrow" }, [
@@ -739,21 +740,55 @@
         ]),
       ]);
 
+      const reassurance = (C.contactSection.reassurance || []).length
+        ? h("ul", { class: "contact-reassure reveal" }, C.contactSection.reassurance.map((r) =>
+            h("li", {}, [
+              h("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false",
+                html: '<path d="M4 12.5l5 5L20 6.5" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' }),
+              r,
+            ])
+          ))
+        : null;
+
+      // Fields are built from config so labels/order/types stay in one place.
+      // The `name` attribute is passed through verbatim — Formspree depends
+      // on these exact values.
+      const buildField = (fd) => {
+        const id = "cf-" + fd.name;
+        const labelNode = h("label", { for: id }, [
+          fd.label,
+          fd.required ? h("span", { class: "req", "aria-hidden": "true" }, [" *"]) : null,
+        ]);
+
+        let control;
+        if (fd.type === "select") {
+          control = h("select", {
+            id, name: fd.name,
+            ...(fd.required ? { required: "required" } : {}),
+          }, [
+            h("option", { value: "", disabled: "disabled", selected: "selected" }, [f.servicePlaceholder || "Select"]),
+            ...f.services.map((s) => h("option", {}, [s])),
+          ]);
+        } else if (fd.type === "textarea") {
+          control = h("textarea", {
+            id, name: fd.name, rows: String(fd.rows || 4),
+            ...(fd.required ? { required: "required" } : {}),
+          });
+        } else {
+          control = h("input", {
+            id, name: fd.name, type: fd.type,
+            ...(fd.autocomplete ? { autocomplete: fd.autocomplete } : {}),
+            ...(fd.required ? { required: "required" } : {}),
+          });
+        }
+        return h("div", { class: "field" + (fd.half ? " field-half" : "") }, [labelNode, control]);
+      };
+
       const form = h("form", { class: "enquiry reveal" }, [
-        h("div", { class: "f-row2" }, [
-          h("input", { type: "text", name: "name", placeholder: "Your name", required: "required", autocomplete: "name" }),
-          h("input", { type: "text", name: "business", placeholder: "Business name", required: "required", autocomplete: "organization" }),
-        ]),
-        h("div", { class: "f-row2" }, [
-          h("input", { type: "tel", name: "phone", placeholder: "Phone number", required: "required", autocomplete: "tel" }),
-          h("input", { type: "email", name: "email", placeholder: "Email address", required: "required", autocomplete: "email" }),
-        ]),
-        h("select", { name: "service", required: "required", "aria-label": "Service required" }, [
-          h("option", { value: "", disabled: "disabled", selected: "selected" }, ["Service required"]),
-          ...C.contactSection.form.services.map((s) => h("option", {}, [s])),
-        ]),
-        h("textarea", { rows: "4", name: "message", placeholder: "Tell us about your business", required: "required" }),
-        h("button", { type: "submit" }, [C.contactSection.form.submitLabel]),
+        h("div", { class: "field-grid" }, f.fields.map(buildField)),
+        f.requiredNote ? h("p", { class: "form-required-note" }, [f.requiredNote]) : null,
+        h("button", { type: "submit" }, [f.submitLabel]),
+        f.submitNote ? h("p", { class: "form-submit-note" }, [f.submitNote]) : null,
         h("p", { class: "form-status", "aria-live": "polite" }),
       ]);
 
@@ -801,12 +836,14 @@
       });
 
       const section = h("section", { class: "contact", id: "contact" }, [
-        h("div", {}, [
-          h("div", { class: "p-head reveal", style: "margin-bottom:36px;" }, [
+        h("div", { class: "contact-left" }, [
+          h("div", { class: "p-head reveal" }, [
             h("span", { class: "tag mono" }, [C.contactSection.tag]),
             h("h2", {}, [C.contactSection.heading]),
+            C.contactSection.lead ? h("p", {}, [C.contactSection.lead]) : null,
           ]),
           details,
+          reassurance,
         ]),
         form,
       ]);

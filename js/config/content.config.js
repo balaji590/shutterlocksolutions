@@ -253,9 +253,9 @@ window.SITE_CONTENT = {
   },
 
   cta: {
-    heading: "Ready to take your business to the next level?",
-    lead: "Let's build a digital presence that works as hard as your business does.",
-    ctaPrimary: { label: "Let's Talk About Your Business", href: "#contact" },
+    heading: "Have a project in mind?",
+    lead: "Tell us what you're building. We'll understand your requirements and help you choose the right digital solution.",
+    ctaPrimary: { label: "Start Your Project", href: "#contact" },
     ctaSecondary: { label: "WhatsApp Us" }, // href built from contact.whatsappNumber
   },
 
@@ -272,15 +272,35 @@ window.SITE_CONTENT = {
   contactSection: {
     tag: "Get In Touch",
     heading: "Start the conversation.",
+    lead: "Share a few details about your business and what you're trying to achieve. We'll come back to you with the right next step.",
+    // Short, honest reassurance points — no response-time or outcome promises.
+    reassurance: [
+      "No obligation — an enquiry isn't a commitment",
+      "We'll point you to the right service, even if it's a smaller one",
+      "Your details are only used to reply to this enquiry",
+    ],
     form: {
       // Get this from https://formspree.io after creating a form — looks
       // like "https://formspree.io/f/xxxxxabcd". Leave empty to disable
       // real submission (form will show a local-only confirmation instead).
       endpoint: "https://formspree.io/f/maewpenj",
+      // `name` values are exactly what Formspree receives — do NOT rename
+      // them without updating the Formspree form. `label` is the visible label.
+      fields: [
+        { name: "name",     label: "Your name",                   type: "text",     autocomplete: "name",         required: true, half: true },
+        { name: "business", label: "Business name",               type: "text",     autocomplete: "organization", required: true, half: true },
+        { name: "phone",    label: "Phone number",                type: "tel",      autocomplete: "tel",          required: true, half: true },
+        { name: "email",    label: "Email address",               type: "email",    autocomplete: "email",        required: true, half: true },
+        { name: "service",  label: "Service required",            type: "select",   required: true },
+        { name: "message",  label: "Tell us about your business", type: "textarea", required: true, rows: 4 },
+      ],
+      servicePlaceholder: "Select a service",
       submitLabel: "Start the Conversation",
       submitLabelSending: "Sending…",
       submitLabelSuccess: "Message sent ✓",
       submitLabelError: "Something went wrong — try again",
+      submitNote: "We'll review your enquiry and get back to you.",
+      requiredNote: "Fields marked * are required.",
       services: ["Website Development", "E-commerce", "Billing Software", "Digital Marketing", "SEO", "Not sure yet"],
     },
   },
