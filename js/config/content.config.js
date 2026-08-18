@@ -213,6 +213,19 @@ window.SITE_CONTENT = {
     ],
   },
 
+  // Homepage teaser for the AI Promotional Videos service. Capability
+  // labels are the same real ones from servicesDetail["ai-promotional-videos"]
+  // .features.items — not separately invented copy. Kept short since the
+  // full detail lives on the service page (this section links there).
+  aiVideoSection: {
+    tag: "AI Promotional Videos",
+    heading: "Make your brand move.",
+    headingAccentWords: 1,
+    lead: "Scroll-stopping promotional videos created and edited with AI — built around your business, with a turnaround no studio can match.",
+    capabilities: ["AI-Generated Footage", "Editing & Pacing", "Platform-Ready Formats", "Fast Turnaround"],
+    ctaLabel: "Create Your Video",
+  },
+
   transform: {
     tag: "The Shift",
     heading: "From just having a business — to being found, trusted and chosen.",

@@ -602,6 +602,46 @@
   /* ---------------------------------------------------------------------
    * TRANSFORMATION
    * ------------------------------------------------------------------- */
+  /* ---------------------------------------------------------------------
+   * AI VIDEO — homepage teaser for the AI Promotional Videos service.
+   * Reuses the video-frame/waveform mockup built for the service page
+   * (Phase 2) and the capability-chip styling from the portfolio case
+   * study — no new visual system introduced for this section.
+   * ------------------------------------------------------------------- */
+  const AiVideoComponent = {
+    render() {
+      const av = C.aiVideoSection;
+      const words = av.heading.split(" ");
+      const splitAt = Math.max(words.length - (av.headingAccentWords || 1), 0);
+      const plain = words.slice(0, splitAt).join(" ");
+      const accent = words.slice(splitAt).join(" ");
+
+      const visual = h("div", { class: "av-visual reveal" }, [
+        h("div", { class: "av-frame" }, [
+          h("div", { class: "sv-mock-videoframe", style: "margin-bottom:0;height:150px;" }, [
+            h("span", { class: "sv-mock-play" }, [
+              h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", html: '<path d="M6 4l14 8-14 8V4z" fill="#fff"/>' }),
+            ]),
+          ]),
+          h("div", { class: "sv-mock-waveform", style: "margin-top:16px;" }, [30, 55, 40, 70, 45, 65, 35, 60, 42, 50].map((v) => h("i", { style: "height:" + v + "%" }))),
+        ]),
+      ]);
+
+      const info = h("div", { class: "av-info reveal" }, [
+        h("span", { class: "tag mono" }, [av.tag]),
+        h("h2", {}, [plain + (plain ? " " : ""), h("span", { class: "av-accent" }, [accent])]),
+        h("p", {}, [av.lead]),
+        h("ul", { class: "cs-caps av-caps" }, av.capabilities.map((c) => h("li", {}, [c]))),
+        h("a", { class: "btn-primary", href: "services/index.html?service=ai-promotional-videos" }, [av.ctaLabel + " →"]),
+      ]);
+
+      const section = h("section", { class: "ai-video" }, [
+        h("div", { class: "av-grid" }, [visual, info]),
+      ]);
+      mount("aivideo-mount", section);
+    },
+  };
+
   const TransformComponent = {
     render() {
       const list = (points) => h("ul", {}, points.map((p) => h("li", {}, [p])));
@@ -1036,7 +1076,7 @@
       // Hero -> Trust strip -> Problem -> Services -> Quiz -> Why ->
       // Portfolio -> Process -> Benefits -> FAQ -> CTA -> Contact -> Footer
       HeaderComponent, HeroComponent, ValueStripComponent, ProblemComponent,
-      ServicesComponent, QuizComponent, WhyComponent, WorkComponent, ProcessComponent,
+      ServicesComponent, QuizComponent, WhyComponent, WorkComponent, AiVideoComponent, ProcessComponent,
       TransformComponent, FaqComponent, CtaComponent, ContactComponent, FooterComponent,
       QuickEnquiryComponent,
     ],
