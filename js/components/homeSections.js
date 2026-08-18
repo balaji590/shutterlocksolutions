@@ -94,13 +94,9 @@
       const linkHref = (href) => (href.indexOf("#") === 0 ? basePath + href : href);
       const assetPrefix = basePath ? "../" : "";
 
-      const logo = () =>
-        h("div", { class: "logo" }, [
-          logoImg(assetPrefix),
-          document.createTextNode(C.brand.name),
-        ]);
-
-      const logoLink = h("a", { href: basePath ? "../index.html" : "#top", "aria-label": C.brand.name + " home" }, [logo()]);
+      const logoLink = h("a", { href: basePath ? "../index.html" : "#top", class: "pill-logo", "aria-label": C.brand.name + " home" }, [
+        logoImg(assetPrefix),
+      ]);
 
       const deskNav = h("nav", { class: "desknav" }, [
         h("ul", {}, C.nav.map((item) => h("li", {}, [h("a", { href: linkHref(item.href) }, [item.label])]))),
@@ -113,7 +109,9 @@
         ]),
       ]);
 
-      const header = h("header", { id: "siteHeader", class: basePath ? "always-solid" : "" }, [logoLink, deskNav, navRight]);
+      const navPill = h("div", { class: "pill-nav" }, [deskNav, navRight]);
+
+      const header = h("header", { id: "siteHeader", class: basePath ? "always-solid" : "" }, [logoLink, navPill]);
 
       const mobileMenu = h("div", { class: "mobile-menu", id: "mobileMenu" }, [
         h("div", { class: "mtop" }, [

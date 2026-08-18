@@ -37,7 +37,7 @@ a { background-color: transparent; text-decoration: none; color: inherit; }
   --blue-dim:#7C3AED;
   --gradient-main:linear-gradient(135deg, #A855F7 0%, #EC4899 55%, #FB923C 100%);
   --radius:16px;
-  --header-h:88px;
+  --header-h:78px;
 }
 
 html{ -webkit-scroll-behavior: smooth; scroll-behavior: smooth; }
@@ -74,47 +74,40 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus{
    NAV
    ========================================================================== */
 header{
-  position:fixed; top:0; left:0; right:0; z-index:200;
+  position:fixed; top:16px; left:50%; z-index:200;
+  transform:translateX(-50%);
   display:-webkit-flex; display:flex;
   -webkit-align-items:center; align-items:center;
-  -webkit-justify-content:space-between; justify-content:space-between;
-  padding:20px 6vw;
-  background:rgba(6,11,22,0.0);
-  transition:background .35s ease, padding .35s ease, border-color .35s ease;
-  border-bottom:1px solid transparent;
+  gap:10px;
+  max-width:94vw;
 }
-header.solid{
-  background:rgba(6,11,22,0.86);
-  -webkit-backdrop-filter:blur(14px);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line-dark);
-  padding:14px 6vw;
+.pill-logo{
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:46px; height:46px; border-radius:50%;
+  background:rgba(255,255,255,0.14); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.16);
 }
-/* Pages whose first section is NOT a dark hero (e.g. service pages, whose
-   first section is the light .breadcrumbs) need the header opaque from
-   the very first paint — otherwise white logo/nav text sits directly on
-   a light background with no contrast. Independent of scroll position;
-   the scroll-driven padding compaction (.solid) still applies on top. */
-header.always-solid{
-  background:rgba(6,11,22,0.86);
-  -webkit-backdrop-filter:blur(14px);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line-dark);
+.pill-logo .logo-mark{ height:24px; }
+.pill-nav{
+  display:-webkit-flex; display:flex; align-items:center; gap:28px;
+  background:rgba(20,15,17,0.55); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:100px; padding:10px 12px 10px 24px;
 }
 .logo{ display:-webkit-flex; display:flex; -webkit-align-items:center; align-items:center; gap:11px; font-family:'Sora',sans-serif; font-weight:700; font-size:1.02rem; color:#fff; }
 .logo-mark{ height:34px; width:auto; object-fit:contain; position:relative; flex-shrink:0; }
-nav.desknav ul{ display:-webkit-flex; display:flex; gap:34px; }
-nav.desknav a{ font-size:0.88rem; font-weight:600; color:rgba(255,255,255,0.72); transition:color .25s; position:relative; padding-bottom:2px; }
+nav.desknav ul{ display:-webkit-flex; display:flex; gap:24px; }
+nav.desknav a{ font-size:0.85rem; font-weight:600; color:rgba(255,255,255,0.82); transition:color .25s; position:relative; padding-bottom:2px; white-space:nowrap; }
 nav.desknav a:hover{ color:#fff; }
 nav.desknav a::after{
   content:''; position:absolute; left:0; bottom:-4px; width:0; height:1.5px; background:var(--blue-bright);
   transition:width .3s cubic-bezier(.16,.8,.24,1);
 }
 nav.desknav a:hover::after{ width:100%; }
-.nav-right{ display:-webkit-flex; display:flex; -webkit-align-items:center; align-items:center; gap:18px; }
+.nav-right{ display:-webkit-flex; display:flex; -webkit-align-items:center; align-items:center; gap:14px; }
 .nav-cta{
-  background:var(--gradient-main); color:#fff; padding:11px 22px; border-radius:100px; font-weight:700; font-size:0.85rem;
-  transition:filter .25s ease, transform .25s ease;
+  background:var(--gradient-main); color:#fff; padding:10px 20px; border-radius:100px; font-weight:700; font-size:0.82rem;
+  transition:filter .25s ease, transform .25s ease; white-space:nowrap;
 }
 .nav-cta:hover{ filter:brightness(1.08); transform:translateY(-2px); }
 .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; }
@@ -137,9 +130,9 @@ nav.desknav a:hover::after{ width:100%; }
    ========================================================================== */
 .hero{
   position:relative; background:var(--ink-0); color:#fff;
-  padding:170px 6vw 120px; overflow:hidden;
+  padding:110px 6vw 90px; overflow:hidden;
   display:-webkit-grid; display:grid;
-  grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center;
+  grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:end;
   perspective:1200px;
 }
 .hero::before{
@@ -608,7 +601,8 @@ footer ul a:hover{ color:#fff; }
 @media (max-width:980px){
   nav.desknav, .nav-cta{ display:none; }
   .burger{ display:-webkit-flex; display:flex; }
-  .hero{ grid-template-columns:1fr; padding-top:130px; }
+  .pill-nav{ padding:6px; }
+  .hero{ grid-template-columns:1fr; padding-top:110px; align-items:start; }
   .hero-visual{ height:340px; }
   .marquee-card{ padding:11px 20px 11px 14px; font-size:0.82rem; }
   .problem-grid{ grid-template-columns:1fr; }
