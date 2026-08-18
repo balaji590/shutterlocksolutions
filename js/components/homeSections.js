@@ -84,6 +84,24 @@
     });
   }
 
+  /* ---------------------------------------------------------------------
+   * PROCESS ICON REGISTRY — one icon per journey stage. Steps reference an
+   * icon by name (content.config.js -> process.steps[].icon).
+   * ------------------------------------------------------------------- */
+  const PROCESS_ICONS = {
+    discover: '<circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M19 19l-4.4-4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    plan: '<rect x="3" y="3" width="7.5" height="7.5" rx="1.6" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="3" y="13.5" width="7.5" height="5.5" rx="1.6" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="13.5" y="3" width="5.5" height="16" rx="1.6" stroke="currentColor" stroke-width="1.7" fill="none"/>',
+    build: '<path d="M7.5 6.5L3 11l4.5 4.5M14.5 6.5L19 11l-4.5 4.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    grow: '<path d="M3 17l5-5.5 3.5 3L19 5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+  };
+  function processIcon(key) {
+    const paths = PROCESS_ICONS[key] || PROCESS_ICONS.discover;
+    return h("svg", {
+      viewBox: "0 0 22 22", width: "18", height: "18", fill: "none",
+      "aria-hidden": "true", focusable: "false", html: paths,
+    });
+  }
+
   function mount(id, node) {
     const target = document.getElementById(id);
     if (!target) return;
@@ -453,11 +471,17 @@
           h("span", { class: "tag mono" }, [data.tag]),
           h("h2", {}, [data.heading]),
         ]),
-        h("div", { class: "process-track" }, data.steps.map((s) =>
-          h("div", { class: "process-node reveal" }, [
-            h("div", { class: "pdot" }, [s.num]),
-            h("h4", {}, [s.title]),
-            h("p", {}, [s.description]),
+        h("ol", { class: "process-track" }, data.steps.map((s) =>
+          h("li", { class: "process-node reveal" }, [
+            h("div", { class: "pn-head" }, [
+              h("span", { class: "pdot" }, [s.icon ? processIcon(s.icon) : null]),
+              h("span", { class: "pnum" }, [s.num]),
+            ]),
+            h("div", { class: "pn-body" }, [
+              h("h4", {}, [s.title]),
+              s.label ? h("span", { class: "pn-label" }, [s.label]) : null,
+              h("p", {}, [s.description]),
+            ]),
           ])
         )),
       ]);

@@ -483,23 +483,70 @@ nav.desknav a:hover::after{ width:100%; }
    PROCESS
    ========================================================================== */
 .process{ background:var(--ink-0); color:#fff; }
+.process .p-head{ margin-left:auto; margin-right:auto; text-align:center; }
 .process .p-head h2{ color:#fff; }
 .process .p-head .tag{
   color:var(--blue-bright);
   background:rgba(236,72,153,0.10);
   border-color:rgba(236,72,153,0.28);
 }
-.process-track{ position:relative; display:-webkit-grid; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
-.process-track::before{ content:''; position:absolute; top:21px; left:5%; right:5%; height:1px; background:var(--line-dark); z-index:0; }
-.process-node{ position:relative; z-index:1; }
-.process-node .pdot{
-  width:42px; height:42px; border-radius:12px; background:var(--gradient-main); border:none;
-  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
-  font-family:'JetBrains Mono',monospace; font-size:var(--fs-xs); font-weight:700; color:#fff;
-  margin-bottom:24px; box-shadow:var(--shadow-accent);
+
+.process-track{
+  display:-webkit-grid; display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  list-style:none; counter-reset:none;
 }
-.process-node h4{ font-size:1.1rem; font-weight:700; margin-bottom:10px; }
-.process-node p{ font-size:0.88rem; color:rgba(255,255,255,0.55); line-height:1.55; }
+.process-node{
+  position:relative;
+  background:rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.09);
+  border-radius:var(--r-lg); padding:28px 24px 26px;
+  transition:transform .35s cubic-bezier(.16,.8,.24,1), background .35s ease, border-color .35s ease;
+}
+.process-node:hover{ transform:translateY(-5px); background:rgba(255,255,255,0.06); border-color:rgba(236,72,153,0.28); }
+/* Connector sits in the gap between cards, so it can never overlap content.
+   Hidden after the last step and whenever the grid wraps to a new row. */
+.process-node:not(:last-child)::after{
+  content:''; position:absolute; top:48px; right:-20px; width:20px; height:1px;
+  background:linear-gradient(90deg, rgba(236,72,153,0.45), rgba(255,255,255,0.10));
+}
+.pn-head{
+  display:-webkit-flex; display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:20px;
+}
+.process-node .pdot{
+  width:44px; height:44px; border-radius:13px; background:var(--gradient-main); border:none;
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center; color:#fff;
+  box-shadow:var(--shadow-accent); flex-shrink:0;
+  transition:transform .35s cubic-bezier(.16,.8,.24,1);
+}
+.process-node:hover .pdot{ transform:scale(1.06) rotate(-4deg); }
+/* Step number is the primary scan anchor. */
+.pnum{
+  font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:700; line-height:1;
+  background:var(--gradient-main); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:var(--blue-bright); opacity:.9;
+}
+.process-node h4{ font-size:var(--fs-h4); font-weight:700; margin-bottom:6px; letter-spacing:-0.01em; }
+.pn-label{
+  display:block; font-size:var(--fs-xs); font-weight:600; color:var(--blue-bright);
+  margin-bottom:10px;
+}
+.process-node p{ font-size:var(--fs-sm); color:rgba(255,255,255,0.58); line-height:1.6; }
+
+@media (max-width:980px){
+  .process-track{ grid-template-columns:repeat(2,1fr); }
+  /* Horizontal connector only makes sense between columns on the same row. */
+  .process-node:nth-child(2n)::after{ display:none; }
+}
+@media (max-width:640px){
+  .process-track{ grid-template-columns:1fr; gap:16px; }
+  /* Vertical journey: connector rotates to sit in the gap below each card. */
+  .process-node:not(:last-child)::after{
+    top:auto; bottom:-16px; right:auto; left:44px; width:1px; height:16px;
+    background:linear-gradient(180deg, rgba(236,72,153,0.45), rgba(255,255,255,0.10));
+  }
+  .process-node:nth-child(2n)::after{ display:block; }
+  .process-node:last-child::after{ display:none; }
+}
 
 /* ==========================================================================
    WORK
@@ -827,8 +874,6 @@ footer ul a:hover{ color:#fff; }
   .marquee-card{ padding:11px 20px 11px 14px; font-size:0.82rem; }
   .problem-grid{ grid-template-columns:1fr; }
   .why-grid{ grid-template-columns:1fr 1fr; }
-  .process-track{ grid-template-columns:1fr 1fr; }
-  .process-track::before{ display:none; }
   .tf-row{ grid-template-columns:1fr; }
   .tf-arrow{ margin:0 auto; transform:rotate(90deg); }
   .contact{ grid-template-columns:1fr; }
@@ -837,7 +882,6 @@ footer ul a:hover{ color:#fff; }
 @media (max-width:560px){
   .hero, .value-strip, .problem, .services, .why, .process, .work, .transform, .faq, .cta-section, .contact{ padding-left:6vw; padding-right:6vw; }
   .why-grid{ grid-template-columns:1fr; }
-  .process-track{ grid-template-columns:1fr; }
   .foot-grid{ grid-template-columns:1fr; }
   .f-row2{ grid-template-columns:1fr; }
   .wa-float span.wa-text{ display:none; }

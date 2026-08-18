@@ -158,11 +158,14 @@ window.SITE_CONTENT = {
   process: {
     tag: "How We Work",
     heading: "From first call to going live.",
+    // Existing wording kept — it's concise and makes no delivery promises.
+    // `label` is a short "what happens at this stage" cue; `icon` maps to
+    // the PROCESS_ICONS registry in js/components/homeSections.js.
     steps: [
-      { num: "01", title: "Understand", description: "We understand your business, audience and goals." },
-      { num: "02", title: "Plan", description: "We define the right digital solution for you." },
-      { num: "03", title: "Build", description: "We design and develop the full experience." },
-      { num: "04", title: "Grow", description: "We help you improve your digital presence over time." },
+      { num: "01", title: "Understand", description: "We understand your business, audience and goals.", label: "You share your goals", icon: "discover" },
+      { num: "02", title: "Plan", description: "We define the right digital solution for you.", label: "We propose the approach", icon: "plan" },
+      { num: "03", title: "Build", description: "We design and develop the full experience.", label: "We design and develop", icon: "build" },
+      { num: "04", title: "Grow", description: "We help you improve your digital presence over time.", label: "Live, then improved", icon: "grow" },
     ],
   },
 
