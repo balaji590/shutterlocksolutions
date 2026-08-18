@@ -273,8 +273,9 @@ nav.desknav a:hover::after{ width:100%; }
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform:none; letter-spacing:0;
 }
 .site-body{ padding:20px; }
-.card-site .bl{ height:10px; border-radius:5px; background:rgba(255,255,255,0.09); margin-bottom:10px; }
+.card-site .bl{ display:block; height:10px; border-radius:5px; background:rgba(255,255,255,0.09); margin-bottom:10px; }
 .card-site .bl.w60{ width:60%; } .card-site .bl.w80{ width:80%; } .card-site .bl.w40{ width:40%; }
+.card-site .bl.w20{ width:20%; } .card-site .bl.w30{ width:30%; }
 .card-site .hero-block{
   height:120px; border-radius:var(--r-sm); background:linear-gradient(135deg, rgba(115,93,255,0.35), rgba(115,93,255,0.06));
   margin-top:18px; border:1px solid rgba(197,22,225,0.25); position:relative; overflow:hidden;
@@ -286,6 +287,57 @@ nav.desknav a:hover::after{ width:100%; }
   background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cpolyline points='0,45 30,38 55,42 80,22 105,28 130,10 160,16 200,4' fill='none' stroke='%23C516E1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='200' cy='4' r='5' fill='%23C516E1'/%3E%3C/svg%3E");
   background-repeat:no-repeat; background-size:contain; background-position:center; opacity:0.9;
 }
+
+/* ---- Service-specific hero mockups (one per service icon) ---- */
+/* E-commerce: product grid + cart bar */
+.sv-mock-products{ display:-webkit-grid; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+.sv-mock-product{ background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:var(--r-sm); padding:9px; display:-webkit-flex; display:flex; flex-direction:column; gap:6px; }
+.sv-mock-thumb{ display:block; height:38px; border-radius:6px; background:linear-gradient(135deg, rgba(115,93,255,0.35), rgba(197,22,225,0.15)); }
+.sv-mock-cartbar{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); }
+.sv-mock-pill{ width:74px; height:20px; border-radius:var(--r-pill); background:var(--gradient-main); display:block; }
+
+/* Billing: invoice rows + total */
+.sv-mock-invoice{ display:-webkit-flex; display:flex; flex-direction:column; gap:12px; margin-bottom:16px; }
+.sv-mock-invoice-row{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; }
+.sv-mock-invoice-total{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); }
+
+/* Digital Marketing: social post grid */
+.sv-mock-social-grid{ display:-webkit-grid; display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.sv-mock-social-card{ background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:var(--r-sm); padding:9px; }
+.sv-mock-social-media{ display:block; height:46px; border-radius:6px; margin-bottom:8px; background:linear-gradient(135deg, rgba(197,22,225,0.32), rgba(255,213,34,0.18)); }
+.sv-mock-social-meta{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.sv-mock-heart{ width:12px; height:12px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; opacity:.8; }
+
+/* SEO: search bar + ranked results */
+.sv-mock-searchbar{
+  display:-webkit-flex; display:flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:var(--r-pill);
+  padding:10px 16px; margin-bottom:16px;
+}
+.sv-mock-search-icon{ width:14px; height:14px; border-radius:50%; border:2px solid rgba(255,255,255,0.4); flex-shrink:0; }
+.sv-mock-results{ display:-webkit-flex; display:flex; flex-direction:column; gap:14px; }
+.sv-mock-result{ display:-webkit-flex; display:flex; align-items:flex-start; gap:12px; }
+.sv-mock-result-text{ flex:1; min-width:0; }
+.sv-mock-rank{
+  width:22px; height:22px; border-radius:7px; background:var(--gradient-main); color:#fff; flex-shrink:0;
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:0.68rem; font-weight:700;
+}
+
+/* AI Promotional Videos: video frame + waveform */
+.sv-mock-videoframe{
+  height:120px; border-radius:var(--r-sm); margin-bottom:16px;
+  background:linear-gradient(135deg, rgba(115,93,255,0.25), rgba(197,22,225,0.12));
+  border:1px solid rgba(255,255,255,0.1);
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+}
+.sv-mock-play{
+  width:44px; height:44px; border-radius:50%; background:var(--gradient-main);
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--shadow-accent);
+}
+.sv-mock-waveform{ display:-webkit-flex; display:flex; align-items:center; gap:4px; height:34px; }
+.sv-mock-waveform i{ flex:1; background:linear-gradient(to top, var(--blue), var(--blue-bright)); border-radius:3px; opacity:.85; }
 /* Three small supporting capability labels — deliberately lightweight
    (not dashboard-style boxes) so the browser mockup stays the one clear
    focal point. Positioned around it without overlapping the copy column. */
@@ -1005,7 +1057,8 @@ footer ul a:hover{ color:var(--blue); }
 
 .service-hero{ padding-top:36px; }
 .service-hero .hero-visual{ height:300px; }
-.service-hero .card-site{ position:relative; top:0; right:0; width:100%; height:100%; }
+.service-hero .card-site{ position:relative; top:0; right:0; width:100%; height:100%; padding:22px; }
+.service-hero .browser-dots{ margin-bottom:16px; }
 
 .service-solution{ background:var(--paper); padding:0 6vw 120px; }
 

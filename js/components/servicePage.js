@@ -46,6 +46,105 @@
   /* ---------------------------------------------------------------------
    * SERVICE HERO
    * ------------------------------------------------------------------- */
+  /* ---------------------------------------------------------------------
+   * SERVICE-SPECIFIC HERO VISUALS — one distinct mockup per service icon,
+   * rendered inside the same browser-chrome frame. Falls back to the
+   * generic "website" layout for any icon not covered.
+   * ------------------------------------------------------------------- */
+  function buildScreenContent(service) {
+    // service.icon doesn't exist on servicesDetail entries — icon is
+    // defined once on services.items (the homepage list) and looked up
+    // here by slug, so there's no duplicated icon data between the two.
+    const match = C.services.items.find((s) => s.slug === service.slug);
+    const icon = match && match.icon;
+
+    if (icon === "cart") {
+      // E-commerce: small product grid + cart total bar.
+      return [
+        h("div", { class: "sv-mock-products" }, [1, 2, 3].map(() =>
+          h("div", { class: "sv-mock-product" }, [
+            h("span", { class: "sv-mock-thumb" }),
+            h("span", { class: "bl w80" }),
+            h("span", { class: "bl w40" }),
+          ])
+        )),
+        h("div", { class: "sv-mock-cartbar" }, [
+          h("span", { class: "bl w30" }),
+          h("span", { class: "sv-mock-pill" }),
+        ]),
+      ];
+    }
+
+    if (icon === "invoice") {
+      // Billing: invoice line items + total row.
+      return [
+        h("div", { class: "sv-mock-invoice" }, [1, 2, 3].map(() =>
+          h("div", { class: "sv-mock-invoice-row" }, [
+            h("span", { class: "bl w60" }),
+            h("span", { class: "bl w20" }),
+          ])
+        )),
+        h("div", { class: "sv-mock-invoice-total" }, [
+          h("span", { class: "bl w30" }),
+          h("span", { class: "sv-mock-pill" }),
+        ]),
+      ];
+    }
+
+    if (icon === "megaphone") {
+      // Digital Marketing: social post grid with engagement row.
+      return [
+        h("div", { class: "sv-mock-social-grid" }, [1, 2, 3, 4].map(() =>
+          h("div", { class: "sv-mock-social-card" }, [
+            h("span", { class: "sv-mock-social-media" }),
+            h("div", { class: "sv-mock-social-meta" }, [
+              h("span", { class: "bl w60" }),
+              h("span", { class: "sv-mock-heart" }),
+            ]),
+          ])
+        )),
+      ];
+    }
+
+    if (icon === "search") {
+      // SEO: search bar + ranked result rows.
+      return [
+        h("div", { class: "sv-mock-searchbar" }, [
+          h("span", { class: "sv-mock-search-icon" }),
+          h("span", { class: "bl w40" }),
+        ]),
+        h("div", { class: "sv-mock-results" }, [1, 2, 3].map((i) =>
+          h("div", { class: "sv-mock-result" }, [
+            h("span", { class: "sv-mock-rank" }, [String(i)]),
+            h("div", { class: "sv-mock-result-text" }, [
+              h("span", { class: "bl w60" }),
+              h("span", { class: "bl w80", style: "opacity:.5;margin-top:6px;" }),
+            ]),
+          ])
+        )),
+      ];
+    }
+
+    if (icon === "video") {
+      // AI Promotional Videos: video frame with play button + waveform.
+      return [
+        h("div", { class: "sv-mock-videoframe" }, [
+          h("span", { class: "sv-mock-play" }, [
+            h("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", html: '<path d="M6 4l14 8-14 8V4z" fill="#fff"/>' }),
+          ]),
+        ]),
+        h("div", { class: "sv-mock-waveform" }, [30, 55, 40, 70, 45, 65, 35, 60, 42].map((v) => h("i", { style: "height:" + v + "%" }))),
+      ];
+    }
+
+    // Default (website-development and any other/future icon): generic
+    // homepage-style layout — nav lines + large hero block.
+    return [
+      h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
+      h("div", { class: "hero-block" }),
+    ];
+  }
+
   const ServiceHero = {
     render(service, mountId) {
       const hero = service.hero;
@@ -64,12 +163,12 @@
         ]),
       ]);
 
-      // Generic abstract visual (not service-specific markup) reused across all service pages.
+      // Service-specific abstract visual — varies by service.icon so each
+      // of the 6 service pages feels distinct, not just a text swap.
       const visual = h("div", { class: "hero-visual reveal in" }, [
         h("div", { class: "stack-card card-site", style: "width:88%;" }, [
           h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
-          h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
-          h("div", { class: "hero-block" }),
+          ...buildScreenContent(service),
         ]),
       ]);
 
