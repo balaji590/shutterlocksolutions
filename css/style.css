@@ -22,6 +22,7 @@ a { background-color: transparent; text-decoration: none; color: inherit; }
    DESIGN TOKENS
    ========================================================================== */
 :root{
+  /* ---- Color ---- */
   --ink-0:#1A1015;
   --ink-1:#241820;
   --ink-2:#2E1F29;
@@ -36,8 +37,39 @@ a { background-color: transparent; text-decoration: none; color: inherit; }
   --blue-bright:#EC4899;
   --blue-dim:#7C3AED;
   --gradient-main:linear-gradient(135deg, #A855F7 0%, #EC4899 55%, #FB923C 100%);
-  --radius:16px;
+  --gradient-soft:linear-gradient(135deg, rgba(168,85,247,0.10), rgba(236,72,153,0.06));
+
+  /* ---- Type scale (8 steps) ---- */
+  --fs-display:clamp(2.4rem, 4.6vw, 3.9rem);
+  --fs-h2:clamp(1.9rem, 3.3vw, 2.6rem);
+  --fs-h3:1.35rem;
+  --fs-h4:1.08rem;
+  --fs-body-lg:1.05rem;
+  --fs-body:0.95rem;
+  --fs-sm:0.87rem;
+  --fs-xs:0.76rem;
+
+  /* ---- Radius scale ---- */
+  --r-sm:10px;
+  --r-md:16px;
+  --r-lg:24px;
+  --r-pill:100px;
+  --radius:16px; /* legacy alias — keep so existing rules don't break */
+
+  /* ---- Elevation scale ---- */
+  --shadow-sm:0 4px 14px -6px rgba(32,20,23,0.10);
+  --shadow-md:0 16px 34px -18px rgba(32,20,23,0.18);
+  --shadow-lg:0 30px 60px -24px rgba(32,20,23,0.28);
+  --shadow-accent:0 14px 30px -12px rgba(168,85,247,0.45);
+
+  /* ---- Spacing / layout ---- */
+  --section-y:clamp(72px, 9vw, 130px);
+  --gutter:6vw;
+  --container:1180px;
   --header-h:78px;
+
+  /* ---- Focus ---- */
+  --focus-ring:2px solid var(--blue);
 }
 
 html{ -webkit-scroll-behavior: smooth; scroll-behavior: smooth; }
@@ -57,18 +89,30 @@ h1,h2,h3,h4,.disp{ font-family:'Sora',-apple-system,BlinkMacSystemFont,sans-seri
 ::selection{ background:var(--blue); color:#fff; }
 
 a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
-  outline:2px solid var(--blue); outline-offset:3px;
+  outline:var(--focus-ring); outline-offset:3px;
 }
 /* Fallback focus ring for browsers without :focus-visible support */
 a:focus, button:focus, input:focus, textarea:focus, select:focus{
-  outline:2px solid var(--blue); outline-offset:3px;
+  outline:var(--focus-ring); outline-offset:3px;
 }
 
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; transition-delay:0s !important; scroll-behavior:auto !important; }
 }
 
-.wrap{ max-width:1240px; margin:0 auto; padding-left:6vw; padding-right:6vw; }
+.wrap{ max-width:var(--container); margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); }
+
+/* Every full-width section shares the same vertical rhythm. Horizontal
+   padding uses max() so the section keeps its full-bleed background while
+   its content stays within one container width on very wide screens.
+   This is grid/flex-safe (unlike constraining children with max-width). */
+.problem, .services, .quiz, .why, .work, .transform, .faq, .contact, .process, .cta-section, .hero{
+  padding-left:max(var(--gutter), calc((100% - var(--container)) / 2));
+  padding-right:max(var(--gutter), calc((100% - var(--container)) / 2));
+}
+.problem, .services, .quiz, .why, .work, .transform, .faq, .contact, .process{
+  padding-top:var(--section-y); padding-bottom:var(--section-y);
+}
 
 /* ==========================================================================
    NAV
@@ -157,7 +201,7 @@ nav.desknav a:hover::after{ width:100%; }
   background:rgba(168,85,247,0.08); margin-bottom:28px;
 }
 .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; }
-.hero h1{ font-size:clamp(2.3rem, 4.4vw, 3.8rem); font-weight:700; line-height:1.08; margin-bottom:26px; }
+.hero h1{ font-size:var(--fs-display); font-weight:700; line-height:1.08; margin-bottom:26px; }
 .hero h1 .accent{
   background:var(--gradient-main); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--blue-bright);
   display:inline-block; transition:opacity .26s ease, transform .26s ease;
@@ -258,11 +302,18 @@ nav.desknav a:hover::after{ width:100%; }
 /* ==========================================================================
    PROBLEM -> SOLUTION
    ========================================================================== */
-.problem{ background:var(--paper); padding:120px 6vw; }
-.p-head{ max-width:680px; margin-bottom:56px; }
-.p-head .tag{ color:var(--blue); font-size:0.76rem; font-weight:700; margin-bottom:16px; display:block; }
-.p-head h2{ font-size:clamp(1.8rem,3.2vw,2.5rem); font-weight:700; line-height:1.2; color:var(--text-dark); }
-.p-head p{ color:var(--text-soft); margin-top:14px; font-size:1rem; line-height:1.6; }
+.problem{ background:var(--paper); }
+.p-head{ max-width:720px; margin-bottom:clamp(40px, 5vw, 64px); }
+.p-head .tag{
+  color:var(--blue); font-size:var(--fs-xs); font-weight:700; margin-bottom:18px;
+  display:-webkit-inline-flex; display:inline-flex; align-items:center;
+  padding:7px 15px; border-radius:var(--r-pill);
+  background:var(--gradient-soft); border:1px solid rgba(168,85,247,0.18);
+}
+.p-head h2{ font-size:var(--fs-h2); font-weight:700; line-height:1.16; color:var(--text-dark); letter-spacing:-0.02em; }
+.p-head p{ color:var(--text-soft); margin-top:16px; font-size:var(--fs-body-lg); line-height:1.65; }
+/* Centered section headers keep the tag pill centered too. */
+.services .p-head, .quiz .p-head, .work .p-head, .transform .p-head, .faq .p-head{ text-align:center; }
 .problem-grid{ display:-webkit-grid; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--paper-line); border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden; margin-bottom:40px; }
 .problem-item{ background:#fff; padding:26px 28px; display:-webkit-flex; display:flex; align-items:flex-start; gap:14px; }
 .problem-item .x{ width:22px; height:22px; border-radius:50%; background:rgba(220,38,38,0.08); color:#DC2626; flex-shrink:0; display:-webkit-flex; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800; margin-top:2px; }
@@ -274,7 +325,7 @@ nav.desknav a:hover::after{ width:100%; }
 /* ==========================================================================
    SERVICES
    ========================================================================== */
-.services{ background:#fff; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); padding:120px 6vw; }
+.services{ background:#fff; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); }
 .services .p-head{ margin-left:auto; margin-right:auto; text-align:center; }
 .service-list{
   display:-webkit-flex; display:flex; flex-wrap:wrap; justify-content:center; gap:14px;
@@ -312,11 +363,11 @@ nav.desknav a:hover::after{ width:100%; }
 /* ==========================================================================
    QUIZ — "Which service do I need?"
    ========================================================================== */
-.quiz{ background:#fff; padding:100px 6vw; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); }
+.quiz{ background:#fff; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); }
 .quiz .p-head{ margin-left:auto; margin-right:auto; text-align:center; margin-bottom:44px; }
 .quiz-card{
-  max-width:600px; margin:0 auto; background:var(--paper); border:1px solid var(--paper-line);
-  border-radius:var(--radius); padding:40px 36px;
+  max-width:620px; margin:0 auto; background:#fff; border:1px solid var(--paper-line);
+  border-radius:var(--r-lg); padding:44px 38px; box-shadow:var(--shadow-md);
 }
 .quiz-progress{ display:-webkit-flex; display:flex; gap:8px; justify-content:center; margin-bottom:24px; }
 .quiz-progress .dot{ width:8px; height:8px; border-radius:50%; background:var(--paper-line); transition:background .3s ease, transform .3s ease; }
@@ -349,30 +400,49 @@ nav.desknav a:hover::after{ width:100%; }
   .quiz-result-actions a{ width:100%; text-align:center; }
 }
 
-.why{ background:var(--paper); padding:120px 6vw; }
+.why{ background:var(--paper); }
 .why-grid{ display:-webkit-grid; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
-.why-card{ background:#fff; border:1px solid var(--paper-line); border-radius:var(--radius); padding:32px 26px; transition:transform .35s cubic-bezier(.16,.8,.24,1), box-shadow .35s cubic-bezier(.16,.8,.24,1), border-color .35s ease; }
-.why-card:hover{ transform:translateY(-6px); box-shadow:0 24px 40px -20px rgba(10,15,28,0.15); border-color:rgba(168,85,247,0.25); }
-.why-card .wn{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--blue); margin-bottom:20px; }
+.why-card{
+  background:#fff; border:1px solid var(--paper-line); border-radius:var(--r-lg); padding:36px 30px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .35s cubic-bezier(.16,.8,.24,1), box-shadow .35s cubic-bezier(.16,.8,.24,1), border-color .35s ease;
+}
+.why-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); border-color:rgba(168,85,247,0.25); }
+.why-card .wn{
+  font-family:'JetBrains Mono',monospace; font-size:var(--fs-xs); font-weight:700; color:#fff;
+  width:40px; height:40px; border-radius:12px; background:var(--gradient-main);
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+  margin-bottom:22px; box-shadow:var(--shadow-accent);
+}
 .why-card h4{ font-size:1.08rem; font-weight:700; color:var(--text-dark); margin-bottom:10px; }
 .why-card p{ font-size:0.9rem; color:var(--text-soft); line-height:1.55; }
 
 /* ==========================================================================
    PROCESS
    ========================================================================== */
-.process{ background:var(--ink-0); color:#fff; padding:120px 6vw; }
-.process .p-head h2{ color:#fff; } .process .p-head .tag{ color:var(--blue-bright); }
+.process{ background:var(--ink-0); color:#fff; }
+.process .p-head h2{ color:#fff; }
+.process .p-head .tag{
+  color:var(--blue-bright);
+  background:rgba(236,72,153,0.10);
+  border-color:rgba(236,72,153,0.28);
+}
 .process-track{ position:relative; display:-webkit-grid; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
-.process-track::before{ content:''; position:absolute; top:19px; left:5%; right:5%; height:1px; background:var(--line-dark); z-index:0; }
+.process-track::before{ content:''; position:absolute; top:21px; left:5%; right:5%; height:1px; background:var(--line-dark); z-index:0; }
 .process-node{ position:relative; z-index:1; }
-.process-node .pdot{ width:38px; height:38px; border-radius:50%; background:var(--ink-2); border:1px solid var(--line-dark); display:-webkit-flex; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--blue-bright); margin-bottom:24px; }
+.process-node .pdot{
+  width:42px; height:42px; border-radius:12px; background:var(--gradient-main); border:none;
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:var(--fs-xs); font-weight:700; color:#fff;
+  margin-bottom:24px; box-shadow:var(--shadow-accent);
+}
 .process-node h4{ font-size:1.1rem; font-weight:700; margin-bottom:10px; }
 .process-node p{ font-size:0.88rem; color:rgba(255,255,255,0.55); line-height:1.55; }
 
 /* ==========================================================================
    WORK
    ========================================================================== */
-.work{ background:#fff; padding:120px 6vw; text-align:center; border-bottom:1px solid var(--paper-line); }
+.work{ background:#fff; text-align:center; border-bottom:1px solid var(--paper-line); }
 .work .p-head{ margin:0 auto 40px; text-align:center; }
 .work-empty{ max-width:620px; margin:0 auto; padding:60px 40px; border:1px dashed var(--paper-line); border-radius:var(--radius); background:linear-gradient(160deg, #fff, var(--paper)); }
 .work-empty .wmark{ width:52px; height:52px; margin:0 auto 24px; border-radius:14px; background:rgba(168,85,247,0.08); display:-webkit-flex; display:flex; align-items:center; justify-content:center; }
@@ -380,10 +450,11 @@ nav.desknav a:hover::after{ width:100%; }
 .work-empty p{ font-size:0.95rem; color:var(--text-soft); line-height:1.6; max-width:440px; margin:0 auto 26px; }
 .work-grid{ display:-webkit-grid; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; text-align:left; }
 .work-card{
-  background:var(--paper); border:1px solid var(--paper-line); border-radius:var(--radius); padding:28px;
+  background:#fff; border:1px solid var(--paper-line); border-radius:var(--r-lg); padding:32px;
+  box-shadow:var(--shadow-sm);
   display:block; transition:transform .3s cubic-bezier(.16,.8,.24,1), box-shadow .3s cubic-bezier(.16,.8,.24,1), border-color .3s ease;
 }
-a.work-card:hover{ transform:translateY(-5px); box-shadow:0 22px 36px -20px rgba(10,15,28,0.15); border-color:rgba(168,85,247,0.3); }
+a.work-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); border-color:rgba(168,85,247,0.3); }
 .work-card h3{ font-size:1.15rem; font-weight:700; color:var(--text-dark); margin-bottom:10px; }
 .work-card p{ font-size:0.92rem; color:var(--text-soft); line-height:1.55; }
 .work-card-link{ display:inline-block; margin-top:16px; font-size:0.85rem; font-weight:700; color:var(--blue); }
@@ -391,7 +462,7 @@ a.work-card:hover{ transform:translateY(-5px); box-shadow:0 22px 36px -20px rgba
 /* ==========================================================================
    TRANSFORMATION
    ========================================================================== */
-.transform{ background:var(--paper); padding:120px 6vw; }
+.transform{ background:var(--paper); }
 .transform .p-head{ text-align:center; margin-left:auto; margin-right:auto; }
 .tf-row{ display:-webkit-grid; display:grid; grid-template-columns:1fr auto 1fr; gap:20px; align-items:center; }
 .tf-panel{ border-radius:var(--radius); padding:40px 32px; min-height:260px; }
@@ -411,7 +482,7 @@ a.work-card:hover{ transform:translateY(-5px); box-shadow:0 22px 36px -20px rgba
 /* ==========================================================================
    FAQ
    ========================================================================== */
-.faq{ background:#fff; padding:120px 6vw; border-top:1px solid var(--paper-line); }
+.faq{ background:#fff; border-top:1px solid var(--paper-line); }
 .faq .p-head{ margin-left:auto; margin-right:auto; text-align:center; }
 .faq-list{ max-width:800px; margin:0 auto; border-top:1px solid var(--paper-line); }
 .faq-item{ border-bottom:1px solid var(--paper-line); }
@@ -445,14 +516,14 @@ a.work-card:hover{ transform:translateY(-5px); box-shadow:0 22px 36px -20px rgba
 .cta-section{ background:var(--ink-0); color:#fff; padding:130px 6vw; text-align:center; position:relative; overflow:hidden; }
 .cta-section::before{ content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 50% 0%, rgba(168,85,247,0.25), transparent 65%); }
 .cta-section .inner{ position:relative; z-index:2; max-width:680px; margin:0 auto; }
-.cta-section h2{ font-size:clamp(2rem,4vw,3rem); font-weight:700; margin-bottom:20px; }
+.cta-section h2{ font-size:var(--fs-h2); font-weight:700; margin-bottom:20px; }
 .cta-section p{ color:rgba(255,255,255,0.6); font-size:1.05rem; margin-bottom:40px; }
 .cta-actions{ display:-webkit-flex; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
 
 /* ==========================================================================
    CONTACT
    ========================================================================== */
-.contact{ background:#fff; padding:120px 6vw; display:-webkit-grid; display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; }
+.contact{ background:#fff; display:-webkit-grid; display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; }
 .contact-details{ display:-webkit-flex; display:flex; flex-direction:column; }
 .cdrow{ display:-webkit-flex; display:flex; gap:16px; padding:20px 0; border-bottom:1px solid var(--paper-line); align-items:center; }
 .cdrow:first-of-type{ padding-top:0; }

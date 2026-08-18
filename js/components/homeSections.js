@@ -867,8 +867,11 @@
    * ------------------------------------------------------------------- */
   window.SLSPage = {
     components: [
+      // Order follows the target scroll-story:
+      // Hero -> Trust strip -> Problem -> Services -> Quiz -> Why ->
+      // Portfolio -> Process -> Benefits -> FAQ -> CTA -> Contact -> Footer
       HeaderComponent, HeroComponent, ValueStripComponent, ProblemComponent,
-      ServicesComponent, QuizComponent, WhyComponent, ProcessComponent, WorkComponent,
+      ServicesComponent, QuizComponent, WhyComponent, WorkComponent, ProcessComponent,
       TransformComponent, FaqComponent, CtaComponent, ContactComponent, FooterComponent,
       QuickEnquiryComponent,
     ],
