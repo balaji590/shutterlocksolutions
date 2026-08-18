@@ -503,23 +503,25 @@
               h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
               h("div", { class: "browser-url" }, [p.previewUrl || ""]),
             ]),
-            h("div", { class: "cs-screen", "aria-hidden": "true" }, [
-              h("div", { class: "cs-shop-head" }, [
-                h("span", { class: "cs-line w30" }),
-                h("span", { class: "cs-pillbar" }),
-              ]),
-              h("div", { class: "cs-products" }, [1, 2, 3, 4, 5, 6].map((i) =>
-                h("div", { class: "cs-product" }, [
-                  h("span", { class: "cs-thumb" }),
-                  h("span", { class: "cs-line w80" }),
-                  h("span", { class: "cs-line w40" }),
-                ])
-              )),
-              h("div", { class: "cs-cartbar" }, [
-                h("span", { class: "cs-line w30" }),
-                h("span", { class: "cs-cta" }),
-              ]),
-            ]),
+            p.previewImage
+              ? h("img", { class: "cs-screenshot", src: p.previewImage, alt: p.previewImageAlt || (p.title + " website screenshot"), loading: "lazy" })
+              : h("div", { class: "cs-screen", "aria-hidden": "true" }, [
+                  h("div", { class: "cs-shop-head" }, [
+                    h("span", { class: "cs-line w30" }),
+                    h("span", { class: "cs-pillbar" }),
+                  ]),
+                  h("div", { class: "cs-products" }, [1, 2, 3, 4, 5, 6].map((i) =>
+                    h("div", { class: "cs-product" }, [
+                      h("span", { class: "cs-thumb" }),
+                      h("span", { class: "cs-line w80" }),
+                      h("span", { class: "cs-line w40" }),
+                    ])
+                  )),
+                  h("div", { class: "cs-cartbar" }, [
+                    h("span", { class: "cs-line w30" }),
+                    h("span", { class: "cs-cta" }),
+                  ]),
+                ]),
           ]),
         ]);
 

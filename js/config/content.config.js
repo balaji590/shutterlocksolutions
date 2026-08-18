@@ -205,6 +205,8 @@ window.SITE_CONTENT = {
           { label: "Focus", value: "Web Development + SEO" },
         ],
         previewUrl: "ecoconnex.in",
+        previewImage: "assets/ecoconnex-preview.jpg",
+        previewImageAlt: "Screenshot of the Eco Connex homepage — an EV spare parts online store with product categories, a hero banner and shop-now call to action.",
         link: "https://ecoconnex.in",
         ctaLabel: "View Project",
       },

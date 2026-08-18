@@ -593,6 +593,9 @@ nav.desknav a:hover::after{ width:100%; }
 .case-study:hover .cs-frame{ transform:translateY(-6px); }
 /* Stylised catalogue screen — an abstract representation, not a screenshot. */
 .cs-screen{ padding:18px; background:var(--ink-0); }
+/* Real project screenshot — sits directly under the browser bar, same
+   frame as the abstract fallback so both render identically otherwise. */
+.cs-screenshot{ display:block; width:100%; height:auto; }
 .cs-shop-head{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
 .cs-pillbar{ width:74px; height:16px; border-radius:var(--r-pill); background:var(--gradient-main); opacity:.85; }
 .cs-line{ display:block; height:8px; border-radius:4px; background:rgba(255,255,255,0.11); }
