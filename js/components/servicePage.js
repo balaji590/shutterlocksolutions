@@ -110,7 +110,7 @@
           h("div", {}, [
             h("span", { class: "tag mono", style: "color:var(--blue-bright);display:block;margin-bottom:14px;" }, [s.tag]),
             h("h3", {}, [s.heading]),
-            h("p", { style: "color:rgba(255,255,255,0.65);font-size:1rem;line-height:1.65;margin-top:16px;max-width:640px;font-weight:400;" }, [s.body]),
+            h("p", { style: "color:var(--text-soft);font-size:1rem;line-height:1.65;margin-top:16px;max-width:640px;font-weight:400;" }, [s.body]),
           ]),
         ]),
       ]);

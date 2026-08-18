@@ -580,7 +580,7 @@
         body = h("div", { class: "work-empty reveal" }, [
           h("div", { class: "wmark" }, [
             h("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", html:
-              '<path d="M12 2v20M2 12h20" stroke="#A855F7" stroke-width="1.6"/>' }),
+              '<path d="M12 2v20M2 12h20" stroke="#735DFF" stroke-width="1.6"/>' }),
           ]),
           h("h3", {}, [C.work.emptyState.title]),
           h("p", {}, [C.work.emptyState.description]),
@@ -724,15 +724,15 @@
 
       const details = h("div", { class: "contact-details reveal" }, [
         h("div", { class: "cdrow" }, [
-          icon('<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="#A855F7" stroke-width="1.6"/>'),
+          icon('<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="#735DFF" stroke-width="1.6"/>'),
           h("div", {}, [h("small", {}, ["WhatsApp"]), h("a", { href: whatsappLink(), target: "_blank", rel: "noopener" }, [C.contact.phoneDisplay])]),
         ]),
         h("div", { class: "cdrow" }, [
-          icon('<path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 1" stroke="#A855F7" stroke-width="1.6" stroke-linejoin="round"/>'),
+          icon('<path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 1" stroke="#735DFF" stroke-width="1.6" stroke-linejoin="round"/>'),
           h("div", {}, [h("small", {}, ["Phone"]), h("a", { href: "tel:" + C.contact.phoneE164 }, [C.contact.phoneDisplay])]),
         ]),
         h("div", { class: "cdrow" }, [
-          icon('<rect x="3" y="5" width="18" height="14" rx="2" stroke="#A855F7" stroke-width="1.6"/><path d="M3 7l9 6 9-6" stroke="#A855F7" stroke-width="1.6"/>'),
+          icon('<rect x="3" y="5" width="18" height="14" rx="2" stroke="#735DFF" stroke-width="1.6"/><path d="M3 7l9 6 9-6" stroke="#735DFF" stroke-width="1.6"/>'),
           h("div", {}, [h("small", {}, ["Email"]), h("a", { href: "mailto:" + C.contact.email }, [C.contact.email])]),
         ]),
       ]);
@@ -741,7 +741,7 @@
         ? h("ul", { class: "contact-reassure reveal" }, C.contactSection.reassurance.map((r) =>
             h("li", {}, [
               h("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false",
-                html: '<path d="M4 12.5l5 5L20 6.5" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' }),
+                html: '<path d="M4 12.5l5 5L20 6.5" stroke="#735DFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' }),
               r,
             ])
           ))
@@ -859,7 +859,7 @@
       const footer = h("footer", {}, [
         h("div", { class: "foot-grid" }, [
           h("div", { class: "foot-brand" }, [
-            h("div", { class: "logo", style: "color:#fff;" }, [logoImg(assetPrefix), C.brand.name]),
+            h("div", { class: "logo" }, [logoImg(assetPrefix), C.brand.name]),
             h("p", {}, [C.brand.tagline]),
           ]),
           h("div", {}, [
