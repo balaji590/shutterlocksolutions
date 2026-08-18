@@ -132,7 +132,7 @@
         h("div", { class: "why-grid" }, f.items.map((item) =>
           h("div", { class: "why-card reveal" }, [
             h("div", { class: "wn" }, [item.num]),
-            h("h4", {}, [item.title]),
+            h("h3", {}, [item.title]),
             h("p", {}, [item.description]),
           ])
         )),

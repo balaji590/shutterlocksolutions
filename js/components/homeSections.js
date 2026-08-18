@@ -450,7 +450,7 @@
         h("div", { class: "why-grid" }, C.why.items.map((w) =>
           h("div", { class: "why-card reveal" }, [
             h("div", { class: "wn" }, [w.num]),
-            h("h4", {}, [w.title]),
+            h("h3", {}, [w.title]),
             h("p", {}, [w.description]),
           ])
         )),
@@ -478,7 +478,7 @@
               h("span", { class: "pnum" }, [s.num]),
             ]),
             h("div", { class: "pn-body" }, [
-              h("h4", {}, [s.title]),
+              h("h3", {}, [s.title]),
               s.label ? h("span", { class: "pn-label" }, [s.label]) : null,
               h("p", {}, [s.description]),
             ]),
@@ -617,16 +617,16 @@
         h("div", { class: "tf-row reveal" }, [
           h("div", { class: "tf-panel tf-before" }, [
             h("span", { class: "lbl mono" }, [C.transform.before.label]),
-            h("h4", {}, [C.transform.before.title]),
+            h("h3", {}, [C.transform.before.title]),
             list(C.transform.before.points),
           ]),
-          h("div", { class: "tf-arrow" }, [
+          h("div", { class: "tf-arrow", "aria-hidden": "true" }, [
             h("svg", { width: "18", height: "18", viewBox: "0 0 18 18", html:
               '<path d="M3 9h12M11 5l4 4-4 4" stroke="#fff" stroke-width="1.8" fill="none"/>' }),
           ]),
           h("div", { class: "tf-panel tf-after" }, [
             h("span", { class: "lbl mono" }, [C.transform.after.label]),
-            h("h4", {}, [C.transform.after.title]),
+            h("h3", {}, [C.transform.after.title]),
             list(C.transform.after.points),
           ]),
         ]),
@@ -866,15 +866,15 @@
             h("p", {}, [C.brand.tagline]),
           ]),
           h("div", {}, [
-            h("h5", {}, ["Services"]),
+            h("h3", {}, ["Services"]),
             h("ul", {}, C.services.items.map((s) => h("li", {}, [h("a", { href: basePath ? "index.html?service=" + s.slug : "services/index.html?service=" + s.slug }, [s.title])]))),
           ]),
           h("div", {}, [
-            h("h5", {}, ["Quick Links"]),
+            h("h3", {}, ["Quick Links"]),
             h("ul", {}, C.footer.quickLinks.map((l) => h("li", {}, [h("a", { href: linkHref(l.href) }, [l.label])]))),
           ]),
           h("div", {}, [
-            h("h5", {}, ["Contact"]),
+            h("h3", {}, ["Contact"]),
             h("ul", {}, [
               h("li", {}, [h("a", { href: "tel:" + C.contact.phoneE164 }, [C.contact.phoneDisplay])]),
               h("li", {}, [h("a", { href: "mailto:" + C.contact.email }, [C.contact.email])]),
@@ -889,7 +889,7 @@
       mount("footer-mount", footer);
 
       const waFloat = h("a", { class: "wa-float", href: whatsappLink(), target: "_blank", rel: "noopener", "aria-label": "Chat on WhatsApp" }, [
-        h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", html: '<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="#fff" stroke-width="1.8"/>' }),
+        h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false", html: '<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="#fff" stroke-width="1.8"/>' }),
         h("span", { class: "wa-text" }, ["Let's Talk"]),
       ]);
       document.body.appendChild(waFloat);
@@ -899,11 +899,11 @@
       // once this bar is present, so there's no duplicate WhatsApp CTA.
       const mobileBar = h("div", { class: "mobile-cta-bar" }, [
         h("a", { href: "tel:" + C.contact.phoneE164, class: "mcb-btn mcb-call" }, [
-          h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", html: '<path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 1" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>' }),
+          h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false", html: '<path d="M3 5c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 1" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>' }),
           "Call Now",
         ]),
         h("a", { href: whatsappLink(), target: "_blank", rel: "noopener", class: "mcb-btn mcb-wa" }, [
-          h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", html: '<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="currentColor" stroke-width="1.8"/>' }),
+          h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false", html: '<path d="M20.5 3.5A11 11 0 003.7 17.4L3 21l3.7-1a11 11 0 0013.8-16.5z" stroke="currentColor" stroke-width="1.8"/>' }),
           "WhatsApp",
         ]),
       ]);

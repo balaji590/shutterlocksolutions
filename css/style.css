@@ -476,7 +476,7 @@ nav.desknav a:hover::after{ width:100%; }
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
   margin-bottom:22px; box-shadow:var(--shadow-accent);
 }
-.why-card h4{ font-size:1.08rem; font-weight:700; color:var(--text-dark); margin-bottom:10px; }
+.why-card h3{ font-size:var(--fs-h4); font-weight:700; color:var(--text-dark); margin-bottom:10px; }
 .why-card p{ font-size:0.9rem; color:var(--text-soft); line-height:1.55; }
 
 /* ==========================================================================
@@ -525,7 +525,7 @@ nav.desknav a:hover::after{ width:100%; }
   background:var(--gradient-main); -webkit-background-clip:text; background-clip:text;
   -webkit-text-fill-color:transparent; color:var(--blue-bright); opacity:.9;
 }
-.process-node h4{ font-size:var(--fs-h4); font-weight:700; margin-bottom:6px; letter-spacing:-0.01em; }
+.process-node h3{ font-size:var(--fs-h4); font-weight:700; margin-bottom:6px; letter-spacing:-0.01em; }
 .pn-label{
   display:block; font-size:var(--fs-xs); font-weight:600; color:var(--blue-bright);
   margin-bottom:10px;
@@ -656,7 +656,7 @@ a.work-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); bord
 .tf-after{ background:var(--ink-0); color:#fff; }
 .tf-after .lbl{ color:var(--blue-bright); }
 .tf-panel .lbl{ font-size:0.75rem; font-weight:700; margin-bottom:20px; display:block; }
-.tf-panel h4{ font-size:1.3rem; font-weight:700; margin-bottom:16px; }
+.tf-panel h3{ font-size:var(--fs-h3); font-weight:700; margin-bottom:16px; }
 .tf-panel ul{ display:-webkit-flex; display:flex; flex-direction:column; gap:10px; }
 .tf-before ul li{ font-size:0.9rem; color:var(--text-soft); padding-left:20px; position:relative; }
 .tf-before ul li::before{ content:'—'; position:absolute; left:0; color:var(--text-faint); }
@@ -734,8 +734,9 @@ a.work-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); bord
 .cdrow .ic{ width:44px; height:44px; border-radius:12px; background:rgba(168,85,247,0.08); display:-webkit-flex; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .cdrow small{ display:block; font-size:var(--fs-xs); color:var(--text-faint); font-weight:600; margin-bottom:3px; text-transform:uppercase; letter-spacing:.05em; }
 /* The email address has no natural break point — allow it to wrap on
-   narrow viewports rather than widening the layout. */
-.cdrow a{ font-size:var(--fs-body-lg); font-weight:700; color:var(--text-dark); overflow-wrap:anywhere; }
+   narrow viewports rather than widening the layout. `break-word` first as
+   a broadly-supported fallback (Safari <15.4 doesn't know `anywhere`). */
+.cdrow a{ font-size:var(--fs-body-lg); font-weight:700; color:var(--text-dark); overflow-wrap:break-word; overflow-wrap:anywhere; }
 .cdrow a:hover{ color:var(--blue); }
 
 .contact-reassure{ list-style:none; margin-top:28px; display:-webkit-flex; display:flex; flex-direction:column; gap:12px; }
@@ -807,7 +808,7 @@ footer{ background:var(--ink-0); color:rgba(255,255,255,0.6); padding:70px 6vw 3
 .foot-grid{ display:-webkit-grid; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:50px; border-bottom:1px solid var(--line-dark); }
 .foot-brand .logo{ margin-bottom:16px; }
 .foot-brand p{ font-size:0.9rem; max-width:280px; line-height:1.6; }
-footer h5{ color:#fff; font-size:0.8rem; font-weight:700; margin-bottom:18px; text-transform:uppercase; letter-spacing:.05em; }
+footer h3{ color:#fff; font-size:var(--fs-xs); font-weight:700; margin-bottom:18px; text-transform:uppercase; letter-spacing:.05em; }
 footer ul{ display:-webkit-flex; display:flex; flex-direction:column; gap:11px; }
 footer ul a{ font-size:0.88rem; transition:color .25s; }
 footer ul a:hover{ color:#fff; }
