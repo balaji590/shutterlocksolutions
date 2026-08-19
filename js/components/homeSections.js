@@ -1073,6 +1073,24 @@
         if (e.key === "Escape" && panel.classList.contains("open")) close();
       });
 
+      // Auto-open once per browser session, shortly after the visitor
+      // arrives — not on every page. If they close it (✕, overlay click,
+      // or Escape — all wired above), it stays closed for the rest of the
+      // session; the side tab remains so they can still open it manually.
+      const AUTO_OPEN_KEY = "sls_qe_auto_shown";
+      try {
+        if (!sessionStorage.getItem(AUTO_OPEN_KEY)) {
+          setTimeout(() => {
+            if (!panel.classList.contains("open")) open();
+            try { sessionStorage.setItem(AUTO_OPEN_KEY, "1"); } catch (err) {}
+          }, 4000);
+        }
+      } catch (err) {
+        // sessionStorage unavailable (e.g. strict privacy mode) — fall back
+        // to a one-time auto-open for this page load only.
+        setTimeout(() => { if (!panel.classList.contains("open")) open(); }, 4000);
+      }
+
       const form = panel.querySelector(".qe-form");
       const status = form.querySelector(".form-status");
       const q = C.quickEnquiry;
