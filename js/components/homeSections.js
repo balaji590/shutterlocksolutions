@@ -325,6 +325,87 @@
   };
 
   /* ---------------------------------------------------------------------
+   * JOURNEY — curved digital-growth roadmap (replaces "The Reality" in
+   * the render order below). One continuous SVG path connects four large
+   * glass nodes in a zigzag flow, with alternating text either side.
+   * ------------------------------------------------------------------- */
+  const JOURNEY_ICONS = {
+    compass: '<circle cx="11" cy="11" r="8.2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M14.3 7.7l-2 4.6-4.6 2 2-4.6 4.6-2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>',
+    route: '<circle cx="5.5" cy="6" r="2.2" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="16.5" cy="16" r="2.2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M5.5 8.2v2.3a4 4 0 0 0 4 4h3.3a4 4 0 0 1 4 4v-.3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-dasharray="1 3.2"/>',
+    code: '<path d="M7.5 6.5L3 11l4.5 4.5M14.5 6.5L19 11l-4.5 4.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    rocket: '<path d="M11 3c2.4 1.2 4 3.7 4 7.2 0 2.4-.9 4.4-2 5.8h-4c-1.1-1.4-2-3.4-2-5.8C7 6.7 8.6 4.2 11 3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><circle cx="11" cy="9.8" r="1.4" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M8.3 15.8L6 19M13.7 15.8L16 19M9.5 17.5v2.8M12.5 17.5v2.8" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+  };
+  function journeyIcon(key) {
+    return h("svg", { viewBox: "0 0 22 22", width: "30", height: "30", fill: "none", "aria-hidden": "true", focusable: "false", html: JOURNEY_ICONS[key] || JOURNEY_ICONS.compass });
+  }
+
+  const JourneyComponent = {
+    render() {
+      const j = C.journey;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // Desktop node positions (matched 1:1 with the curve path below) —
+      // an alternating right/left/right/left zigzag, same flow pattern as
+      // the reference composition, redrawn for this content and palette.
+      const nodePos = [
+        { x: 860, y: 130, side: "right" },
+        { x: 340, y: 370, side: "left" },
+        { x: 860, y: 560, side: "right" },
+        { x: 340, y: 790, side: "left" },
+      ];
+      const pathD = "M860,130 C773,170 340,298 340,370 C340,442 860,490 860,560 C860,630 427,752 340,790";
+
+      const svgRoute = h("svg", {
+        class: "journey-route", viewBox: "0 0 1200 900", preserveAspectRatio: "none",
+        "aria-hidden": "true", focusable: "false",
+      }, [
+        h("defs", {}, [
+          h("linearGradient", { id: "journeyGrad", x1: "0", y1: "0", x2: "1", y2: "1" }, [
+            h("stop", { offset: "0%", "stop-color": "#735DFF" }),
+            h("stop", { offset: "38%", "stop-color": "#C516E1" }),
+            h("stop", { offset: "70%", "stop-color": "#FF4B6C" }),
+            h("stop", { offset: "100%", "stop-color": "#FFD522" }),
+          ]),
+        ]),
+        h("path", { class: "journey-route-glow", d: pathD }),
+        h("path", { class: "journey-route-line", d: pathD }),
+        h("circle", { class: "journey-route-dot", r: "6" }, reduceMotion ? [] : [
+          h("animateMotion", { dur: "9s", repeatCount: "indefinite", path: pathD }),
+        ]),
+      ]);
+
+      const nodes = j.steps.map((step, i) => {
+        const pos = nodePos[i];
+        return h("div", {
+          class: "journey-node reveal journey-node-" + step.num + " journey-text-" + pos.side,
+          style: "left:" + (pos.x / 1200 * 100) + "%;top:" + (pos.y / 900 * 100) + "%;",
+        }, [
+          h("div", { class: "journey-circle" }, [
+            h("span", { class: "journey-badge" }, [step.num]),
+            journeyIcon(step.icon),
+          ]),
+          h("div", { class: "journey-copy" }, [
+            h("h3", {}, [step.title]),
+            h("p", {}, [step.description]),
+          ]),
+        ]);
+      });
+
+      const section = h("section", { class: "journey", id: "about-problem" }, [
+        h("div", { class: "journey-blob journey-blob-1", "aria-hidden": "true" }),
+        h("div", { class: "journey-blob journey-blob-2", "aria-hidden": "true" }),
+        h("div", { class: "journey-grid-texture", "aria-hidden": "true" }),
+        h("div", { class: "p-head reveal" }, [
+          h("span", { class: "tag mono" }, [j.tag]),
+          h("h2", {}, [j.heading.replace(j.accentWord, "").trim() + " ", h("span", { class: "journey-accent" }, [j.accentWord])]),
+          h("p", {}, [j.lead]),
+        ]),
+        h("div", { class: "journey-map" }, [svgRoute, ...nodes]),
+      ]);
+      mount("problem-mount", section);
+    },
+  };
+
+  /* ---------------------------------------------------------------------
    * SERVICES
    * ------------------------------------------------------------------- */
   /* One small dark UI mockup per service icon — the same visual language
@@ -1153,9 +1234,9 @@
   window.SLSPage = {
     components: [
       // Order follows the target scroll-story:
-      // Hero -> Trust strip -> Problem -> Services -> Quiz -> Why ->
+      // Hero -> Trust strip -> Journey -> Services -> Quiz -> Why ->
       // Portfolio -> Process -> Benefits -> FAQ -> CTA -> Contact -> Footer
-      HeaderComponent, HeroComponent, ValueStripComponent, ProblemComponent,
+      HeaderComponent, HeroComponent, ValueStripComponent, JourneyComponent,
       ServicesComponent, QuizComponent, WhyComponent, WorkComponent, AiVideoComponent, ProcessComponent,
       TransformComponent, FaqComponent, CtaComponent, ContactComponent, FooterComponent,
       QuickEnquiryComponent,

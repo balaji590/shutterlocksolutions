@@ -29,6 +29,25 @@
       { threshold: 0.12 }
     );
     revealEls.forEach((el) => io.observe(el));
+
+    // Journey route draw: adds .in-view to the section once, which drives
+    // the stroke-dashoffset transition in CSS. Desktop-only concern (the
+    // route SVG is hidden on mobile), but harmless to run everywhere.
+    const journeySection = document.querySelector(".journey");
+    if (journeySection && "IntersectionObserver" in window) {
+      const jio = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              journeySection.classList.add("in-view");
+              jio.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.25 }
+      );
+      jio.observe(journeySection);
+    }
   }
 
   function initSmoothAnchors() {

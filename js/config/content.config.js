@@ -69,6 +69,28 @@ window.SITE_CONTENT = {
     solutionCta: { label: "See how", href: "#services" },
   },
 
+  /**
+   * ------------------------------------------------------------------------
+   * JOURNEY — curved digital-growth roadmap. Reuses the same 4-stage
+   * concept as `process` below (Understand/Plan/Build/Grow) but with its
+   * own copy, since this section replaces "The Reality" problem-list with
+   * a different framing (the journey itself, not a pain-point list) while
+   * `process` continues to power the separate "How We Work" section.
+   * ------------------------------------------------------------------------
+   */
+  journey: {
+    tag: "The Journey",
+    heading: "Your digital growth is a journey, not a single service.",
+    accentWord: "not a single service.",
+    lead: "We connect the right digital capabilities at every stage — from understanding your business to building and growing it online.",
+    steps: [
+      { num: "01", title: "Understand", description: "Your business, audience and goals.", icon: "compass" },
+      { num: "02", title: "Plan", description: "The right digital strategy for your next step.", icon: "route" },
+      { num: "03", title: "Build", description: "Websites, commerce and business tools that work together.", icon: "code" },
+      { num: "04", title: "Grow", description: "Marketing, SEO and content that move your business forward.", icon: "rocket" },
+    ],
+  },
+
   services: {
     tag: "What We Do",
     heading: "Everything your business needs to grow online.",
