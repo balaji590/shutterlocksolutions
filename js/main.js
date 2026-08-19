@@ -75,26 +75,73 @@
 
   function initStructuredData() {
     const C = window.SITE_CONTENT;
+    // LocalBusiness (not the generic bare "Organization") so Google can
+    // show hours/area/service richness in local search results. Area-level
+    // location only — no exact street address published in structured data.
     const data = {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "ProfessionalService",
       "name": C.brand.name,
       "url": C.siteUrl,
       "logo": C.siteUrl + C.brand.logoSrc,
+      "image": C.siteUrl + C.brand.logoSrc,
       "description": C.brand.tagline,
       "email": C.contact.email,
       "telephone": C.contact.phoneE164,
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Arani",
+        "addressRegion": "Tamil Nadu",
+        "addressCountry": "IN",
+      },
+      "areaServed": {
+        "@type": "State",
+        "name": "Tamil Nadu",
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:00",
+        "closes": "18:00",
+      },
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": C.contact.phoneE164,
         "email": C.contact.email,
         "contactType": "customer service",
+        "areaServed": "IN",
       },
     };
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.textContent = JSON.stringify(data);
     document.head.appendChild(script);
+
+    // FAQPage schema — only on the homepage, where the FAQ content is
+    // actually visible to the user. Adding this on pages without matching
+    // visible content would violate Google's structured-data guidelines.
+    if (document.body.getAttribute("data-page") !== "service"
+      && document.body.getAttribute("data-page") !== "legal"
+      && document.body.getAttribute("data-page") !== "notfound"
+      && C.faq && C.faq.items && C.faq.items.length) {
+      const faqData = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": C.faq.items.map((item) => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": item.a,
+          },
+        })),
+      };
+      const faqScript = document.createElement("script");
+      faqScript.type = "application/ld+json";
+      faqScript.textContent = JSON.stringify(faqData);
+      document.head.appendChild(faqScript);
+    }
   }
 
   function boot() {
