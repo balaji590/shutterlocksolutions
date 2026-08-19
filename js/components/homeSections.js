@@ -200,8 +200,9 @@
 
       const visual = h("div", { class: "hero-visual reveal in", id: "hero-visual" }, [
         h("div", { class: "hero-glow" }),
+        h("div", { class: "hero-blob", "aria-hidden": "true" }),
 
-        // Single primary focal point: a website mockup, framed like a real
+        // Primary focal point: a website mockup, framed like a real
         // browser window showing the studio's own live domain.
         h("div", { class: "stack-card card-site" }, [
           h("div", { class: "browser-bar" }, [
@@ -214,13 +215,21 @@
           ]),
         ]),
 
+        // Companion layer: a mobile-device mockup, offset bottom-left, so
+        // the hero reads as one designed composition (desktop + mobile),
+        // not a single card floating on empty space.
+        h("div", { class: "stack-card card-mobile" }, [
+          h("span", { class: "mbl-chip" }, [h("span", { class: "cap-num" }, ["✓"]), "Mobile-ready"]),
+          h("div", { class: "mbl w70" }), h("div", { class: "mbl w45" }),
+          h("div", { class: "mbl-block" }),
+        ]),
+
         // Small supporting capability labels — not metric/dashboard boxes.
-        // Decorative: the same three categories already appear as real
-        // content in the Services section, so these are hidden from
-        // assistive tech to avoid duplicate announcements.
+        // Decorative: the same categories already appear as real content
+        // in the Services section, so these are hidden from assistive tech
+        // to avoid duplicate announcements.
         h("div", { class: "hero-capsule cap-1", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["01"]), "Web Development"]),
-        h("div", { class: "hero-capsule cap-2", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["02"]), "E-Commerce"]),
-        h("div", { class: "hero-capsule cap-3", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["03"]), "Digital Growth"]),
+        h("div", { class: "hero-capsule cap-3", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["02"]), "Digital Growth"]),
       ]);
 
       const section = h("section", { class: "hero", id: "top" }, [
@@ -328,6 +337,60 @@
   /* ---------------------------------------------------------------------
    * SERVICES
    * ------------------------------------------------------------------- */
+  /* One small dark UI mockup per service icon — the same visual language
+     already built for the service-page hero mockups, reused here so each
+     bento card has a real visual anchor instead of just an icon + text. */
+  function serviceVisualMockup(iconKey) {
+    switch (iconKey) {
+      case "website":
+        return h("div", { "aria-hidden": "true" }, [
+          h("div", { class: "browser-bar" }, [
+            h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
+            h("div", { class: "browser-url" }, ["shutterlocksolutions.com"]),
+          ]),
+          h("div", { class: "site-body" }, [
+            h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
+            h("div", { class: "hero-block" }),
+          ]),
+        ]);
+      case "cart":
+        return h("div", { "aria-hidden": "true" }, [
+          h("div", { class: "sv-mock-products" }, [1, 2, 3].map(() => h("div", { class: "sv-mock-product" }, [h("span", { class: "sv-mock-thumb" })]))),
+          h("div", { class: "sv-mock-cartbar" }, [h("span", { class: "bl w40", style: "margin:0;" }), h("span", { class: "sv-mock-pill" })]),
+        ]);
+      case "invoice":
+        return h("div", { "aria-hidden": "true" }, [
+          h("div", { class: "sv-mock-invoice" }, [1, 2].map(() =>
+            h("div", { class: "sv-mock-invoice-row" }, [h("span", { class: "bl w40", style: "margin:0;" }), h("span", { class: "bl w20", style: "margin:0;" })])
+          )),
+          h("div", { class: "sv-mock-invoice-total" }, [h("span", { class: "bl w30", style: "margin:0;" }), h("span", { class: "sv-mock-pill" })]),
+        ]);
+      case "megaphone":
+        return h("div", { class: "sv-mock-social-grid", "aria-hidden": "true" }, [1, 2].map(() =>
+          h("div", { class: "sv-mock-social-card" }, [
+            h("span", { class: "sv-mock-social-media" }),
+            h("div", { class: "sv-mock-social-meta" }, [h("span", { class: "sv-mock-heart" }), h("span", { class: "bl w40", style: "margin:0;width:60%;" })]),
+          ])
+        ));
+      case "search":
+        return h("div", { "aria-hidden": "true" }, [
+          h("div", { class: "sv-mock-searchbar" }, [h("span", { class: "sv-mock-search-icon" }), h("span", { class: "bl w60", style: "margin:0;" })]),
+          h("div", { class: "sv-mock-results" }, [1, 2].map((i) =>
+            h("div", { class: "sv-mock-result" }, [h("span", { class: "sv-mock-rank" }, [String(i)]), h("div", { class: "sv-mock-result-text" }, [h("span", { class: "bl w80", style: "margin:0 0 5px;" }), h("span", { class: "bl w40", style: "margin:0;" })])])
+          )),
+        ]);
+      case "video":
+        return h("div", { "aria-hidden": "true" }, [
+          h("div", { class: "sv-mock-videoframe", style: "margin-bottom:12px;" }, [
+            h("span", { class: "sv-mock-play" }, [h("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", focusable: "false", html: '<path d="M6 4l14 8-14 8V4z" fill="#fff"/>' })]),
+          ]),
+          h("div", { class: "sv-mock-waveform" }, [30, 55, 40, 70, 45, 65].map((v) => h("i", { style: "height:" + v + "%" }))),
+        ]);
+      default:
+        return h("div", {});
+    }
+  }
+
   const ServicesComponent = {
     render() {
       const arrowIcon = () => h("span", { class: "svc-arrow", "aria-hidden": "true" }, [
@@ -341,13 +404,15 @@
           h("h2", {}, [C.services.heading]),
         ]),
         h("div", { class: "service-grid" }, C.services.items.map((s) =>
-          // Website Development carries a "featured" flag — it's the most
-          // common reason a business owner gets in touch — but the emphasis
-          // is a subtle accent, so no card reads as secondary/unfinished.
+          // Website Development is the large anchor card of the bento
+          // composition (see .service-card:nth-child(1) in style.css) —
+          // it's also the most common reason a business owner gets in
+          // touch, so the emphasis lines up with real content, not chance.
           h("a", {
             class: "service-card reveal" + (s.slug === "website-development" ? " is-featured" : ""),
             href: "services/index.html?service=" + s.slug,
           }, [
+            h("div", { class: "svc-visual" }, [serviceVisualMockup(s.icon)]),
             h("div", { class: "svc-top" }, [
               h("span", { class: "svc-badge", "aria-hidden": "true" }, [serviceIcon(s.icon)]),
               h("span", { class: "svc-num" }, [s.num]),
@@ -625,6 +690,15 @@
           ]),
           h("div", { class: "sv-mock-waveform", style: "margin-top:16px;" }, [30, 55, 40, 70, 45, 65, 35, 60, 42, 50].map((v) => h("i", { style: "height:" + v + "%" }))),
         ]),
+        // Vertical reel preview — a second device layer signalling the
+        // output is native to short-form/social video, not a flat panel.
+        h("div", { class: "av-reel", "aria-hidden": "true" }, [
+          h("div", { class: "reel-fill" }, [
+            h("span", { class: "reel-play" }, [h("svg", { width: "10", height: "10", viewBox: "0 0 24 24", fill: "none", focusable: "false", html: '<path d="M6 4l14 8-14 8V4z" fill="#15152A"/>' })]),
+          ]),
+          h("div", { class: "reel-bar", style: "width:70%;" }), h("div", { class: "reel-bar", style: "width:45%;" }),
+        ]),
+        h("div", { class: "av-chip", "aria-hidden": "true" }, [h("span", { class: "dot" }), "AI-generated"]),
       ]);
 
       const info = h("div", { class: "av-info reveal" }, [

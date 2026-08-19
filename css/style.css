@@ -256,7 +256,7 @@ nav.desknav a:hover::after{ width:100%; }
   box-shadow:var(--shadow-lg);
 }
 .card-site{
-  width:82%; height:310px; top:0; right:0; overflow:hidden;
+  width:78%; height:298px; top:2%; right:0; overflow:hidden; z-index:2;
   animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) both, float1 7s ease-in-out infinite;
 }
 /* Browser chrome makes the mockup read as a real website, not an abstract box. */
@@ -273,10 +273,10 @@ nav.desknav a:hover::after{ width:100%; }
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform:none; letter-spacing:0;
 }
 .site-body{ padding:20px; }
-.card-site .bl{ display:block; height:10px; border-radius:5px; background:rgba(255,255,255,0.09); margin-bottom:10px; }
-.card-site .bl.w60{ width:60%; } .card-site .bl.w80{ width:80%; } .card-site .bl.w40{ width:40%; }
-.card-site .bl.w20{ width:20%; } .card-site .bl.w30{ width:30%; }
-.card-site .hero-block{
+.card-site .bl, .svc-visual .bl, .card-mobile .bl{ display:block; height:10px; border-radius:5px; background:rgba(255,255,255,0.09); margin-bottom:10px; }
+.card-site .bl.w60, .svc-visual .bl.w60{ width:60%; } .card-site .bl.w80, .svc-visual .bl.w80{ width:80%; } .card-site .bl.w40, .svc-visual .bl.w40{ width:40%; }
+.card-site .bl.w20, .svc-visual .bl.w20{ width:20%; } .card-site .bl.w30, .svc-visual .bl.w30{ width:30%; }
+.card-site .hero-block, .svc-visual .hero-block{
   height:120px; border-radius:var(--r-sm); background:linear-gradient(135deg, rgba(115,93,255,0.35), rgba(115,93,255,0.06));
   margin-top:18px; border:1px solid rgba(197,22,225,0.25); position:relative; overflow:hidden;
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
@@ -286,6 +286,39 @@ nav.desknav a:hover::after{ width:100%; }
   width:80%; height:44px;
   background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cpolyline points='0,45 30,38 55,42 80,22 105,28 130,10 160,16 200,4' fill='none' stroke='%23C516E1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='200' cy='4' r='5' fill='%23C516E1'/%3E%3C/svg%3E");
   background-repeat:no-repeat; background-size:contain; background-position:center; opacity:0.9;
+}
+
+/* Second hero layer: a phone mockup, offset bottom-left, so the composition
+   reads as one designed scene (device + companion device) instead of a
+   single card floating on empty space. */
+.card-mobile{
+  width:152px; height:238px; left:-5%; bottom:-7%; z-index:3;
+  padding:14px 10px 16px; display:-webkit-flex; display:flex; flex-direction:column;
+  animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .18s both, float2 7.5s ease-in-out infinite;
+}
+.card-mobile::before{
+  content:''; width:34px; height:4px; border-radius:3px; background:rgba(255,255,255,0.22);
+  margin:0 auto 12px; display:block; flex-shrink:0;
+}
+.card-mobile .mbl{ display:block; height:7px; border-radius:4px; background:rgba(255,255,255,0.1); margin-bottom:8px; }
+.card-mobile .mbl.w70{ width:70%; } .card-mobile .mbl.w45{ width:45%; }
+.card-mobile .mbl-chip{
+  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:5px;
+  background:rgba(255,213,34,0.14); border:1px solid rgba(255,213,34,0.3); color:#FFD522;
+  font-size:0.56rem; font-weight:700; padding:4px 9px; border-radius:var(--r-pill); margin-bottom:10px;
+}
+.card-mobile .mbl-block{
+  flex:1; border-radius:12px; margin-top:6px;
+  background:linear-gradient(150deg, rgba(197,22,225,0.4), rgba(115,93,255,0.12));
+  border:1px solid rgba(255,255,255,0.1);
+}
+/* Small gradient artwork sitting behind the device stack — the "subtle
+   gradient artwork" layer called for in the brief, kept out of the way of
+   both mockups. */
+.hero-blob{
+  position:absolute; width:210px; height:210px; border-radius:50%;
+  background:conic-gradient(from 140deg, rgba(255,213,34,0.22), rgba(255,75,108,0.16), rgba(197,22,225,0.2), rgba(115,93,255,0.2));
+  filter:blur(30px); opacity:0.7; top:-6%; left:6%; z-index:1;
 }
 
 /* ---- Service-specific hero mockups (one per service icon) ---- */
@@ -355,9 +388,9 @@ nav.desknav a:hover::after{ width:100%; }
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
   font-family:'JetBrains Mono',monospace; font-size:0.62rem; flex-shrink:0;
 }
-.cap-1{ top:6%; left:-3%; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
-.cap-2{ left:-2%; bottom:20%; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .3s both, float3 6.5s ease-in-out infinite; }
-.cap-3{ right:5%; bottom:-3%; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .45s both, float1 7s ease-in-out infinite; }
+.cap-1{ top:4%; right:14%; z-index:4; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
+.cap-2{ display:none; } /* superseded by the phone mockup — avoids a third overlapping layer */
+.cap-3{ right:-2%; bottom:16%; z-index:4; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .45s both, float1 7s ease-in-out infinite; }
 @keyframes card-fade-in{ from{ opacity:0; } to{ opacity:1; } }
 @keyframes float1{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 @keyframes float2{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
@@ -433,19 +466,48 @@ nav.desknav a:hover::after{ width:100%; }
 .services{ background:#fff; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); }
 .services .p-head{ margin-left:auto; margin-right:auto; text-align:center; }
 
+/* True asymmetric bento: one large featured card, a medium-wide card, two
+   small stacked cards, and two more medium-wide cards below — not six
+   equal boxes in a uniform 3x2 grid. Sizing is assigned by position
+   (nth-child) rather than a per-card flag, so the composition is a single
+   deliberate layout rather than a repeatable card style. */
 .service-grid{
   display:-webkit-grid; display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:22px;
+  grid-template-columns:repeat(4, 1fr);
+  grid-auto-rows:minmax(140px, auto);
+  align-items:stretch;
+  gap:20px;
 }
+.service-card:nth-child(1){ grid-column:span 2; grid-row:span 2; } /* Website Development — large anchor */
+.service-card:nth-child(2){ grid-column:span 2; grid-row:span 1; } /* E-commerce — medium-wide */
+.service-card:nth-child(3){ grid-column:span 1; grid-row:span 1; } /* Billing — small */
+.service-card:nth-child(4){ grid-column:span 1; grid-row:span 1; } /* Marketing — small */
+.service-card:nth-child(5){ grid-column:span 2; grid-row:span 1; } /* SEO — medium-wide */
+.service-card:nth-child(6){ grid-column:span 2; grid-row:span 1; } /* AI Video — medium-wide */
+
 .service-card{
   position:relative; overflow:hidden;
   display:-webkit-flex; display:flex; flex-direction:column;
-  padding:34px 30px 30px;
+  padding:26px 26px 24px;
   background:#fff; border:1px solid var(--paper-line); border-radius:var(--r-lg);
   box-shadow:var(--shadow-sm);
   transition:transform .35s cubic-bezier(.16,.8,.24,1), box-shadow .35s cubic-bezier(.16,.8,.24,1), border-color .35s ease;
 }
+/* Visual anchor: a dark mini UI mockup unique to each service, so the
+   card's main visual object is a piece of product UI, not the heading. */
+.svc-visual{
+  position:relative; background:var(--ink-2); border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--r-md); padding:16px; margin-bottom:18px; overflow:hidden;
+}
+.service-card:nth-child(1) .svc-visual{ flex:1; min-height:200px; padding:22px; margin-bottom:22px; }
+.service-card:nth-child(2) .svc-visual,
+.service-card:nth-child(5) .svc-visual,
+.service-card:nth-child(6) .svc-visual{ min-height:112px; }
+.service-card:nth-child(3) .svc-visual,
+.service-card:nth-child(4) .svc-visual{ min-height:0; padding:12px; }
+.service-card:nth-child(1) h3{ font-size:var(--fs-h3); }
+.service-card:nth-child(3) p, .service-card:nth-child(4) p{ margin-bottom:14px; }
+.service-card:nth-child(3) .svc-top, .service-card:nth-child(4) .svc-top{ margin-bottom:14px; }
 /* Decorative corner accent — appears on hover, shared by all six cards so
    none of them reads as a different colour or style. */
 .service-card::after{
@@ -491,11 +553,21 @@ nav.desknav a:hover::after{ width:100%; }
 }
 
 @media (max-width:980px){
-  .service-grid{ grid-template-columns:repeat(2, 1fr); gap:18px; }
+  .service-grid{ grid-template-columns:repeat(2, 1fr); grid-auto-rows:auto; gap:18px; }
+  .service-card:nth-child(1){ grid-column:span 2; grid-row:auto; }
+  .service-card:nth-child(2),
+  .service-card:nth-child(5),
+  .service-card:nth-child(6){ grid-column:span 2; grid-row:auto; }
+  .service-card:nth-child(3), .service-card:nth-child(4){ grid-column:span 1; grid-row:auto; }
+  .service-card:nth-child(1) .svc-visual{ min-height:180px; }
 }
 @media (max-width:640px){
   .service-grid{ grid-template-columns:1fr; }
-  .service-card{ padding:28px 24px 26px; }
+  .service-card, .service-card:nth-child(1), .service-card:nth-child(2),
+  .service-card:nth-child(3), .service-card:nth-child(4),
+  .service-card:nth-child(5), .service-card:nth-child(6){ grid-column:span 1; grid-row:auto; }
+  .service-card{ padding:24px 22px 22px; }
+  .service-card:nth-child(1) .svc-visual{ min-height:160px; }
 }
 
 /* ==========================================================================
@@ -570,9 +642,19 @@ nav.desknav a:hover::after{ width:100%; }
   border-color:rgba(197,22,225,0.22);
 }
 
+/* An editorial journey, not four identical cards: a single connecting
+   line runs the full width, each node sits directly on it, and alternating
+   cards float above/below the line — the vertical offset itself encodes
+   step order, which a flat row of equal cards can't. */
 .process-track{
+  position:relative;
   display:-webkit-grid; display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
   list-style:none; counter-reset:none;
+  padding-top:26px;
+}
+.process-track::before{
+  content:''; position:absolute; top:calc(26px + 22px); left:2%; right:2%; height:1.5px;
+  background:linear-gradient(90deg, rgba(197,22,225,0.06), rgba(197,22,225,0.4) 15%, rgba(197,22,225,0.4) 85%, rgba(197,22,225,0.06));
 }
 .process-node{
   position:relative;
@@ -581,12 +663,15 @@ nav.desknav a:hover::after{ width:100%; }
   transition:transform .35s cubic-bezier(.16,.8,.24,1), box-shadow .35s ease, border-color .35s ease;
 }
 .process-node:hover{ transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:rgba(197,22,225,0.28); }
-/* Connector sits in the gap between cards, so it can never overlap content.
-   Hidden after the last step and whenever the grid wraps to a new row. */
-.process-node:not(:last-child)::after{
-  content:''; position:absolute; top:48px; right:-20px; width:20px; height:1px;
-  background:linear-gradient(90deg, rgba(197,22,225,0.4), var(--paper-line));
+/* Even steps sit lower, breaking the identical-row rhythm while keeping
+   every card readable and aligned to the connecting line above. */
+.process-node:nth-child(2n){ margin-top:34px; }
+/* Small dot marks where each node meets the connecting line. */
+.process-node::before{
+  content:''; position:absolute; top:-26px; left:24px; width:9px; height:9px; border-radius:50%;
+  background:var(--gradient-main); box-shadow:0 0 0 4px var(--paper);
 }
+.process-node:nth-child(2n)::before{ top:-60px; }
 .pn-head{
   display:-webkit-flex; display:flex; align-items:center; justify-content:space-between;
   margin-bottom:20px;
@@ -613,18 +698,21 @@ nav.desknav a:hover::after{ width:100%; }
 
 @media (max-width:980px){
   .process-track{ grid-template-columns:repeat(2,1fr); }
-  /* Horizontal connector only makes sense between columns on the same row. */
-  .process-node:nth-child(2n)::after{ display:none; }
+  .process-track::before{ top:26px; bottom:auto; left:4%; right:4%; height:auto; width:auto; }
+  .process-node:nth-child(2n){ margin-top:34px; }
+  .process-node:nth-child(n+3){ margin-top:54px; }
 }
 @media (max-width:640px){
-  .process-track{ grid-template-columns:1fr; gap:16px; }
-  /* Vertical journey: connector rotates to sit in the gap below each card. */
-  .process-node:not(:last-child)::after{
-    top:auto; bottom:-16px; right:auto; left:44px; width:1px; height:16px;
-    background:linear-gradient(180deg, rgba(197,22,225,0.4), var(--paper-line));
+  .process-track{ grid-template-columns:1fr; gap:26px; padding-top:0; }
+  /* Vertical journey on mobile: a single connecting line down the left,
+     each node's dot sits on it — offsets are dropped since there's no
+     row to break out of. */
+  .process-track::before{
+    top:0; bottom:0; left:24px; right:auto; width:1.5px; height:auto;
+    background:linear-gradient(180deg, rgba(197,22,225,0.06), rgba(197,22,225,0.4) 10%, rgba(197,22,225,0.4) 90%, rgba(197,22,225,0.06));
   }
-  .process-node:nth-child(2n)::after{ display:block; }
-  .process-node:last-child::after{ display:none; }
+  .process-node, .process-node:nth-child(2n), .process-node:nth-child(n+3){ margin-top:0; margin-left:24px; }
+  .process-node::before, .process-node:nth-child(2n)::before{ top:50%; left:-30px; transform:translateY(-50%); }
 }
 
 /* ==========================================================================
@@ -635,14 +723,19 @@ nav.desknav a:hover::after{ width:100%; }
 
 /* ---- Featured case study ---- */
 .case-study{
-  display:-webkit-grid; display:grid; grid-template-columns:1.15fr 0.85fr;
+  display:-webkit-grid; display:grid; grid-template-columns:1.4fr 0.6fr;
   gap:clamp(32px, 4.5vw, 64px); align-items:center; text-align:left;
 }
 .cs-visual{ position:relative; }
-/* Layered framing: a soft offset panel behind the browser frame. */
+/* Layered framing: a soft offset panel + gradient glow behind the browser
+   frame, so the real screenshot reads as the section's dominant object. */
 .cs-visual::before{
-  content:''; position:absolute; inset:18px -14px -18px 14px; border-radius:var(--r-lg);
+  content:''; position:absolute; inset:22px -18px -22px 18px; border-radius:var(--r-lg);
   background:var(--gradient-soft); border:1px solid var(--paper-line); z-index:0;
+}
+.cs-visual::after{
+  content:''; position:absolute; top:10%; left:-8%; width:60%; height:60%; z-index:0;
+  background:radial-gradient(circle, rgba(115,93,255,0.16), transparent 70%); filter:blur(30px);
 }
 .cs-frame{
   position:relative; z-index:1; border-radius:var(--r-lg); overflow:hidden;
@@ -732,15 +825,47 @@ a.work-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); bord
 /* ==========================================================================
    AI VIDEO (homepage teaser)
    ========================================================================== */
-.ai-video{ background:#fff; padding:var(--section-y) 6vw; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); }
+.ai-video{ background:#fff; padding:var(--section-y) 6vw; border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line); overflow:hidden; }
 .av-grid{
   max-width:var(--container); margin:0 auto;
-  display:-webkit-grid; display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(32px, 4.5vw, 64px); align-items:center;
+  display:-webkit-grid; display:grid; grid-template-columns:0.95fr 1.05fr; gap:clamp(32px, 4.5vw, 64px); align-items:center;
 }
+.av-visual{ position:relative; }
 .av-frame{
+  position:relative; z-index:2;
   background:var(--ink-2); border:1px solid rgba(255,255,255,0.1); border-radius:var(--r-lg);
   padding:22px; box-shadow:var(--shadow-lg);
 }
+/* Vertical reel preview — a second, smaller device layer that shows the
+   AI-video output is native to short-form/social formats, floating over
+   the main frame rather than a lone flat panel. */
+.av-reel{
+  position:absolute; z-index:3; right:-8%; bottom:-12%; width:100px; height:176px;
+  background:var(--ink-0); border:1px solid rgba(255,255,255,0.16); border-radius:16px;
+  padding:10px 8px; box-shadow:var(--shadow-lg);
+  display:-webkit-flex; display:flex; flex-direction:column;
+  animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .2s both, float3 7s ease-in-out infinite;
+}
+.av-reel .reel-fill{
+  flex:1; border-radius:10px;
+  background:linear-gradient(160deg, rgba(197,22,225,0.45), rgba(115,93,255,0.15));
+  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
+}
+.av-reel .reel-play{ width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,0.9); display:-webkit-flex; display:flex; align-items:center; justify-content:center; }
+.av-reel .reel-bar{ height:4px; border-radius:2px; background:rgba(255,255,255,0.16); margin-top:8px; }
+/* Floating capability chip — echoes the hero capsules so the AI-video
+   layer reads as part of the same visual system. */
+.av-chip{
+  position:absolute; z-index:4; left:-6%; top:10%;
+  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:8px;
+  padding:9px 15px 9px 9px; border-radius:var(--r-pill);
+  background:rgba(20,15,17,0.7); border:1px solid rgba(255,255,255,0.14);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  box-shadow:var(--shadow-md); font-size:var(--fs-xs); font-weight:700; color:#fff; white-space:nowrap;
+  animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .35s both, float2 8s ease-in-out infinite;
+}
+.av-chip .dot{ width:8px; height:8px; border-radius:50%; background:#FFD522; flex-shrink:0; }
+@media (max-width:560px){ .av-reel, .av-chip{ display:none; } }
 .av-info .tag{
   color:var(--blue); font-size:var(--fs-xs); font-weight:700; margin-bottom:16px;
   display:-webkit-inline-flex; display:inline-flex; align-items:center;
