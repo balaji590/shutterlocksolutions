@@ -244,7 +244,7 @@ nav.desknav a:hover::after{ width:100%; }
 .hero-services-inline span{ font-size:var(--fs-xs); color:var(--text-soft); display:-webkit-flex; display:flex; align-items:center; gap:8px; }
 .hero-services-inline span::before{ content:''; width:4px; height:4px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; }
 
-.hero-visual{ position:relative; z-index:2; height:470px; transform-style:preserve-3d; transition:transform .3s ease-out; will-change:transform; }
+.hero-visual{ position:relative; z-index:2; height:auto; transform-style:preserve-3d; transition:transform .3s ease-out; will-change:transform; }
 /* Soft focal glow behind the mockup — one controlled decorative element. */
 .hero-glow{
   position:absolute; top:6%; right:2%; width:70%; height:70%;
@@ -288,39 +288,26 @@ nav.desknav a:hover::after{ width:100%; }
   background-repeat:no-repeat; background-size:contain; background-position:center; opacity:0.9;
 }
 
-/* Second hero layer: a phone mockup, offset bottom-left, so the composition
-   reads as one designed scene (device + companion device) instead of a
-   single card floating on empty space. */
-.card-mobile{
-  width:152px; height:238px; left:-5%; bottom:-7%; z-index:3;
-  padding:14px 10px 16px; display:-webkit-flex; display:flex; flex-direction:column;
-  animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .18s both, float2 7.5s ease-in-out infinite;
-}
-.card-mobile::before{
-  content:''; width:34px; height:4px; border-radius:3px; background:rgba(255,255,255,0.22);
-  margin:0 auto 12px; display:block; flex-shrink:0;
-}
-.card-mobile .mbl{ display:block; height:7px; border-radius:4px; background:rgba(255,255,255,0.1); margin-bottom:8px; }
-.card-mobile .mbl.w70{ width:70%; } .card-mobile .mbl.w45{ width:45%; }
-.card-mobile .mbl-chip{
-  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:5px;
-  background:rgba(255,213,34,0.14); border:1px solid rgba(255,213,34,0.3); color:#FFD522;
-  font-size:0.56rem; font-weight:700; padding:4px 9px; border-radius:var(--r-pill); margin-bottom:10px;
-}
-.card-mobile .mbl-block{
-  flex:1; border-radius:12px; margin-top:6px;
-  background:linear-gradient(150deg, rgba(197,22,225,0.4), rgba(115,93,255,0.12));
-  border:1px solid rgba(255,255,255,0.1);
-}
-/* Small gradient artwork sitting behind the device stack — the "subtle
-   gradient artwork" layer called for in the brief, kept out of the way of
-   both mockups. */
+/* Small gradient artwork sitting behind the ecosystem — the "subtle
+   gradient artwork" layer, kept out of the way of the platforms. */
 .hero-blob{
   position:absolute; width:210px; height:210px; border-radius:50%;
   background:conic-gradient(from 140deg, rgba(255,213,34,0.22), rgba(255,75,108,0.16), rgba(197,22,225,0.2), rgba(115,93,255,0.2));
   filter:blur(30px); opacity:0.7; top:-6%; left:6%; z-index:1;
 }
 
+/* ==========================================================================
+   HERO VISUAL — Business Growth ecosystem illustration
+   ========================================================================== */
+.hero-ecosystem-img{
+  position:relative; z-index:2; display:block; width:100%; height:auto;
+  filter:drop-shadow(0 30px 50px rgba(21,21,42,0.18));
+  animation:card-fade-in .8s cubic-bezier(.16,.8,.24,1) both, hero-img-float 8s ease-in-out infinite;
+}
+@keyframes hero-img-float{ 0%,100%{ translate:0 0; } 50%{ translate:0 -12px; } }
+@media (max-width:980px){
+  .hero-ecosystem-img{ max-width:520px; margin:0 auto; animation:card-fade-in .6s ease both; }
+}
 /* ---- Service-specific hero mockups (one per service icon) ---- */
 /* E-commerce: product grid + cart bar */
 .sv-mock-products{ display:-webkit-grid; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
@@ -374,24 +361,8 @@ nav.desknav a:hover::after{ width:100%; }
 /* Three small supporting capability labels — deliberately lightweight
    (not dashboard-style boxes) so the browser mockup stays the one clear
    focal point. Positioned around it without overlapping the copy column. */
-.hero-capsule{
-  position:absolute;
-  display:-webkit-inline-flex; display:inline-flex; align-items:center; gap:9px;
-  padding:10px 16px 10px 10px; border-radius:var(--r-pill);
-  background:rgba(20,15,17,0.65); border:1px solid rgba(255,255,255,0.14);
-  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-  box-shadow:var(--shadow-md);
-  font-size:var(--fs-xs); font-weight:700; color:rgba(255,255,255,0.85); white-space:nowrap;
-}
-.cap-num{
-  width:22px; height:22px; border-radius:50%; background:var(--gradient-main); color:#fff;
-  display:-webkit-flex; display:flex; align-items:center; justify-content:center;
-  font-family:'JetBrains Mono',monospace; font-size:0.62rem; flex-shrink:0;
-}
-.cap-1{ top:4%; right:14%; z-index:4; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .15s both, float2 8s ease-in-out infinite; }
-.cap-2{ display:none; } /* superseded by the phone mockup — avoids a third overlapping layer */
-.cap-3{ right:-2%; bottom:16%; z-index:4; animation:card-fade-in .7s cubic-bezier(.16,.8,.24,1) .45s both, float1 7s ease-in-out infinite; }
-@keyframes card-fade-in{ from{ opacity:0; } to{ opacity:1; } }
+
+
 @keyframes float1{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 @keyframes float2{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
 @keyframes float3{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);} }
@@ -1179,10 +1150,6 @@ footer ul a:hover{ color:var(--blue); }
   .hero-glow{ display:none; }
   .stack-card{ position:relative; inset:auto; width:100% !important; animation:card-fade-in .6s ease both; }
   .card-site{ height:auto; }
-  /* Capsules are decorative/optional supporting elements — hidden on
-     mobile rather than repositioned, so there is zero risk of an
-     absolute-positioned element causing overflow on small screens. */
-  .hero-capsule{ display:none; }
   .marquee-card{ padding:11px 20px 11px 14px; font-size:0.82rem; }
   .problem-grid{ grid-template-columns:1fr; }
   .why-grid{ grid-template-columns:1fr 1fr; }

@@ -43,7 +43,7 @@ window.SITE_CONTENT = {
     eyebrow: "Digital Solutions For Growing Businesses",
     headline: "Your business deserves a stronger digital presence.",
     headlineAccentWords: 2, // number of trailing words (from headline) to highlight in accent color
-    lead: "From websites and e-commerce to billing software, digital marketing and SEO — we build digital solutions designed to help businesses grow.",
+    lead: "From websites and e-commerce to billing software, digital marketing, SEO and AI-powered videos — we build digital solutions that help businesses grow.",
     ctaPrimary: { label: "Start Your Project", href: "#contact" },
     ctaSecondary: { label: "Explore Our Services", href: "#services" },
   },

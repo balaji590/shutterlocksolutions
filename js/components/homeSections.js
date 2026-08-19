@@ -198,38 +198,20 @@
         h("div", { class: "hero-services-inline" }, C.services.items.map((s) => h("span", {}, [s.title]))),
       ]);
 
+      // Business Growth ecosystem — a custom illustration (real client
+      // artwork, not stock/AI-generated at request time) showing the six
+      // services connected around a central growth platform.
       const visual = h("div", { class: "hero-visual reveal in", id: "hero-visual" }, [
         h("div", { class: "hero-glow" }),
         h("div", { class: "hero-blob", "aria-hidden": "true" }),
-
-        // Primary focal point: a website mockup, framed like a real
-        // browser window showing the studio's own live domain.
-        h("div", { class: "stack-card card-site" }, [
-          h("div", { class: "browser-bar" }, [
-            h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
-            h("div", { class: "browser-url" }, ["shutterlocksolutions.com"]),
-          ]),
-          h("div", { class: "site-body" }, [
-            h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
-            h("div", { class: "hero-block" }),
-          ]),
+        h("picture", {}, [
+          h("source", { srcset: "assets/hero-ecosystem.webp", type: "image/webp" }),
+          h("img", {
+            class: "hero-ecosystem-img", src: "assets/hero-ecosystem.png",
+            alt: "Illustration of ShutterLockSolutions' connected digital services — website development, e-commerce, billing software, digital marketing, SEO and AI video — growing a business",
+            width: "1400", height: "1266", loading: "eager", fetchpriority: "high",
+          }),
         ]),
-
-        // Companion layer: a mobile-device mockup, offset bottom-left, so
-        // the hero reads as one designed composition (desktop + mobile),
-        // not a single card floating on empty space.
-        h("div", { class: "stack-card card-mobile" }, [
-          h("span", { class: "mbl-chip" }, [h("span", { class: "cap-num" }, ["✓"]), "Mobile-ready"]),
-          h("div", { class: "mbl w70" }), h("div", { class: "mbl w45" }),
-          h("div", { class: "mbl-block" }),
-        ]),
-
-        // Small supporting capability labels — not metric/dashboard boxes.
-        // Decorative: the same categories already appear as real content
-        // in the Services section, so these are hidden from assistive tech
-        // to avoid duplicate announcements.
-        h("div", { class: "hero-capsule cap-1", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["01"]), "Web Development"]),
-        h("div", { class: "hero-capsule cap-3", "aria-hidden": "true" }, [h("span", { class: "cap-num" }, ["02"]), "Digital Growth"]),
       ]);
 
       const section = h("section", { class: "hero", id: "top" }, [
