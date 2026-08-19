@@ -1057,6 +1057,16 @@
           h("div", { class: "foot-brand" }, [
             h("div", { class: "logo" }, [logoImg(assetPrefix), C.brand.name]),
             h("p", {}, [C.brand.tagline]),
+            h("div", { class: "foot-social" }, [
+              h("a", { href: C.social.instagram, target: "_blank", rel: "noopener", "aria-label": "ShutterLockSolutions on Instagram" }, [
+                h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false", html:
+                  '<rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.7"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/>' }),
+              ]),
+              h("a", { href: C.social.facebook, target: "_blank", rel: "noopener", "aria-label": "ShutterLockSolutions on Facebook" }, [
+                h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", focusable: "false", html:
+                  '<path d="M15 8.5h2V5.3c-.35-.05-1.55-.15-2.96-.15-2.93 0-4.94 1.79-4.94 5.08v2.77H6v3.6h3.1V21h3.7v-4.4h3l.48-3.6h-3.48v-2.4c0-1.04.29-1.75 1.78-1.75z" fill="currentColor"/>' }),
+              ]),
+            ]),
           ]),
           h("div", {}, [
             h("h3", {}, ["Services"]),
