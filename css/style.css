@@ -65,7 +65,7 @@ a { background-color: transparent; text-decoration: none; color: inherit; }
   /* ---- Spacing / layout ---- */
   --section-y:clamp(72px, 9vw, 130px);
   --gutter:6vw;
-  --container:1180px;
+  --container:1400px;
   --header-h:78px;
 
   /* ---- Focus ---- */
