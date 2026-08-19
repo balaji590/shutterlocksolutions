@@ -1138,6 +1138,16 @@ footer ul a:hover{ color:var(--blue); }
   nav.desknav, .nav-cta{ display:none; }
   .burger{ display:-webkit-flex; display:flex; }
   .pill-nav{ padding:6px; }
+  /* The centred fixed-header trick (left:50% + translateX) works when the
+     header is one wide pill, but once nav links are hidden the remaining
+     logo+burger group is narrow — centering that group visually strands
+     the logo in the middle of the screen instead of pinning it to the
+     edge. Pin the header to both viewport edges instead so the logo sits
+     left and the burger sits right, like a normal mobile bar. */
+  header{
+    left:16px; right:16px; transform:none; max-width:none;
+    justify-content:space-between;
+  }
   /* Tablet/mobile hero: single column, text first. The visual switches from
      an absolutely-positioned floating composition to a normal stacked flow,
      so cards can never overlap the copy or push past the viewport. */
