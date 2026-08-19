@@ -320,6 +320,67 @@ window.SITE_CONTENT = {
     },
   },
 
+  /**
+   * ------------------------------------------------------------------------
+   * LEGAL — Privacy Policy content. Kept factual and specific to what this
+   * site actually does: Formspree for form delivery, Google Analytics for
+   * traffic, WhatsApp for chat. No boilerplate clauses for things the site
+   * doesn't do (no cookies banner copy, no ad-tracking language, etc.).
+   * ------------------------------------------------------------------------
+   */
+  legal: {
+    privacy: {
+      heading: "Privacy Policy",
+      updated: "Last updated: August 2026",
+      sections: [
+        {
+          heading: "Who we are",
+          paragraphs: [
+            "ShutterLockSolutions (\"we\", \"us\") provides website development, e-commerce, billing software, digital marketing, SEO and AI promotional video services. This policy explains what information we collect through this website and how we use it.",
+          ],
+        },
+        {
+          heading: "Information we collect",
+          paragraphs: [
+            "When you submit the contact form or the Quick Enquiry popup, we collect the details you provide — typically your name, phone number, email address, and any message or service you select. This is sent directly to us via Formspree, our form-handling provider, so we can respond to your enquiry.",
+            "We do not ask for or store payment details, passwords, or any sensitive personal information through this website.",
+          ],
+        },
+        {
+          heading: "Analytics",
+          paragraphs: [
+            "We use Google Analytics to understand how visitors use this website — for example, which pages are viewed and roughly how visitors found us. Google Analytics uses cookies and collects information such as your approximate location, device type, and browsing behaviour on this site. This data is aggregated and used to improve the website; we do not use it to identify you personally.",
+            "You can opt out of Google Analytics tracking using the Google Analytics Opt-out Browser Add-on, available at tools.google.com/dlpage/gaoptout.",
+          ],
+        },
+        {
+          heading: "WhatsApp and phone contact",
+          paragraphs: [
+            "If you contact us via WhatsApp or phone, that conversation is subject to WhatsApp's and your mobile carrier's own privacy practices, not this website's.",
+          ],
+        },
+        {
+          heading: "How we use your information",
+          paragraphs: [
+            "We use the details you submit solely to respond to your enquiry, discuss your project, and — if you go ahead — deliver the service you've asked for. We do not sell or rent your information to third parties.",
+          ],
+        },
+        {
+          heading: "Third-party services",
+          paragraphs: [
+            "This site uses Formspree (form delivery), Google Analytics (traffic insights), Google Fonts (typography), and Cloudflare (hosting/CDN). Each of these providers may process limited technical data (such as your IP address) as part of delivering their service.",
+          ],
+        },
+        {
+          heading: "Contact us",
+          paragraphs: [
+            "If you have questions about this policy or want your information removed from our records, contact us at shutterlocksolutions@gmail.com or call +91 95664 08789.",
+          ],
+        },
+      ],
+    },
+  },
+
   footer: {
     quickLinks: [
       { label: "Home", href: "#top" },

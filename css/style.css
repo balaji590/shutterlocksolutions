@@ -413,7 +413,7 @@ nav.desknav a:hover::after{ width:100%; }
   padding:7px 15px; border-radius:var(--r-pill);
   background:var(--gradient-soft); border:1px solid rgba(115,93,255,0.18);
 }
-.p-head h2{ font-size:var(--fs-h2); font-weight:700; line-height:1.16; color:var(--text-dark); letter-spacing:-0.02em; }
+.p-head h2, .p-head h1{ font-size:var(--fs-h2); font-weight:700; line-height:1.16; color:var(--text-dark); letter-spacing:-0.02em; }
 .p-head p{ color:var(--text-soft); margin-top:16px; font-size:var(--fs-body-lg); line-height:1.65; }
 /* Centered section headers keep the tag pill centered too. */
 .services .p-head, .quiz .p-head, .work .p-head, .transform .p-head, .faq .p-head{ text-align:center; }
@@ -1167,6 +1167,14 @@ footer ul a:hover{ color:var(--blue); }
   .wa-float span.wa-text{ display:none; }
   .faq-a{ padding-right:6px; }
 }
+
+/* ==========================================================================
+   LEGAL PAGE (Privacy Policy) — additive only, reuses homepage tokens
+   ========================================================================== */
+.legal-body{ max-width:760px; display:-webkit-flex; display:flex; flex-direction:column; gap:32px; }
+.legal-block h3{ font-size:var(--fs-h4); font-weight:700; color:var(--text-dark); margin-bottom:12px; }
+.legal-block p{ font-size:var(--fs-body); color:var(--text-soft); line-height:1.7; margin-bottom:10px; }
+.legal-block p:last-child{ margin-bottom:0; }
 
 /* ==========================================================================
    SERVICE PAGES (additive only — reuses homepage tokens & components)

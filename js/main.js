@@ -50,6 +50,29 @@
     });
   }
 
+  function initAnalyticsClickTracking() {
+    // Delegated on document so every WhatsApp/call/CTA link on every page
+    // (header, hero, footer, mobile bar, CTA section, service pages) is
+    // covered from one place — no per-component duplication needed.
+    document.addEventListener("click", (e) => {
+      if (typeof window.gtag !== "function") return;
+      const waLink = e.target.closest('a[href*="wa.me"]');
+      if (waLink) {
+        window.gtag("event", "contact_whatsapp", { link_url: waLink.href });
+        return;
+      }
+      const telLink = e.target.closest('a[href^="tel:"]');
+      if (telLink) {
+        window.gtag("event", "contact_phone_call", { link_url: telLink.href });
+        return;
+      }
+      const ctaLink = e.target.closest("a.btn-primary, a.nav-cta");
+      if (ctaLink) {
+        window.gtag("event", "click_start_project", { link_text: (ctaLink.textContent || "").trim() });
+      }
+    });
+  }
+
   function initStructuredData() {
     const C = window.SITE_CONTENT;
     const data = {
@@ -87,6 +110,18 @@
         return;
       }
       window.ServicePageBoot.boot();
+    } else if (pageType === "legal") {
+      if (!window.LegalPageBoot) {
+        console.error("ShutterLockSolutions: legal page scripts failed to load.");
+        return;
+      }
+      window.LegalPageBoot.boot();
+    } else if (pageType === "notfound") {
+      if (!window.NotFoundBoot) {
+        console.error("ShutterLockSolutions: 404 page scripts failed to load.");
+        return;
+      }
+      window.NotFoundBoot.boot();
     } else {
       if (!window.HomePage) {
         console.error("ShutterLockSolutions: homepage scripts failed to load.");
@@ -98,6 +133,7 @@
     initStructuredData();
     initScrollReveal();
     initSmoothAnchors();
+    initAnalyticsClickTracking();
   }
 
   if (document.readyState === "loading") {

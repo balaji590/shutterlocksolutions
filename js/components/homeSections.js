@@ -56,6 +56,14 @@
     return "https://wa.me/" + C.contact.whatsappNumber + "?text=" + msg;
   }
 
+  // Fires a Google Analytics (GA4) event if gtag is available. Safe no-op
+  // otherwise, so nothing breaks if analytics is blocked/unavailable.
+  function trackEvent(name, params) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, params || {});
+    }
+  }
+
   function logoImg(assetPrefix, extraClass) {
     const src = (assetPrefix || "") + C.brand.logoSrc;
     return h("img", { src, alt: C.brand.name + " logo", class: "logo-mark" + (extraClass ? " " + extraClass : "") });
@@ -915,6 +923,7 @@
               button.textContent = f.submitLabelSuccess;
               status.textContent = "Thanks — we'll get back to you soon.";
               status.classList.add("form-status-success");
+              trackEvent("generate_lead", { form_name: "contact_form" });
               form.reset();
             } else {
               throw new Error("Form submission failed");
@@ -976,7 +985,10 @@
         ]),
         h("div", { class: "foot-bottom" }, [
           h("span", {}, ["© " + C.footer.year + " " + C.brand.name + ". All rights reserved."]),
-          h("span", {}, [C.footer.bottomNote]),
+          h("span", { style: "display:flex;gap:16px;align-items:center;flex-wrap:wrap;" }, [
+            h("a", { href: basePath ? "../privacy/index.html" : "privacy/index.html", style: "text-decoration:underline;text-underline-offset:3px;" }, ["Privacy Policy"]),
+            h("span", {}, [C.footer.bottomNote]),
+          ]),
         ]),
       ]);
       mount("footer-mount", footer);
@@ -1114,6 +1126,7 @@
               status.classList.add("form-status-success");
               button.textContent = q.submitLabel;
               button.disabled = false;
+              trackEvent("generate_lead", { form_name: "quick_enquiry_popup" });
               form.reset();
             } else {
               throw new Error("Quick enquiry submission failed");
