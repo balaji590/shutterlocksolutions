@@ -1021,8 +1021,6 @@
 
       const overlay = h("div", { class: "qe-overlay", id: "qeOverlay" });
 
-      const tab = h("button", { class: "qe-tab", id: "qeTab", "aria-expanded": "false", "aria-controls": "qePanel" }, [q.tabLabel]);
-
       const form = h("form", { class: "qe-form" }, [
         h("input", { type: "hidden", name: "_subject", value: "Quick Enquiry — ShutterLockSolutions" }),
         h("input", { type: "text", name: "name", placeholder: "Your name", required: "required", autocomplete: "name" }),
@@ -1040,50 +1038,45 @@
       ]);
 
       document.body.appendChild(overlay);
-      document.body.appendChild(tab);
       document.body.appendChild(panel);
     },
     bind() {
-      const tab = document.getElementById("qeTab");
       const panel = document.getElementById("qePanel");
       const overlay = document.getElementById("qeOverlay");
       const closeBtn = document.getElementById("qeClose");
-      if (!tab || !panel) return;
+      if (!panel || !overlay) return;
 
+      let lastFocused = null;
       function open() {
+        lastFocused = document.activeElement;
         panel.classList.add("open");
         overlay.classList.add("open");
-        tab.setAttribute("aria-expanded", "true");
         const firstInput = panel.querySelector("input");
         if (firstInput) firstInput.focus();
       }
       function close() {
         panel.classList.remove("open");
         overlay.classList.remove("open");
-        tab.setAttribute("aria-expanded", "false");
-        tab.focus();
+        if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
       }
 
-      tab.addEventListener("click", () => {
-        panel.classList.contains("open") ? close() : open();
-      });
       closeBtn.addEventListener("click", close);
       overlay.addEventListener("click", close);
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && panel.classList.contains("open")) close();
       });
 
-      // Auto-open once per browser session, shortly after the visitor
-      // arrives — not on every page. If they close it (✕, overlay click,
-      // or Escape — all wired above), it stays closed for the rest of the
-      // session; the side tab remains so they can still open it manually.
+      // Center-screen popup shown automatically, once per browser session,
+      // shortly after the visitor arrives — no side tab to click. If they
+      // close it (✕, overlay click, or Escape), it stays closed for the
+      // rest of the session and does not reappear.
       const AUTO_OPEN_KEY = "sls_qe_auto_shown";
       try {
         if (!sessionStorage.getItem(AUTO_OPEN_KEY)) {
           setTimeout(() => {
             if (!panel.classList.contains("open")) open();
             try { sessionStorage.setItem(AUTO_OPEN_KEY, "1"); } catch (err) {}
-          }, 4000);
+          }, 1500);
         }
       } catch (err) {
         // sessionStorage unavailable (e.g. strict privacy mode) — fall back
