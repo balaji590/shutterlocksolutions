@@ -209,7 +209,7 @@
           h("img", {
             class: "hero-ecosystem-img", src: "assets/hero-ecosystem.png",
             alt: "Illustration of ShutterLockSolutions' connected digital services — website development, e-commerce, billing software, digital marketing, SEO and AI video — growing a business",
-            width: "1400", height: "1266", loading: "eager", fetchpriority: "high",
+            width: "1400", height: "1177", loading: "eager", fetchpriority: "high",
           }),
         ]),
       ]);

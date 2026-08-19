@@ -301,7 +301,8 @@ nav.desknav a:hover::after{ width:100%; }
    ========================================================================== */
 .hero-ecosystem-img{
   position:relative; z-index:2; display:block; width:100%; height:auto;
-  filter:drop-shadow(0 30px 50px rgba(21,21,42,0.18));
+  border-radius:var(--r-lg);
+  filter:drop-shadow(0 30px 50px rgba(21,21,42,0.16));
   animation:card-fade-in .8s cubic-bezier(.16,.8,.24,1) both, hero-img-float 8s ease-in-out infinite;
 }
 @keyframes hero-img-float{ 0%,100%{ translate:0 0; } 50%{ translate:0 -12px; } }
