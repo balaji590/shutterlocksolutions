@@ -432,6 +432,7 @@
           h("div", { class: "site-body" }, [
             h("div", { class: "bl w40" }), h("div", { class: "bl w80" }), h("div", { class: "bl w60" }),
             h("div", { class: "hero-block" }),
+            h("div", { class: "sv-mock-cta-row" }, [h("span", { class: "sv-mock-pill" }), h("span", { class: "bl w30", style: "margin:0;" })]),
           ]),
         ]);
       case "cart":

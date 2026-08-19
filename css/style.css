@@ -281,7 +281,7 @@ nav.desknav a:hover::after{ width:100%; }
   margin-top:18px; border:1px solid rgba(197,22,225,0.25); position:relative; overflow:hidden;
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
 }
-.card-site .hero-block::before{
+.card-site .hero-block::before, .svc-visual .hero-block::before{
   content:'';
   width:80%; height:44px;
   background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Cpolyline points='0,45 30,38 55,42 80,22 105,28 130,10 160,16 200,4' fill='none' stroke='%23C516E1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='200' cy='4' r='5' fill='%23C516E1'/%3E%3C/svg%3E");
@@ -315,6 +315,7 @@ nav.desknav a:hover::after{ width:100%; }
 .sv-mock-thumb{ display:block; height:38px; border-radius:6px; background:linear-gradient(135deg, rgba(115,93,255,0.35), rgba(197,22,225,0.15)); }
 .sv-mock-cartbar{ display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); }
 .sv-mock-pill{ width:74px; height:20px; border-radius:var(--r-pill); background:var(--gradient-main); display:block; }
+.sv-mock-cta-row{ display:-webkit-flex; display:flex; align-items:center; gap:12px; margin-top:16px; }
 
 /* Billing: invoice rows + total */
 .sv-mock-invoice{ display:-webkit-flex; display:flex; flex-direction:column; gap:12px; margin-bottom:16px; }
