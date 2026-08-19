@@ -343,23 +343,27 @@
     render() {
       const j = C.journey;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      // Desktop node positions (matched 1:1 with the curve path below) —
-      // an alternating right/left/right/left zigzag, same flow pattern as
-      // the reference composition, redrawn for this content and palette.
+      // Right-column map only (matches reference: text always sits to the
+      // right of its node, never alternating sides — a two-column layout
+      // with the heading fixed on the left, not a full-bleed zigzag).
+      // viewBox is intentionally wider than the node spread so there is
+      // always generous room for text to the right without ever
+      // approaching the column's own edge.
       const nodePos = [
-        { x: 860, y: 130, side: "right" },
-        { x: 340, y: 370, side: "left" },
-        { x: 860, y: 560, side: "right" },
-        { x: 340, y: 790, side: "left" },
+        { x: 480, y: 90 },
+        { x: 250, y: 330 },
+        { x: 480, y: 570 },
+        { x: 250, y: 800 },
       ];
-      const pathD = "M860,130 C773,170 340,298 340,370 C340,442 860,490 860,560 C860,630 427,752 340,790";
+      const pathD = "M480,90 C441,129 250,243 250,330 C250,408 480,492 480,570 C480,648 288,762 250,800";
+      const glowColors = ["#735DFF", "#C516E1", "#FF4B6C", "#FFD522"];
 
       const svgRoute = h("svg", {
-        class: "journey-route", viewBox: "0 0 1200 900", preserveAspectRatio: "none",
+        class: "journey-route", viewBox: "0 0 900 860", preserveAspectRatio: "none",
         "aria-hidden": "true", focusable: "false",
       }, [
         h("defs", {}, [
-          h("linearGradient", { id: "journeyGrad", x1: "0", y1: "0", x2: "1", y2: "1" }, [
+          h("linearGradient", { id: "journeyGrad", x1: "0", y1: "0", x2: "0", y2: "1" }, [
             h("stop", { offset: "0%", "stop-color": "#735DFF" }),
             h("stop", { offset: "38%", "stop-color": "#C516E1" }),
             h("stop", { offset: "70%", "stop-color": "#FF4B6C" }),
@@ -376,16 +380,20 @@
       const nodes = j.steps.map((step, i) => {
         const pos = nodePos[i];
         return h("div", {
-          class: "journey-node reveal journey-node-" + step.num + " journey-text-" + pos.side,
-          style: "left:" + (pos.x / 1200 * 100) + "%;top:" + (pos.y / 900 * 100) + "%;",
+          class: "journey-node reveal journey-node-" + step.num,
+          style: "left:" + (pos.x / 900 * 100) + "%;top:" + (pos.y / 860 * 100) + "%; --node-glow:" + glowColors[i] + ";",
         }, [
+          h("div", { class: "journey-halo", "aria-hidden": "true" }),
           h("div", { class: "journey-circle" }, [
             h("span", { class: "journey-badge" }, [step.num]),
             journeyIcon(step.icon),
           ]),
           h("div", { class: "journey-copy" }, [
-            h("h3", {}, [step.title]),
+            h("h3", { style: "color:" + glowColors[i] + ";" }, [step.title.toUpperCase()]),
             h("p", {}, [step.description]),
+            h("span", { class: "journey-underline", style: "background:" + glowColors[i] + ";" }, [
+              h("span", { class: "journey-underline-dot", style: "background:" + glowColors[i] + ";" }),
+            ]),
           ]),
         ]);
       });
@@ -394,12 +402,14 @@
         h("div", { class: "journey-blob journey-blob-1", "aria-hidden": "true" }),
         h("div", { class: "journey-blob journey-blob-2", "aria-hidden": "true" }),
         h("div", { class: "journey-grid-texture", "aria-hidden": "true" }),
-        h("div", { class: "p-head reveal" }, [
-          h("span", { class: "tag mono" }, [j.tag]),
-          h("h2", {}, [j.heading.replace(j.accentWord, "").trim() + " ", h("span", { class: "journey-accent" }, [j.accentWord])]),
-          h("p", {}, [j.lead]),
+        h("div", { class: "journey-inner" }, [
+          h("div", { class: "journey-head reveal" }, [
+            h("span", { class: "tag mono" }, [j.tag]),
+            h("h2", {}, [j.heading.replace(j.accentWord, "").trim() + " ", h("span", { class: "journey-accent" }, [j.accentWord])]),
+            h("p", {}, [j.lead]),
+          ]),
+          h("div", { class: "journey-map" }, [svgRoute, ...nodes]),
         ]),
-        h("div", { class: "journey-map" }, [svgRoute, ...nodes]),
       ]);
       mount("problem-mount", section);
     },

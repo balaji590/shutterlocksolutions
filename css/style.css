@@ -432,11 +432,27 @@ nav.desknav a:hover::after{ width:100%; }
 .solution-banner span{ color:var(--blue-bright); }
 
 /* ==========================================================================
-   JOURNEY — curved digital-growth roadmap
+   JOURNEY — curved digital-growth roadmap (two-column: fixed heading left,
+   curved route + nodes right — matches reference composition)
    ========================================================================== */
 .journey{ position:relative; overflow:hidden; background:var(--paper); }
-.journey .p-head{ position:relative; z-index:2; }
-.journey .p-head p{ font-size:var(--fs-body); color:var(--text-soft); max-width:560px; margin-top:14px; line-height:1.65; }
+.journey-inner{
+  position:relative; z-index:2; max-width:var(--container); margin:0 auto;
+  display:-webkit-grid; display:grid; grid-template-columns:0.85fr 1.15fr;
+  gap:clamp(24px, 4vw, 64px); align-items:center;
+}
+.journey-head p{ font-size:var(--fs-body); color:var(--text-soft); max-width:420px; margin-top:14px; line-height:1.65; }
+.journey-head .tag{
+  color:var(--blue); font-size:var(--fs-xs); font-weight:700; margin-bottom:18px;
+  display:-webkit-inline-flex; display:inline-flex; align-items:center;
+  padding:7px 15px; border-radius:var(--r-pill);
+  background:rgba(115,93,255,0.08); border:1px solid rgba(115,93,255,0.18);
+  letter-spacing:0.04em;
+}
+.journey-head h2{
+  font-size:var(--fs-h2); font-weight:700; line-height:1.16; color:var(--text-dark); letter-spacing:-0.02em;
+  display:block;
+}
 .journey-accent{
   background:var(--gradient-main); -webkit-background-clip:text; background-clip:text; color:transparent;
 }
@@ -453,16 +469,16 @@ nav.desknav a:hover::after{ width:100%; }
   mask-image:radial-gradient(ellipse 70% 60% at 65% 45%, black 40%, transparent 85%);
 }
 
-/* The map: a fixed-aspect stage so the SVG route (viewBox-based) and the
+/* The map stage: fixed-aspect so the SVG route (viewBox-based) and the
    percentage-positioned nodes always stay perfectly aligned. */
-.journey-map{ position:relative; z-index:2; width:100%; aspect-ratio:1200/900; margin-top:8px; }
+.journey-map{ position:relative; width:100%; aspect-ratio:900/860; }
 .journey-route{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
 .journey-route-glow{
-  fill:none; stroke:url(#journeyGrad); stroke-width:16; stroke-linecap:round; opacity:0.18; filter:blur(6px);
+  fill:none; stroke:url(#journeyGrad); stroke-width:20; stroke-linecap:round; opacity:0.16; filter:blur(8px);
 }
 .journey-route-line{
-  fill:none; stroke:url(#journeyGrad); stroke-width:4; stroke-linecap:round;
-  stroke-dasharray:2200; stroke-dashoffset:2200; opacity:0.9;
+  fill:none; stroke:url(#journeyGrad); stroke-width:5; stroke-linecap:round;
+  stroke-dasharray:2200; stroke-dashoffset:2200; opacity:0.95;
   transition:stroke-dashoffset 1.6s cubic-bezier(.16,.8,.24,1);
 }
 .journey.in-view .journey-route-line{ stroke-dashoffset:0; }
@@ -470,43 +486,54 @@ nav.desknav a:hover::after{ width:100%; }
 
 .journey-node{
   position:absolute; transform:translate(-50%, -50%);
-  width:84px; height:84px;
+  width:92px; height:92px;
 }
-.journey-text-left{ text-align:right; }
-.journey-text-right{ text-align:left; }
+
+/* Dotted halo ring around each node, like the reference's soft outer ring. */
+.journey-halo{
+  position:absolute; inset:-16px; border-radius:50%; z-index:-1;
+  border:1.5px dashed color-mix(in srgb, var(--node-glow) 45%, transparent);
+  opacity:0.55;
+}
 
 .journey-circle{
-  position:relative; width:84px; height:84px; border-radius:50%;
-  background:linear-gradient(160deg, #fff, #F8F7FC);
-  border:1px solid var(--paper-line);
-  box-shadow:var(--shadow-md), 0 0 0 6px rgba(255,255,255,0.6);
+  position:relative; width:92px; height:92px; border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--node-glow) 35%, transparent),
+             0 8px 28px -6px color-mix(in srgb, var(--node-glow) 55%, transparent),
+             0 0 34px -4px color-mix(in srgb, var(--node-glow) 45%, transparent);
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
-  color:var(--blue);
+  color:var(--node-glow, var(--blue));
   transition:transform .35s cubic-bezier(.16,.8,.24,1), box-shadow .35s ease;
 }
-.journey-circle::before{
-  content:''; position:absolute; inset:-3px; border-radius:50%; z-index:-1;
-  background:var(--gradient-main); opacity:0.9;
-}
-.journey-node:hover .journey-circle{ transform:translateY(-4px) rotate(-3deg); box-shadow:var(--shadow-lg), 0 0 0 6px rgba(255,255,255,0.6); }
+.journey-node:hover .journey-circle{ transform:translateY(-4px) rotate(-3deg); }
 .journey-badge{
-  position:absolute; top:-8px; right:-6px; min-width:26px; height:26px; padding:0 3px; border-radius:50%;
-  background:var(--gradient-main); color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.68rem; font-weight:700;
+  position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+  min-width:30px; height:30px; padding:0 4px; border-radius:50%;
+  background:var(--node-glow, var(--gradient-main)); color:#fff;
+  font-family:'JetBrains Mono',monospace; font-size:0.72rem; font-weight:700;
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 0 3px var(--paper);
+  box-shadow:0 0 0 4px var(--paper), 0 4px 10px -2px color-mix(in srgb, var(--node-glow) 60%, transparent);
 }
-/* Text is a sibling anchored to the CIRCLE's own box (not the whole flex
-   row), so the circle always sits exactly on the path point regardless of
-   text length, and text width is capped so it can never reach past the
-   section's own edge, even for nodes positioned near 70%+ of the width. */
+
+/* Text always sits to the right of its node (never alternating sides —
+   matches the reference exactly), anchored to the node's own box so it
+   can never be pulled toward the section edge regardless of node position. */
 .journey-copy{
-  position:absolute; top:50%; transform:translateY(-50%);
-  width:min(300px, 19vw);
+  position:absolute; top:50%; left:calc(100% + 26px); transform:translateY(-50%);
+  width:min(260px, 17vw); text-align:left;
 }
-.journey-text-right .journey-copy{ left:calc(100% + 22px); }
-.journey-text-left .journey-copy{ right:calc(100% + 22px); }
-.journey-copy h3{ font-size:1.2rem; font-weight:700; color:var(--text-dark); margin-bottom:6px; letter-spacing:-0.01em; }
-.journey-copy p{ font-size:0.92rem; color:var(--text-soft); line-height:1.55; }
+.journey-copy h3{
+  font-size:0.95rem; font-weight:800; letter-spacing:0.04em; margin-bottom:6px;
+}
+.journey-copy p{ font-size:0.92rem; color:var(--text-soft); line-height:1.5; margin-bottom:10px; }
+.journey-underline{
+  display:block; width:70%; height:2px; border-radius:2px; opacity:0.5; position:relative;
+}
+.journey-underline-dot{
+  position:absolute; right:-4px; top:50%; transform:translateY(-50%);
+  width:8px; height:8px; border-radius:50%;
+}
 
 /* Per-node stagger so 01 -> 04 reveal sequentially rather than at once. */
 .journey-node-01{ transition-delay:.05s; }
@@ -514,13 +541,17 @@ nav.desknav a:hover::after{ width:100%; }
 .journey-node-03{ transition-delay:.35s; }
 .journey-node-04{ transition-delay:.5s; }
 
+@media (max-width:1180px){
+  .journey-inner{ grid-template-columns:1fr; }
+  .journey-head{ max-width:640px; }
+  .journey-map{ margin-top:12px; }
+}
+
 /* Mobile/tablet: the curved absolute-positioned map is replaced with a
    safe vertical timeline — a simple gradient line with nodes in normal
    document flow. No absolute positioning, so nothing can clip or overlap
-   regardless of content length or viewport width. The curved layout only
-   has room to breathe on genuinely wide screens, so this switches well
-   before tablet width rather than at a typical 768px "mobile" cutoff. */
-@media (max-width:1080px){
+   regardless of content length or viewport width. */
+@media (max-width:768px){
   .journey-map{ aspect-ratio:auto; height:auto; }
   .journey-route{ display:none; }
   .journey-map{
@@ -536,22 +567,23 @@ nav.desknav a:hover::after{ width:100%; }
     transform:none !important; width:auto; height:auto;
     display:-webkit-flex; display:flex; flex-direction:row; align-items:center; gap:16px;
   }
+  .journey-halo{ display:none; }
   .journey-node::before{
     content:''; position:absolute; left:-34px; top:26px;
-    width:11px; height:11px; border-radius:50%; background:var(--gradient-main);
+    width:11px; height:11px; border-radius:50%; background:var(--node-glow, var(--gradient-main));
     box-shadow:0 0 0 4px var(--paper);
   }
-  .journey-circle{ width:60px; height:60px; flex-shrink:0; }
+  .journey-circle{ width:60px; height:60px; }
   .journey-circle svg{ width:22px; height:22px; }
   .journey-badge{ width:22px; height:22px; min-width:22px; font-size:0.6rem; }
-  /* Text returns to normal flow beside the circle — no more absolute
-     anchoring, so there is nothing that can clip or overflow here. */
   .journey-copy{ position:static; transform:none; width:auto; flex:1; text-align:left !important; }
+  .journey-underline{ display:none; }
 }
 @media (max-width:420px){
-  .journey-copy h3{ font-size:1.05rem; }
+  .journey-copy h3{ font-size:0.86rem; }
   .journey-copy p{ font-size:0.86rem; }
 }
+
 
 /* ==========================================================================
    SERVICES
