@@ -213,9 +213,15 @@
         h("div", { class: "hero-glow" }),
         h("div", { class: "hero-blob", "aria-hidden": "true" }),
         h("picture", {}, [
-          h("source", { srcset: "assets/hero-ecosystem.webp", type: "image/webp" }),
+          h("source", {
+            srcset: "assets/hero-ecosystem-mobile.webp 760w, assets/hero-ecosystem.webp 1400w",
+            sizes: "(max-width: 980px) 90vw, 46vw",
+            type: "image/webp",
+          }),
           h("img", {
             class: "hero-ecosystem-img", src: "assets/hero-ecosystem.png",
+            srcset: "assets/hero-ecosystem-mobile.png 760w, assets/hero-ecosystem.png 1400w",
+            sizes: "(max-width: 980px) 90vw, 46vw",
             alt: "Illustration of ShutterLockSolutions' connected digital services — website development, e-commerce, billing software, digital marketing, SEO and AI video — growing a business",
             width: "1400", height: "956", loading: "eager", fetchpriority: "high",
           }),

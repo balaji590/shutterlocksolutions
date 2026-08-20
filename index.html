@@ -36,6 +36,14 @@
 <!-- Styles -->
 <link rel="stylesheet" href="css/style.css">
 
+<!-- Preload the hero image (LCP element). The site renders via JS, so
+     without this the browser wouldn't discover the image until after
+     JS has downloaded, parsed and built the DOM — this lets the browser
+     fetch it in parallel with the JS bundle instead, straight away. -->
+<link rel="preload" as="image" type="image/webp"
+      imagesrcset="assets/hero-ecosystem-mobile.webp 760w, assets/hero-ecosystem.webp 1400w"
+      imagesizes="(max-width: 980px) 90vw, 46vw">
+
 <!-- Structured data (Organization) is injected by js/main.js from
      content.config.js so contact details stay single-sourced. -->
 </head>
