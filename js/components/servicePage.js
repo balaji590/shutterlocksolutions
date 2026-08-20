@@ -204,11 +204,16 @@
 
   /* ---------------------------------------------------------------------
    * SERVICE PROBLEM (reuses homepage .problem visual language)
+   * Premium two-column presentation shared by all 6 service pages.
+   * Only website-development gets the approved illustration on the
+   * right; every other service keeps the same styled content column
+   * but with no visual (content column simply takes the full width).
    * ------------------------------------------------------------------- */
   const ServiceProblem = {
     render(service, mountId) {
       const p = service.problem;
-      const section = h("section", { class: "problem" }, [
+      const hasVisual = service.slug === "website-development";
+      const content = h("div", { class: "problem-content" }, [
         h("div", { class: "p-head reveal" }, [
           h("span", { class: "tag mono" }, [p.tag]),
           h("h2", {}, [p.heading]),
@@ -216,6 +221,24 @@
         h("div", { class: "problem-grid" }, p.points.map((point) =>
           h("div", { class: "problem-item reveal" }, [h("span", { class: "x" }, ["✕"]), h("p", {}, [point])])
         )),
+      ]);
+      const layoutChildren = [content];
+      if (hasVisual) {
+        layoutChildren.push(
+          h("div", { class: "problem-visual reveal" }, [
+            h("picture", {}, [
+              h("source", { srcset: "../assets/images/problem-visual.webp", type: "image/webp" }),
+              h("img", {
+                src: "../assets/images/problem-visual.jpg",
+                alt: "Illustration of common website problems: slow loading, poor mobile experience, broken images and an outdated design.",
+                loading: "lazy",
+              }),
+            ]),
+          ])
+        );
+      }
+      const section = h("section", { class: "problem" }, [
+        h("div", { class: "problem-layout" + (hasVisual ? " has-visual" : "") }, layoutChildren),
       ]);
       mount(mountId, section);
     },
