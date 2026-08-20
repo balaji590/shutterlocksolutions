@@ -57,23 +57,6 @@ window.SITE_CONTENT = {
     heading: "One Partner. Multiple Digital Solutions.",
   },
 
-  problem: {
-    tag: "The Reality",
-    heading: "Still relying on scattered tools to run your business online?",
-    points: [
-      "No professional website",
-      "Poor online presence",
-      "Manual, error-prone billing",
-      "Difficult customer management",
-      "Low online visibility",
-      "Inconsistent branding",
-    ],
-    solutionHeadingPrefix: "We bring your",
-    solutionHeadingAccent: "digital presence",
-    solutionHeadingSuffix: "together.",
-    solutionCta: { label: "See how", href: "#services" },
-  },
-
   /**
    * ------------------------------------------------------------------------
    * JOURNEY — curved digital-growth roadmap. Reuses the same 4-stage

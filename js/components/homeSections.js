@@ -66,7 +66,7 @@
 
   function logoImg(assetPrefix, extraClass) {
     const src = (assetPrefix || "") + C.brand.logoSrc;
-    return h("img", { src, alt: C.brand.name + " logo", class: "logo-mark" + (extraClass ? " " + extraClass : "") });
+    return h("img", { src, alt: C.brand.name + " logo", class: "logo-mark" + (extraClass ? " " + extraClass : ""), width: "759", height: "420" });
   }
 
   /* ---------------------------------------------------------------------
@@ -301,32 +301,6 @@
         h("div", { class: "marquee-wrap" }, [track]),
       ]);
       mount("value-strip-mount", node);
-    },
-  };
-
-  /* ---------------------------------------------------------------------
-   * PROBLEM -> SOLUTION
-   * ------------------------------------------------------------------- */
-  const ProblemComponent = {
-    render() {
-      const section = h("section", { class: "problem", id: "about-problem" }, [
-        h("div", { class: "p-head reveal" }, [
-          h("span", { class: "tag mono" }, [C.problem.tag]),
-          h("h2", {}, [C.problem.heading]),
-        ]),
-        h("div", { class: "problem-grid" }, C.problem.points.map((p) =>
-          h("div", { class: "problem-item reveal" }, [h("span", { class: "x" }, ["✕"]), h("p", {}, [p])])
-        )),
-        h("div", { class: "solution-banner reveal" }, [
-          h("h3", {}, [
-            C.problem.solutionHeadingPrefix + " ",
-            h("span", {}, [C.problem.solutionHeadingAccent]),
-            " " + C.problem.solutionHeadingSuffix,
-          ]),
-          h("a", { href: C.problem.solutionCta.href, class: "btn-outline" }, [C.problem.solutionCta.label + " →"]),
-        ]),
-      ]);
-      mount("problem-mount", section);
     },
   };
 
@@ -657,7 +631,7 @@
               h("div", { class: "browser-url" }, [p.previewUrl || ""]),
             ]),
             p.previewImage
-              ? h("img", { class: "cs-screenshot", src: p.previewImage, alt: p.previewImageAlt || (p.title + " website screenshot"), loading: "lazy" })
+              ? h("img", { class: "cs-screenshot", src: p.previewImage, alt: p.previewImageAlt || (p.title + " website screenshot"), loading: "lazy", width: "1400", height: "637" })
               : h("div", { class: "cs-screen", "aria-hidden": "true" }, [
                   h("div", { class: "cs-shop-head" }, [
                     h("span", { class: "cs-line w30" }),

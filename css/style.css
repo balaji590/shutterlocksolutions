@@ -412,8 +412,11 @@ nav.desknav a:hover::after{ width:100%; }
 }
 
 /* ==========================================================================
-   PROBLEM -> SOLUTION
+   SECTION HEADERS (shared "p-head" pattern — tag pill + heading + lead)
    ========================================================================== */
+/* .problem is still used as the section wrapper for the Privacy Policy
+   and 404 pages (js/pages/legal.js, js/pages/notfound.js) — simple pages
+   that reuse this background treatment rather than defining their own. */
 .problem{ background:var(--paper); }
 .p-head{ max-width:720px; margin-bottom:clamp(40px, 5vw, 64px); }
 .p-head .tag{
@@ -426,19 +429,6 @@ nav.desknav a:hover::after{ width:100%; }
 .p-head p{ color:var(--text-soft); margin-top:16px; font-size:var(--fs-body-lg); line-height:1.65; }
 /* Centered section headers keep the tag pill centered too. */
 .services .p-head, .quiz .p-head, .work .p-head, .transform .p-head, .faq .p-head{ text-align:center; }
-.problem-grid{ display:-webkit-grid; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--paper-line); border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden; margin-bottom:40px; }
-.problem-item{ background:#fff; padding:26px 28px; display:-webkit-flex; display:flex; align-items:flex-start; gap:14px; }
-.problem-item .x{ width:22px; height:22px; border-radius:50%; background:rgba(220,38,38,0.08); color:#DC2626; flex-shrink:0; display:-webkit-flex; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800; margin-top:2px; }
-.problem-item p{ font-size:0.95rem; color:var(--text-soft); font-weight:600; line-height:1.5; }
-.solution-banner{
-  background:var(--white); border:1px solid var(--paper-line); box-shadow:var(--shadow-md);
-  border-radius:var(--r-lg); padding:44px 40px;
-  display:-webkit-flex; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
-  position:relative; overflow:hidden;
-}
-.solution-banner::before{ content:''; position:absolute; top:0; left:8%; right:8%; height:3px; background:var(--gradient-main); border-radius:var(--r-pill); }
-.solution-banner h3{ color:var(--text-dark); font-size:1.5rem; font-weight:700; max-width:520px; }
-.solution-banner span{ color:var(--blue-bright); }
 
 /* ==========================================================================
    JOURNEY — curved digital-growth roadmap (two-column: fixed heading left,
@@ -1294,12 +1284,12 @@ footer ul a:hover{ color:var(--blue); }
 .reveal.in{ opacity:1; transform:translateY(0); }
 
 /* Staggered entrance for repeated grid/list items — subtle, not flashy */
-.problem-grid .reveal:nth-child(1),.why-grid .reveal:nth-child(1),.process-track .reveal:nth-child(1),.service-grid .reveal:nth-child(1){ transition-delay:0s; }
-.problem-grid .reveal:nth-child(2),.why-grid .reveal:nth-child(2),.process-track .reveal:nth-child(2),.service-grid .reveal:nth-child(2){ transition-delay:.06s; }
-.problem-grid .reveal:nth-child(3),.why-grid .reveal:nth-child(3),.process-track .reveal:nth-child(3),.service-grid .reveal:nth-child(3){ transition-delay:.12s; }
-.problem-grid .reveal:nth-child(4),.why-grid .reveal:nth-child(4),.process-track .reveal:nth-child(4),.service-grid .reveal:nth-child(4){ transition-delay:.18s; }
-.problem-grid .reveal:nth-child(5),.service-grid .reveal:nth-child(5){ transition-delay:.24s; }
-.problem-grid .reveal:nth-child(6),.service-grid .reveal:nth-child(6){ transition-delay:.3s; }
+.why-grid .reveal:nth-child(1),.process-track .reveal:nth-child(1),.service-grid .reveal:nth-child(1){ transition-delay:0s; }
+.why-grid .reveal:nth-child(2),.process-track .reveal:nth-child(2),.service-grid .reveal:nth-child(2){ transition-delay:.06s; }
+.why-grid .reveal:nth-child(3),.process-track .reveal:nth-child(3),.service-grid .reveal:nth-child(3){ transition-delay:.12s; }
+.why-grid .reveal:nth-child(4),.process-track .reveal:nth-child(4),.service-grid .reveal:nth-child(4){ transition-delay:.18s; }
+.service-grid .reveal:nth-child(5){ transition-delay:.24s; }
+.service-grid .reveal:nth-child(6){ transition-delay:.3s; }
 
 /* ==========================================================================
    RESPONSIVE BREAKPOINTS
@@ -1331,7 +1321,6 @@ footer ul a:hover{ color:var(--blue); }
   .stack-card{ position:relative; inset:auto; width:100% !important; animation:card-fade-in .6s ease both; }
   .card-site{ height:auto; }
   .marquee-card{ padding:11px 20px 11px 14px; font-size:0.82rem; }
-  .problem-grid{ grid-template-columns:1fr; }
   .why-grid{ grid-template-columns:1fr 1fr; }
   .tf-row{ grid-template-columns:1fr; }
   .tf-arrow{ margin:0 auto; transform:rotate(90deg); }
