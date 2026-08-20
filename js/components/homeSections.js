@@ -460,11 +460,11 @@
   // would cut into the specific element called out for that service.
   const SERVICE_PHOTOS = {
     "website-development": { file: "website-development", position: "center center" },
-    "ecommerce": { file: "ecommerce", position: "center top" },
-    "billing-software": { file: "billing", position: "center top" },
-    "digital-marketing": { file: "digital-marketing", position: "center top" },
-    "seo": { file: "seo", position: "center top" },
-    "ai-promotional-videos": { file: "ai-video", position: "center top" },
+    "ecommerce": { file: "ecommerce-wide", position: "center center" },
+    "billing-software": { file: "billing-wide", position: "center center" },
+    "digital-marketing": { file: "digital-marketing-wide", position: "center center" },
+    "seo": { file: "seo-wide", position: "center center" },
+    "ai-promotional-videos": { file: "ai-video-wide", position: "center center" },
   };
   function servicePhoto(slug) {
     const p = SERVICE_PHOTOS[slug];
