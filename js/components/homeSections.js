@@ -453,6 +453,31 @@
     }
   }
 
+  // Real client-approved photography for the homepage bento grid (per
+  // explicit request — supplied files used exactly as provided, only
+  // re-encoded to WebP/JPEG for delivery weight, no visual changes).
+  // object-position is tuned per image where the default center crop
+  // would cut into the specific element called out for that service.
+  const SERVICE_PHOTOS = {
+    "website-development": { file: "website-development", position: "center center" },
+    "ecommerce": { file: "ecommerce", position: "center top" },
+    "billing-software": { file: "billing", position: "center top" },
+    "digital-marketing": { file: "digital-marketing", position: "center top" },
+    "seo": { file: "seo", position: "center top" },
+    "ai-promotional-videos": { file: "ai-video", position: "center top" },
+  };
+  function servicePhoto(slug) {
+    const p = SERVICE_PHOTOS[slug];
+    if (!p) return null;
+    return h("picture", {}, [
+      h("source", { srcset: "assets/images/" + p.file + ".webp", type: "image/webp" }),
+      h("img", {
+        class: "svc-photo", src: "assets/images/" + p.file + ".jpg",
+        alt: "", loading: "lazy", style: "object-position:" + p.position + ";",
+      }),
+    ]);
+  }
+
   const ServicesComponent = {
     render() {
       const arrowIcon = () => h("span", { class: "svc-arrow", "aria-hidden": "true" }, [
@@ -474,7 +499,7 @@
             class: "service-card reveal" + (s.slug === "website-development" ? " is-featured" : ""),
             href: "services/index.html?service=" + s.slug,
           }, [
-            h("div", { class: "svc-visual" }, [serviceVisualMockup(s.icon)]),
+            h("div", { class: "svc-visual" }, [servicePhoto(s.slug) || serviceVisualMockup(s.icon)]),
             h("div", { class: "svc-top" }, [
               h("span", { class: "svc-badge", "aria-hidden": "true" }, [serviceIcon(s.icon)]),
               h("span", { class: "svc-num" }, [s.num]),

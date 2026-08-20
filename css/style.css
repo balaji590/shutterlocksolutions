@@ -623,9 +623,25 @@ nav.desknav a:hover::after{ width:100%; }
   position:relative; background:var(--ink-2); border:1px solid rgba(255,255,255,0.08);
   border-radius:var(--r-md); padding:16px; margin-bottom:18px; overflow:hidden;
 }
+/* Real service photography — fills the card edge-to-edge (ignoring the
+   mockup padding above, which only applies to the CSS-built fallback
+   mockups) via absolute positioning within the already-relative,
+   already-clipped .svc-visual box. */
+.svc-photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
 .service-card:nth-child(1) .svc-visual{
   flex:none; width:100%; aspect-ratio:4/3; padding:22px; margin-bottom:22px;
 }
+/* Cards 2–6 previously got their height implicitly from the in-flow CSS
+   mockup content (invoice rows, social grid, etc). Real photos are
+   absolutely positioned (edge-to-edge cover) and contribute nothing to
+   flow height, so these need an explicit height now — set to match the
+   exact heights that content used to produce, preserving the original
+   bento proportions the layout was designed around. */
+.service-card:nth-child(2) .svc-visual{ height:141px; }
+.service-card:nth-child(3) .svc-visual{ height:109px; }
+.service-card:nth-child(4) .svc-visual{ height:112px; }
+.service-card:nth-child(5) .svc-visual{ height:150px; }
+.service-card:nth-child(6) .svc-visual{ height:200px; }
 .service-card:nth-child(2) .svc-visual,
 .service-card:nth-child(5) .svc-visual,
 .service-card:nth-child(6) .svc-visual{ min-height:112px; }
