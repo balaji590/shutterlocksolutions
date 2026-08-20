@@ -352,6 +352,14 @@ nav.desknav a:hover::after{ width:100%; }
   border:1px solid rgba(255,255,255,0.1);
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
 }
+/* Real video sample (AI Promotional Videos service page) — portrait
+   9:16 source, so it's height-bound and centered rather than stretched
+   to the frame's full width like the other (landscape) mockups. */
+.sv-real-video{
+  display:block; max-height:150px; width:auto; max-width:100%; margin:0 auto 14px;
+  border-radius:var(--r-sm); border:1px solid rgba(255,255,255,0.12);
+  background:#000;
+}
 .sv-mock-play{
   width:44px; height:44px; border-radius:50%; background:var(--gradient-main);
   display:-webkit-flex; display:flex; align-items:center; justify-content:center;
@@ -962,6 +970,14 @@ a.work-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); bord
   background:var(--ink-2); border:1px solid rgba(255,255,255,0.1); border-radius:var(--r-lg);
   padding:22px; box-shadow:var(--shadow-lg);
 }
+/* Real client work sample (portrait 9:16) — bound to a comfortable
+   height so the frame doesn't tower over the section, and centered
+   since it's narrower than the frame at that height. */
+.av-real-video{
+  display:block; max-height:360px; width:auto; max-width:100%; margin:0 auto;
+  border-radius:var(--r-md); background:#000;
+}
+@media (max-width:560px){ .av-real-video{ max-height:300px; } }
 /* Vertical reel preview — a second, smaller device layer that shows the
    AI-video output is native to short-form/social formats, floating over
    the main frame rather than a lone flat panel. */

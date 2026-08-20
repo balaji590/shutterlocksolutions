@@ -765,10 +765,11 @@
 
       const visual = h("div", { class: "av-visual reveal" }, [
         h("div", { class: "av-frame" }, [
-          h("div", { class: "sv-mock-videoframe", style: "margin-bottom:0;height:150px;" }, [
-            h("span", { class: "sv-mock-play" }, [
-              h("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", html: '<path d="M6 4l14 8-14 8V4z" fill="#fff"/>' }),
-            ]),
+          h("video", {
+            class: "av-real-video", poster: "assets/video/ecoconnex-promo-poster.jpg",
+            controls: "controls", preload: "metadata", playsinline: "playsinline",
+          }, [
+            h("source", { src: "assets/video/ecoconnex-promo.mp4", type: "video/mp4" }),
           ]),
           h("div", { class: "sv-mock-waveform", style: "margin-top:16px;" }, [30, 55, 40, 70, 45, 65, 35, 60, 42, 50].map((v) => h("i", { style: "height:" + v + "%" }))),
         ]),

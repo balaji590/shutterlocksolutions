@@ -126,14 +126,18 @@
     }
 
     if (icon === "video") {
-      // AI Promotional Videos: video frame with play button + waveform.
+      // AI Promotional Videos: real client work sample (Eco Connex promo),
+      // not a mockup — this is the one service where a live example is
+      // more convincing than an animated placeholder. Falls back to the
+      // waveform-only mockup below it for extra visual rhythm.
       return [
-        h("div", { class: "sv-mock-videoframe" }, [
-          h("span", { class: "sv-mock-play" }, [
-            h("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", html: '<path d="M6 4l14 8-14 8V4z" fill="#fff"/>' }),
-          ]),
+        h("video", {
+          class: "sv-real-video", poster: "../assets/video/ecoconnex-promo-poster.jpg",
+          controls: "controls", preload: "metadata", playsinline: "playsinline",
+        }, [
+          h("source", { src: "../assets/video/ecoconnex-promo.mp4", type: "video/mp4" }),
         ]),
-        h("div", { class: "sv-mock-waveform" }, [30, 55, 40, 70, 45, 65, 35, 60, 42].map((v) => h("i", { style: "height:" + v + "%" }))),
+        h("div", { class: "sv-mock-waveform", style: "margin-top:14px;" }, [30, 55, 40, 70, 45, 65, 35, 60, 42].map((v) => h("i", { style: "height:" + v + "%" }))),
       ];
     }
 
