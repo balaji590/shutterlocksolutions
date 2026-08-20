@@ -623,7 +623,9 @@ nav.desknav a:hover::after{ width:100%; }
   position:relative; background:var(--ink-2); border:1px solid rgba(255,255,255,0.08);
   border-radius:var(--r-md); padding:16px; margin-bottom:18px; overflow:hidden;
 }
-.service-card:nth-child(1) .svc-visual{ flex:1; min-height:200px; padding:22px; margin-bottom:22px; }
+.service-card:nth-child(1) .svc-visual{
+  flex:none; width:100%; aspect-ratio:4/3; padding:22px; margin-bottom:22px;
+}
 .service-card:nth-child(2) .svc-visual,
 .service-card:nth-child(5) .svc-visual,
 .service-card:nth-child(6) .svc-visual{ min-height:112px; }
@@ -683,7 +685,6 @@ nav.desknav a:hover::after{ width:100%; }
   .service-card:nth-child(5),
   .service-card:nth-child(6){ grid-column:span 2; grid-row:auto; }
   .service-card:nth-child(3), .service-card:nth-child(4){ grid-column:span 1; grid-row:auto; }
-  .service-card:nth-child(1) .svc-visual{ min-height:180px; }
 }
 @media (max-width:640px){
   .service-grid{ grid-template-columns:1fr; }
@@ -691,7 +692,6 @@ nav.desknav a:hover::after{ width:100%; }
   .service-card:nth-child(3), .service-card:nth-child(4),
   .service-card:nth-child(5), .service-card:nth-child(6){ grid-column:span 1; grid-row:auto; }
   .service-card{ padding:24px 22px 22px; }
-  .service-card:nth-child(1) .svc-visual{ min-height:160px; }
 }
 
 /* ==========================================================================
