@@ -428,6 +428,7 @@ window.SITE_CONTENT = {
       },
       hero: {
         eyebrow: "Website Development",
+        banner: "website-development-banner",
         headline: "Your website should work as hard as your business.",
         headlineAccentWords: 3,
         description: "Modern, responsive websites designed around your business, your customers and your goals.",
@@ -492,6 +493,7 @@ window.SITE_CONTENT = {
       },
       hero: {
         eyebrow: "E-commerce Development",
+        banner: "ecommerce-banner",
         headline: "An online store people can actually shop on.",
         headlineAccentWords: 3,
         description: "Product discovery, cart and checkout designed around how customers actually shop.",
@@ -556,6 +558,7 @@ window.SITE_CONTENT = {
       },
       hero: {
         eyebrow: "Billing Software",
+        banner: "billing-banner",
         headline: "Billing that matches how your business actually works.",
         headlineAccentWords: 3,
         description: "Practical software that simplifies invoicing, customer records and business operations.",
@@ -620,6 +623,7 @@ window.SITE_CONTENT = {
       },
       hero: {
         eyebrow: "Digital Marketing",
+        banner: "digital-marketing-banner",
         headline: "Reach the customers who are already looking for you.",
         headlineAccentWords: 4,
         description: "Reach the right audience and build a stronger digital presence around your business.",
@@ -684,6 +688,7 @@ window.SITE_CONTENT = {
       },
       hero: {
         eyebrow: "SEO",
+        banner: "seo-banner",
         headline: "Make your business easy for customers to find.",
         headlineAccentWords: 3,
         description: "Technical and on-page SEO built for long-term, organic search visibility.",

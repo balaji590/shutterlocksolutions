@@ -1373,6 +1373,12 @@ footer ul a:hover{ color:var(--blue); }
 .service-hero .hero-visual{ height:300px; }
 .service-hero .card-site{ position:relative; top:0; right:0; width:100%; height:100%; padding:22px; }
 .service-hero .browser-dots{ margin-bottom:16px; }
+/* Dedicated banner image services (website-development, ecommerce,
+   billing-software, digital-marketing, seo) — image fills the existing
+   .card-site box edge-to-edge, no browser-chrome, no inner padding. */
+.service-hero .card-site-banner{ padding:0; }
+.svc-banner-pic{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.svc-banner-img{ width:100%; height:100%; object-fit:cover; display:block; }
 
 .service-solution{ background:var(--paper); padding:0 6vw 120px; }
 

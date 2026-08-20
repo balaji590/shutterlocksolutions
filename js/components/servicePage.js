@@ -167,13 +167,32 @@
         ]),
       ]);
 
-      // Service-specific abstract visual — varies by service.icon so each
-      // of the 6 service pages feels distinct, not just a text swap.
+      // Service-specific visual. Services with a dedicated `hero.banner`
+      // (website-development, ecommerce, billing-software,
+      // digital-marketing, seo) render that real photo/composite
+      // edge-to-edge inside the same .card-site box, with no browser-dots
+      // chrome overlaying it. Services without a `hero.banner` (currently
+      // only ai-promotional-videos, which renders its own real
+      // <video>/poster via buildScreenContent) keep the original
+      // browser-chrome + buildScreenContent() treatment untouched.
+      const cardSiteChildren = service.hero.banner
+        ? [
+            h("picture", { class: "svc-banner-pic" }, [
+              h("source", { srcset: "../assets/images/banners/" + service.hero.banner + ".webp", type: "image/webp" }),
+              h("img", {
+                class: "svc-banner-img",
+                src: "../assets/images/banners/" + service.hero.banner + ".jpg",
+                alt: hero.eyebrow, loading: "eager",
+              }),
+            ]),
+          ]
+        : [
+            h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
+            ...buildScreenContent(service),
+          ];
+
       const visual = h("div", { class: "hero-visual reveal in" }, [
-        h("div", { class: "stack-card card-site", style: "width:88%;" }, [
-          h("div", { class: "browser-dots" }, [h("span", {}), h("span", {}), h("span", {})]),
-          ...buildScreenContent(service),
-        ]),
+        h("div", { class: "stack-card card-site" + (service.hero.banner ? " card-site-banner" : ""), style: "width:88%;" }, cardSiteChildren),
       ]);
 
       const section = h("section", { class: "hero service-hero", id: "top" }, [
