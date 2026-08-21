@@ -883,6 +883,14 @@ nav.desknav a:hover::after{ width:100%; }
 @media (max-width:980px){
   .process-track{ grid-template-columns:repeat(2,1fr); }
   .process-track::before{ top:26px; bottom:auto; left:4%; right:4%; height:auto; width:auto; }
+  /* Row 1 (steps 01/02) uses the line above. Steps 03/04 form a second
+     row at this breakpoint and need their own connector so the line
+     doesn't stop after step 02 — mirrors the same line treatment,
+     positioned to align with the row-2 dots. */
+  .process-track::after{
+    content:''; position:absolute; top:347px; left:4%; right:4%; height:1.5px;
+    background:linear-gradient(90deg, rgba(197,22,225,0.06), rgba(197,22,225,0.4) 15%, rgba(197,22,225,0.4) 85%, rgba(197,22,225,0.06));
+  }
   .process-node:nth-child(2n){ margin-top:34px; }
   .process-node:nth-child(n+3){ margin-top:54px; }
 }
@@ -895,6 +903,7 @@ nav.desknav a:hover::after{ width:100%; }
     top:0; bottom:0; left:24px; right:auto; width:1.5px; height:auto;
     background:linear-gradient(180deg, rgba(197,22,225,0.06), rgba(197,22,225,0.4) 10%, rgba(197,22,225,0.4) 90%, rgba(197,22,225,0.06));
   }
+  .process-track::after{ content:none; }
   .process-node, .process-node:nth-child(2n), .process-node:nth-child(n+3){ margin-top:0; margin-left:24px; }
   .process-node::before, .process-node:nth-child(2n)::before{ top:50%; left:-30px; transform:translateY(-50%); }
 }
