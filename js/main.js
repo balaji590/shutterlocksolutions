@@ -137,17 +137,29 @@
     script.textContent = JSON.stringify(data);
     document.head.appendChild(script);
 
-    // FAQPage schema — only on the homepage, where the FAQ content is
-    // actually visible to the user. Adding this on pages without matching
-    // visible content would violate Google's structured-data guidelines.
-    if (document.body.getAttribute("data-page") !== "service"
-      && document.body.getAttribute("data-page") !== "legal"
-      && document.body.getAttribute("data-page") !== "notfound"
+    // FAQPage schema — only where the FAQ content is actually visible to
+    // the user, per Google's structured-data guidelines. That's the
+    // homepage (site-wide FAQ) and every service page (each renders its
+    // own service-specific FAQ section) — not the legal/404 shells, which
+    // have no FAQ content at all.
+    const pageType = document.body.getAttribute("data-page");
+    let faqItems = null;
+    if (pageType !== "service" && pageType !== "legal" && pageType !== "notfound"
       && C.faq && C.faq.items && C.faq.items.length) {
+      faqItems = C.faq.items;
+    } else if (pageType === "service") {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get("service");
+      const service = slug && C.servicesDetail && C.servicesDetail[slug];
+      if (service && service.faqs && service.faqs.length) {
+        faqItems = service.faqs;
+      }
+    }
+    if (faqItems) {
       const faqData = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": C.faq.items.map((item) => ({
+        "mainEntity": faqItems.map((item) => ({
           "@type": "Question",
           "name": item.q,
           "acceptedAnswer": {

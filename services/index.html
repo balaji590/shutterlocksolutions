@@ -24,6 +24,36 @@
      page is indexable at its canonical per-service URL and not as a bare shell. -->
 <link rel="icon" type="image/png" href="../assets/logo-mark.png">
 
+<!-- LCP preload for the service-hero banner image. The banner filename
+     depends on ?service=<slug>, which isn't known until JS parses the
+     content config — without this hint the browser wouldn't start
+     fetching the banner until after the full JS bundle loads. This tiny
+     inline script runs immediately (before CSS/JS finish) and injects a
+     preload for the correct file. ai-promotional-videos has no banner
+     (real video/poster instead) so it's intentionally omitted here. -->
+<script>
+(function () {
+  var m = /[?&]service=([^&]+)/.exec(window.location.search);
+  var slug = m && decodeURIComponent(m[1]);
+  var banners = {
+    "website-development": "website-development-banner",
+    "ecommerce": "ecommerce-banner",
+    "billing-software": "billing-banner",
+    "digital-marketing": "digital-marketing-banner",
+    "seo": "seo-banner",
+  };
+  var file = slug && banners[slug];
+  if (file) {
+    var link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.type = "image/webp";
+    link.href = "../assets/images/banners/" + file + ".webp";
+    document.head.appendChild(link);
+  }
+})();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
